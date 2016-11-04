@@ -27,15 +27,25 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 class MainPage(webapp2.RequestHandler):
 
     def get(self):
+        user = users.get_current_user()
+        if user:
+            url_linktext = 'logout'
+            url = users.create_logout_url('/')
+            text = "what's up " + user.nickname() + "!?"
+        else:
+            url_linktext = 'login'
+            url = users.create_login_url('/')
+            text = "what's up anonymous!?"
 
-        text = "what's up!?"
         template_values = {
+            'url': url,
+            'url_linktext': url_linktext,
             'text': text
         }
-
         template = JINJA_ENVIRONMENT.get_template('index.html')
         self.response.write(template.render(template_values))
 # [END main_page]
+
 
 
 

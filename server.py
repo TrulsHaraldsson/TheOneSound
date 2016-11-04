@@ -55,10 +55,24 @@ class About(webapp2.RequestHandler):
         template = JINJA_ENVIRONMENT.get_template('about.html')
         self.response.write(template.render(template_values))
 
+#[START TestPage]
+class TestPage(webapp2.RequestHandler):
+    def get(self):
+        template_value = {
+            'text': "This is a text specified in the server script",
+            'integer': 1337,
+            'float': 2.000001,
+            'listWithText':["This","is","a","list","containing","text"]
+        }
+        template = JINJA_ENVIRONMENT.get_template('testpage.html')
+        self.response.write(template.render(template_value))
+#[END TestPage]
+
 
 # [START app]
 app = webapp2.WSGIApplication([
     ('/', MainPage),
-    ('/about', About)
+    ('/about', About),
+    ('/testpage', TestPage)
 ], debug=True)
 # [END app]

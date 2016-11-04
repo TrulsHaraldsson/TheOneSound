@@ -1,2 +1,5 @@
 # IntelliJ config files #
 .idea/
+
+#Compiled source"
+*.pyc

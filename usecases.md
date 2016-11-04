@@ -17,4 +17,5 @@
 * Vad har jag kommenterat
 * Egen playlist
 * Egen toplist
-*
+* Ladda upp sitt Sound
+* Funktion för att spela upp sitt Sound

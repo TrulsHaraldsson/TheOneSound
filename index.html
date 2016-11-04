@@ -1,24 +1,9 @@
-<!DOCTYPE html>
-{% autoescape true %}
-<html>
-  <head>
-    <!-- [START css] -->
-    <!-- [END css] -->
-    <style type="text/css">
-      body {
-        padding-top: 40px;
-        padding-bottom: 40px;
-        background-color: #f5f5f5;
-      }
-    </style>
-  </head>
-      <body>
-        <p> Hello world! </p>
-        <p> {{ text }} </p>
+{% extends "layout.html" %}
+{% block content %}
+<p> Hello world! </p>
+<p> {{ text }} </p>
 
-        <a href="{{ url|safe }}">{{ url_linktext }}</a>
+<a href="{{ url|safe }}">{{ url_linktext }}</a>
 
-        <a href="/about"> About </a>
-      </body>
-</html>
-{% endautoescape %}
+<a href="/about"> About </a>
+{% endblock %}

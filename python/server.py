@@ -9,7 +9,7 @@ import jinja2
 import webapp2
 
 JINJA_ENVIRONMENT = jinja2.Environment(
-    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
+    loader=jinja2.FileSystemLoader('templates'),
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
 # [END imports]
@@ -42,7 +42,7 @@ class MainPage(webapp2.RequestHandler):
             'url_linktext': url_linktext,
             'text': text
         }
-        template = JINJA_ENVIRONMENT.get_template('/templates/index.html')
+        template = JINJA_ENVIRONMENT.get_template('index.html')
         self.response.write(template.render(template_values))
 # [END main_page]
 
@@ -52,7 +52,7 @@ class About(webapp2.RequestHandler):
         template_values = {
 
         }
-        template = JINJA_ENVIRONMENT.get_template('/templates/about.html')
+        template = JINJA_ENVIRONMENT.get_template('about.html')
         self.response.write(template.render(template_values))
 
 #[START TestPage]
@@ -64,7 +64,7 @@ class TestPage(webapp2.RequestHandler):
             'float': 2.000001,
             'listWithText':["This","is","a","list","containing","text"]
         }
-        template = JINJA_ENVIRONMENT.get_template('/templates/testpage.html')
+        template = JINJA_ENVIRONMENT.get_template('testpage.html')
         self.response.write(template.render(template_value))
 #[END TestPage]
 

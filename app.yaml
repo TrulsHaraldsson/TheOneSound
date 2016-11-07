@@ -11,8 +11,11 @@ handlers:
 - url: /bootstrap
   static_dir: bootstrap
 
+- url: /templates
+  static_dir: templates
+
 - url: /.*
-  script: server.app
+  script: python.server.app
 # [END handlers]
 
 # [START libraries]

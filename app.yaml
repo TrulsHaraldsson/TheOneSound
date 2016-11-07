@@ -15,6 +15,9 @@ handlers:
   static_dir: templates
   application_readable: true
 
+- url: /about
+  script: python.about.app
+
 - url: /.*
   script: python.server.app
 # [END handlers]

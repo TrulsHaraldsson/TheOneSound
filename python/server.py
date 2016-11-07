@@ -7,11 +7,12 @@ from google.appengine.ext import ndb
 
 import jinja2
 import webapp2
+from python import JINJA_ENVIRONMENT
 
-JINJA_ENVIRONMENT = jinja2.Environment(
-    loader=jinja2.FileSystemLoader('templates'),
-    extensions=['jinja2.ext.autoescape'],
-    autoescape=True)
+#JINJA_ENVIRONMENT = jinja2.Environment(
+#    loader=jinja2.FileSystemLoader('templates'),
+#    extensions=['jinja2.ext.autoescape'],
+#    autoescape=True)
 # [END imports]
 
 
@@ -46,14 +47,7 @@ class MainPage(webapp2.RequestHandler):
         self.response.write(template.render(template_values))
 # [END main_page]
 
-class About(webapp2.RequestHandler):
-    def get(self):
 
-        template_values = {
-
-        }
-        template = JINJA_ENVIRONMENT.get_template('about.html')
-        self.response.write(template.render(template_values))
 
 #[START TestPage]
 class TestPage(webapp2.RequestHandler):
@@ -72,7 +66,6 @@ class TestPage(webapp2.RequestHandler):
 # [START app]
 app = webapp2.WSGIApplication([
     ('/', MainPage),
-    ('/about', About),
     ('/testpage', TestPage)
 ], debug=True)
 # [END app]

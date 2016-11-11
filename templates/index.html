@@ -1,8 +1,11 @@
 {% extends "layout.html" %}
 {% block content %}
+<!-- Import scripts only for index page -->
+<script src="javascript/index.js"></script>
+<!-- End imports -->
 <p> Hello world! </p>
 <p> {{ text }} </p>
-
+<div id="javascripttest"></div>
 <a href="{{ url|safe }}">{{ url_linktext }}</a>
 
 <a href="/about"> About </a>

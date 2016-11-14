@@ -27,6 +27,9 @@ handlers:
 - url: /test
   script: python.test.app
 
+- url: /api/band
+  script: python.api.band.app
+
 - url: /.*
   script: python.server.app
 # [END handlers]

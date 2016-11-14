@@ -2,6 +2,7 @@
 import webapp2
 import jinja2
 import databaseKinds
+import json
 
 from google.appengine.ext import ndb
 
@@ -18,6 +19,8 @@ class Test(webapp2.RequestHandler):
         album_key = album.put()
         track = databaseKinds.Track(parent=album_key, name=track_name)
         track.put()
+        track_json = json.dumps(track)
+        print(track_json)
         template = JINJA_ENVIRONMENT.get_template('about.html')
         self.response.write(template.render())
 

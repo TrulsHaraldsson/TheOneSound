@@ -25,5 +25,14 @@
 <b>This form is rendered using a macro</b>
 <p>{{ input('username') }}</p>
 <p>{{ input('password', type='password') }}</p>
+<p> break here </p>
+
+<form action="test" method="post">
+  <p>{{ input( name='band_name' ) }}</p>
+  <p>{{ input( name='album_name' ) }}</p>
+  <p>{{ input( name='track_name' ) }}</p>
+  <p>{{ input( name='band_name', type='submit' ) }}</p>
+</form>
+
 
 {% endblock %}

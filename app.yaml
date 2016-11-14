@@ -24,6 +24,9 @@ handlers:
 - url: /about
   script: python.about.app
 
+- url: /test
+  script: python.test.app
+
 - url: /.*
   script: python.server.app
 # [END handlers]

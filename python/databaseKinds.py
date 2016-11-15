@@ -6,6 +6,7 @@ class Rating(ndb.Model):
 
 class Description(ndb.Model):
     description = ndb.StringProperty()
+    #more to be added, pics and such.
 
 class Comment(ndb.Model):
     user_key = ndb.KeyProperty()

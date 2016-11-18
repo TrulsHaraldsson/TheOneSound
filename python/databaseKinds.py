@@ -21,6 +21,7 @@ class Band(ndb.Model):
     rating = ndb.StructuredProperty(Rating)
     description = ndb.StructuredProperty(Description)
 
+
 #Has Band as parent
 class Album(ndb.Model):
     name = ndb.StringProperty()

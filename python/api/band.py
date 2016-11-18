@@ -1,15 +1,18 @@
 import webapp2
-import jinja2
-import python.databaseKinds
 import json
-
+from python.databaseKinds import Rating
+from python.databaseKinds import Description
+from python.databaseKinds import Comment
+from python.databaseKinds import Band
 from python import JINJA_ENVIRONMENT
 
-class Band(webapp2.RequestHandler):
+class BandHandler(webapp2.RequestHandler):
     #create
     def post(self):
         band_name = self.request.get("band_name")
-        band = databaseKinds.Band(name=band_name)
+        #if band_name == "":
+            #exit - band must have name
+        band = Band(name=band_name)
         description_text = self.request.get("description")
         if description_text != "":
             desc = Description(description=description_text)
@@ -19,25 +22,46 @@ class Band(webapp2.RequestHandler):
 
 
     #request
-    #def get(self):
+    def get(self):
+        JINJA_ENVIRONMENT.get_template("about.html")
+        amount = self.request.get("amount")
+        query = Band.query()
+        if amount != "":
+            bands = query.fetch(amount)
+        else:
+            amount = 10
+            bands = query.fetch(amount)
+        band_list = []
+        for band in bands:
+            band_list.append(band.to_dict())
 
+        json_list = json.dumps(band_list)
+        self.response.out.write(json_list)
     #update
     #def put(self):
+
 
     #delete
     #def delete(self):
 
-class BandById(webapp2.RequestHandler):
+class BandByIdHandler(webapp2.RequestHandler):
     def get(self, id):
-        print("id: " +id)
+        band = Band.get_by_id(id)
+        self.response.out.write(band.to_dict())
 
-class BandByName(webapp2.RequestHandler):
+    def put(self, id):
+        band = Band.get_by_id(id)
+        desc = self.get.request("description")
+        if desc != "":
+            band.description.description = desc
+
+class BandByNameHandler(webapp2.RequestHandler):
     def get(self, id):
         print("name: " + id)
 # [START app]
 app = webapp2.WSGIApplication([
-    ('/api/band', Band),
-    ('/api/band/(\d+)', BandById),
-    ('/api/band/(\w+)', BandByName)
+    ('/api/band', BandHandler),
+    ('/api/band/(\d+)', BandByIdHandler),
+    ('/api/band/(\w+)', BandByNameHandler)
 ], debug=True)
 # [END app]

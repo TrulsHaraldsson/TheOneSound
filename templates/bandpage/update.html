@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% macro input(name, value='', type='text', size=20) -%}
+<input type="{{ type }}" name="{{ name }}" value="{{
+        value|e }}" size="{{ size }}">
+{%- endmacro %}
+{% block content %}
+<form action="/api/band" method="post">
+  <p>
+    Band name: <input type="text" name="band_name" value="">
+  </p>
+  <p>
+    Description: <input type="text" name="description" value="">
+  </p>
+  <p>
+    <input type="submit" name="submit" value="submit">
+  </p>
+</form>
+
+{% endblock %}

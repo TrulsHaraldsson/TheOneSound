@@ -29,10 +29,13 @@ handlers:
 
 - url: /bandpage.*
   script: python.bandpage.app
+#API START
+- url: /api/album.*
+  script: python.api.album.app
 
 - url: /api/band.*
   script: python.api.band.app
-
+#API END
 - url: /.*
   script: python.server.app
 # [END handlers]

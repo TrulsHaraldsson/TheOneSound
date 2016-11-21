@@ -27,6 +27,9 @@ handlers:
 - url: /test
   script: python.test.app
 
+- url: /albumpage.*
+  script: python.albumpage.app
+
 - url: /bandpage.*
   script: python.bandpage.app
 #API START

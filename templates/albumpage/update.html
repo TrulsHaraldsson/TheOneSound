@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block content %}
+<form action="/api/album" method="post">
+    <p>
+        Album name: <input type="text" name="album_name" value="">
+    </p>
+    <p>
+        Description: <input type="text" name="description" value="">
+    </p>
+    <p>
+        <input type="submit" name="submit" value="submit">
+    </p>
+</form>
+{% endblock %}

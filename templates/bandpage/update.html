@@ -1,8 +1,4 @@
 {% extends "layout.html" %}
-{% macro input(name, value='', type='text', size=20) -%}
-<input type="{{ type }}" name="{{ name }}" value="{{
-        value|e }}" size="{{ size }}">
-{%- endmacro %}
 {% block content %}
 <form action="/api/band" method="post">
   <p>
@@ -15,5 +11,4 @@
     <input type="submit" name="submit" value="submit">
   </p>
 </form>
-
 {% endblock %}

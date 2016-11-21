@@ -15,5 +15,5 @@ $(document).ready(function(){
 })
 
 function displayBandInfo(data){
-  //display the gathered info.
+  //display the gathered info on bandpage/display
 }

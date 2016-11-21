@@ -17,7 +17,6 @@ class Comment(ndb.Model):
 class Band(ndb.Model):
     name = ndb.StringProperty()
     comment = ndb.StructuredProperty(Comment, repeated=True)
-    likes = ndb.IntegerProperty()
     rating = ndb.StructuredProperty(Rating)
     description = ndb.StructuredProperty(Description)
 

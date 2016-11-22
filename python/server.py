@@ -8,6 +8,7 @@ from google.appengine.ext import ndb
 import jinja2
 import webapp2
 from python import JINJA_ENVIRONMENT
+from python.util import loginhelper
 
 #JINJA_ENVIRONMENT = jinja2.Environment(
 #    loader=jinja2.FileSystemLoader('templates'),
@@ -28,21 +29,8 @@ from python import JINJA_ENVIRONMENT
 class MainPage(webapp2.RequestHandler):
 
     def get(self):
-        user = users.get_current_user()
-        if user:
-            url_linktext = 'logout'
-            url = users.create_logout_url('/')
-            text = "what's up " + user.nickname() + "!?"
-        else:
-            url_linktext = 'login'
-            url = users.create_login_url('/')
-            text = "what's up anonymous!?"
-
-        template_values = {
-            'url': url,
-            'url_linktext': url_linktext,
-            'text': text
-        }
+        template_values = {}
+        loginhelper.add_login_values(template_values, self)
         template = JINJA_ENVIRONMENT.get_template('index.html')
         self.response.write(template.render(template_values))
 # [END main_page]
@@ -58,6 +46,8 @@ class TestPage(webapp2.RequestHandler):
             'float': 2.000001,
             'listWithText':["This","is","a","list","containing","text"]
         }
+        
+        loginhelper.add_login_values(template_values, self)
         template = JINJA_ENVIRONMENT.get_template('testpage.html')
         self.response.write(template.render(template_value))
 #[END TestPage]

@@ -9,44 +9,22 @@ from google.appengine.ext import ndb
 
 class BandHandler(webapp2.RequestHandler):
     #create
+    #creates one new band
     def post(self):
         band_name = self.request.get("band_name")
-
         description_text = self.request.get("description")
         try:
-            BandHandler.create_new_band(band_name, description_text)
+            create_new_band(band_name, description_text)
         except Exception as e:
-            print e
             self.response.set_status(400)
 
-    @staticmethod
-    def create_new_band(band_name, description):
-        if band_name == "":
-            raise ValueError("Band must have a name.")
-        band_key = ndb.Key("Band", band_name)
-        if band_key.get() == None:
-            band = Band(id=band_name, name=band_name)
-
-            if description != "":
-                desc = Description(description=description)
-                band.description = desc
-
-            band.put()
-        else:
-            raise ValueError("Band with that name already exists.")
-
-
     #request
+    #gives list of matching bands
     def get(self):
-        JINJA_ENVIRONMENT.get_template("about.html")
-        amount = self.request.get("amount")
-        query = Band.query()
-        if amount != "":
-            bands = query.fetch(amount)
-        else:
-            amount = 10
-            bands = query.fetch(amount)
+        limit = self.request.get("limit")
+
         band_list = []
+        bands = get_multiple_bands(limit)
         for band in bands:
             band_list.append(band.to_dict())
 
@@ -59,48 +37,38 @@ class BandHandler(webapp2.RequestHandler):
     #delete
     #def delete(self):
 
-class BandByIdHandler(webapp2.RequestHandler):
-    def get(self, id):
-        band = Band.get_by_id(id)
-        self.response.out.write(json.dumps(band.to_dict()))
-
-    def put(self, id):
-        band = Band.get_by_id(id)
-        desc = self.get.request("description")
-        if desc != "":
-            band.description.description = desc
 
 class BandByNameHandler(webapp2.RequestHandler):
+    #returns one band with matching name
     def get(self, band_name):
         try:
-            band = BandByNameHandler.get_band_by_name(band_name)
+            band = get_band_by_name(band_name)
             self.response.out.write(json.dumps(band))
         except Exception as e:
             self.response.set_status(400)
-
-
-
-    @staticmethod
-    def get_band_by_name(band_name):
-        band_key = ndb.Key("Band", band_name)
-        band = band_key.get()
-        if band != None:
-            return band
-        else:
-            raise ValueError("No such band exists!")
-
+    #updates a band with the new information
     def put(self, band_name):
         try:
-            band = BandByNameHandler.get_band_by_name(band_name)
+
             description_text = self.request.get("description")
             comment_text = self.request.get("comment")
-            BandByNameHandler.update_band(description_text, comment_text)
+            update_band(description_text, comment_text)
 
         except Exception as e:
             self.response.set_status(400)
-    #Not tested yet.
-    @staticmethod
-    def update_band(description_text, comment_text):
+
+
+def get_band_by_name(band_name):
+    band = Band.get_by_id(band_name)
+    if band != None:
+        return band
+    else:
+        raise ValueError("No such band exists!")
+
+#Not tested yet.
+def update_band(description_text, comment_text):
+    band = get_band_by_name(band_name)
+    if band != None:
         if description_text != "":
             description = Description(description=description_text)
             band.description = description
@@ -110,14 +78,44 @@ class BandByNameHandler(webapp2.RequestHandler):
             comment.rating = rating
             #TODO: also add user key
             band.comment = comment
+        #TODO: add rating
+        band.put()
+    else:
+        raise ValueError("No such band exists!")
+
+
+def create_new_band(band_name, description):
+    if band_name == "":
+        raise ValueError("Band must have a name.")
+    band_key = ndb.Key("Band", band_name)
+    if band_key.get() == None:
+        band = Band(id=band_name, name=band_name)
+
+        if description != "":
+            desc = Description(description=description)
+            band.description = desc
+        #rating not tested
         rating = Rating(likes=0, dislikes=0)
         band.rating = rating
+        band.put()
+    else:
+        raise ValueError("Band with that name already exists.")
+
+def get_multiple_bands(limit):
+    #TODO: filters should be made, also different sortings
+    query = Band.query().order(Band.name)
+    if amount != "":
+        bands = query.fetch(limit)
+    else:
+        amount = 10
+        bands = query.fetch(limit)
+    return bands
+
 
 
 # [START app]
 app = webapp2.WSGIApplication([
     ('/api/band', BandHandler),
-    ('/api/band/(\d+)', BandByIdHandler),
     ('/api/band/(\w+)', BandByNameHandler)
 ], debug=True)
 # [END app]

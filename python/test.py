@@ -7,6 +7,7 @@ import json
 from google.appengine.ext import ndb
 
 from python import JINJA_ENVIRONMENT
+from python.util import loginhelper
 
 class Test(webapp2.RequestHandler):
     def post(self):

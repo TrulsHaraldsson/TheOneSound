@@ -7,11 +7,27 @@ from google.appengine.ext import ndb
 
 class AlbumHandler(webapp2.RequestHandler):
     def post(self):
+        band_id = self.request.get("band_id")
         album_name = self.request.get("album_name")
-        album_description = self.request.get("description");
-        album = Album(name=album_name, description=Description(description=album_description))
-        album.put()
+        album_description = self.request.get("album_description");
+        add_album(band_id, album_name, album_description)
 
+    def get(self):
+        album_name = self.request.get("album_name")
+        albums = get_albums_by_name(album_name)
+
+        album_list = []
+        for album in albums:
+            album_list.append(album.to_dict())
+
+        albumAsJSON = json.dumps(album_list)
+
+        template_values = {
+            'json': albumAsJSON
+        }
+
+        template = JINJA_ENVIRONMENT.get_template('albumpage/display.html')
+        self.response.out.write(template.render(template_values))
 
 class AlbumHandlerByName(webapp2.RequestHandler):
     def get(self, qname):

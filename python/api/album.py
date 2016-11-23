@@ -45,7 +45,7 @@ def add_album(band_id_, album_name_, description_):
     """
     Add an album with the given name to the given band.
 
-    :param band_id_: unique id for the band
+    :param band_id_: Unique id for an entity of type Band
     :param album_name_: Name of album
     :param description_: Description for the album
     """

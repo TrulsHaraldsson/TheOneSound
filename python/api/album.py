@@ -1,8 +1,8 @@
 import webapp2
 import json
 from python.databaseKinds import Album, Band, Description
-from python import JINJA_ENVIRONMENT
 from google.appengine.ext import ndb
+from python.util import entityparser
 
 
 class AlbumHandler(webapp2.RequestHandler):
@@ -16,45 +16,11 @@ class AlbumHandler(webapp2.RequestHandler):
         album_name = self.request.get("album_name")
         albums = get_albums_by_name(album_name)
 
-        album_list = []
-        for album in albums:
-            album_list.append(album.to_dict())
+        albums_as_dict = entityparser.entities_to_dic_list(albums)
 
-        albumAsJSON = json.dumps(album_list)
+        album_as_json = json.dumps(albums_as_dict)
 
-        template_values = {
-            'json': albumAsJSON
-        }
-
-        template = JINJA_ENVIRONMENT.get_template('albumpage/display.html')
-        self.response.out.write(template.render(template_values))
-
-class AlbumHandlerByName(webapp2.RequestHandler):
-    def get(self, qname):
-        limit_ = self.request.get("limit")
-        offset_ = self.request.get("offset")
-
-        """
-        TODO: Remove
-
-        albums = get_album_by_name(qname, limit, offset)
-
-
-        album_list = []
-        for album in albums:
-            album_list.append(album.to_dict())
-
-        albumAsJSON = json.dumps(album_list)
-
-        template_values = {
-            # 'name': album.name,
-            # 'description': album.description,
-            'json': albumAsJSON
-        }
-
-        template = JINJA_ENVIRONMENT.get_template('albumpage/display.html')
-        self.response.out.write(template.render(template_values))
-        """
+        self.response.out.write(album_as_json)
 
 
 def add_album(band_id_, album_name_, description_):
@@ -68,7 +34,9 @@ def add_album(band_id_, album_name_, description_):
 
     album = does_album_exist(band_id_, album_name_)
     if not album:
-        album = Album(parent=ndb.Key(Band, band_id_), name=album_name_, description=description_)
+        desc = Description(description=description_)
+        desc.put()
+        album = Album(parent=ndb.Key(Band, band_id_), name=album_name_, description=desc)
         album.put()
 
 
@@ -125,7 +93,7 @@ def does_album_exist(band_id_, album_name_):
     :param album_name_: Name of album
     """
 
-    query = Album.query(Album.name == album_name_, Album.parent.key == band_id_)
+    query = Album.query(Album.name == album_name_, ancestor=ndb.Key(Band, band_id_))
     album = query.get()
     if album:
         return album
@@ -134,8 +102,6 @@ def does_album_exist(band_id_, album_name_):
 
 # [START app]
 app = webapp2.WSGIApplication([
-    ('/api/album', AlbumHandler),
-    ('/api/album/(\w+)', AlbumHandlerByName)
-
+    ('/api/album', AlbumHandler)
 ], debug=True)
 # [END app]

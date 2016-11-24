@@ -77,7 +77,8 @@ class BandByNameHandler(webapp2.RequestHandler):
 def get_bands_by_name(band_name):
     return entityparser.get_entities_by_name(Band, band_name)
 
-#Not tested yet.
+
+# Not tested yet.
 def update_band(description_text, comment_text, band_id):
     band = Band.get_by_id(band_id)
     if band != None:
@@ -105,7 +106,7 @@ def create_new_band(band_name, description):
     if description != "":
         desc = Description(description=description)
         band.description = desc
-    #rating not tested
+    # rating not tested
     rating = Rating(likes=0, dislikes=0)
     band.rating = rating
     band.put()
@@ -114,10 +115,9 @@ def create_new_band(band_name, description):
 def get_multiple_bands(limit):
     return entityparser.get_multiple_entities(Band, limit)
 
+
 def get_band_by_id(id):
     return entityparser.get_entity_by_id(Band, id)
-
-
 
 # [START app]
 app = webapp2.WSGIApplication([

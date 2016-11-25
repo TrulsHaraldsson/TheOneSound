@@ -57,7 +57,7 @@ class BandByIdHandler(webapp2.RequestHandler):
 
 
 class BandByNameHandler(webapp2.RequestHandler):
-    #returns one band with matching name
+    #returns all bands with matching name
     def get(self, band_name):
         try:
             bands = get_bands_by_name(band_name)
@@ -79,21 +79,18 @@ def get_bands_by_name(band_name):
 
 #Not tested yet.
 def update_band(description_text, comment_text, band_id):
-    band = Band.get_by_id(band_id)
-    if band != None:
-        if description_text != "":
-            description = Description(description=description_text)
-            band.description = description
-        if comment_text != "":
-            comment = Comment(content=comment_text)
-            rating = Rating(likes=0, dislikes=0)
-            comment.rating = rating
-            #TODO: also add user key
-            band.comment = comment
-        #TODO: add rating
-        band.put()
-    else:
-        raise ValueError("No such band exists!")
+    band = entityparser.get_entity_by_id(band_id)
+    if description_text != "":
+        description = Description(description=description_text)
+        band.description = description
+    if comment_text != "":
+        comment = Comment(content=comment_text)
+        comment.rating = rating
+        #TODO: also add user key
+        band.comment = comment
+    #TODO: add rating
+    band.put()
+
 
 
 def create_new_band(band_name, description):

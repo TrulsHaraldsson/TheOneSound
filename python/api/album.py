@@ -2,6 +2,7 @@ import webapp2
 import json
 from python.databaseKinds import Album, Band, Description
 from google.appengine.ext import ndb
+from python.api import common
 from python.util import entityparser
 
 
@@ -15,23 +16,23 @@ class AlbumHandler(webapp2.RequestHandler):
     def get(self):
         album_name = self.request.get("album_name")
         albums = get_albums_by_name(album_name)
-
         albums_as_dict = entityparser.entities_to_dic_list(albums)
-
         albums_as_json = json.dumps(albums_as_dict)
-
         self.response.out.write(albums_as_json)
 
 
 class AlbumByIdHandler(webapp2.RequestHandler):
     def get(self, album_id):
-        album = entityparser.get_entity_by_id(Album, int(album_id))
-
+        album = common.get_entity_by_id(Album, int(album_id))
         album_as_dict = entityparser.entity_to_dic(album)
-
         album_as_json = json.dumps(album_as_dict)
-
         self.response.out.write(album_as_json)
+
+    def put(self, album_id):
+        print("Updating album with id " + album_id)
+
+    def delete(self, album_id):
+        print("Deleting album with id " + album_id)
 
 
 def add_album(band_id, album_name, description):

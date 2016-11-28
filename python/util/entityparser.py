@@ -34,8 +34,8 @@ def get_multiple_entities(cls, limit):
     return entities
 
 
-def get_entity_by_id(cls, id):
-    entity = cls.get_by_id(id)
+def get_entity_by_id(cls, entity_id):
+    entity = cls.get_by_id(entity_id)
     if entity:
         return entity
     else:

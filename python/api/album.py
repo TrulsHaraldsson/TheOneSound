@@ -18,7 +18,18 @@ class AlbumHandler(webapp2.RequestHandler):
 
         albums_as_dict = entityparser.entities_to_dic_list(albums)
 
-        album_as_json = json.dumps(albums_as_dict)
+        albums_as_json = json.dumps(albums_as_dict)
+
+        self.response.out.write(albums_as_json)
+
+
+class AlbumByIdHandler(webapp2.RequestHandler):
+    def get(self, album_id):
+        album = entityparser.get_entity_by_id(Album, int(album_id))
+
+        album_as_dict = entityparser.entity_to_dic(album)
+
+        album_as_json = json.dumps(album_as_dict)
 
         self.response.out.write(album_as_json)
 
@@ -102,6 +113,7 @@ def does_album_exist(band_id, album_name):
 
 # [START app]
 app = webapp2.WSGIApplication([
-    ('/api/album', AlbumHandler)
+    ('/api/album', AlbumHandler),
+    ('/api/album/(\d+)', AlbumByIdHandler)
 ], debug=True)
 # [END app]

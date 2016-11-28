@@ -8,14 +8,22 @@ def get_entities_by_name(cls, entity_name, limit_=10, offset_=0):
         raise ValueError("No such band exists!")
 
 
-def get_multiple_entities(cls, limit):
-    # TODO: filters should be made, also different sortings
-    query = cls.query().order(cls.name)
-    if limit != "":
-        entities = query.fetch(limit)
-    else:
-        amount = 10
-        entities = query.fetch(amount)
+def get_entities(cls, limit=10, order_=None):
+    """
+    Search among all entities of a given Kind and order them by the given
+    ordering parameter
+    :param cls: The Kind in the Database
+    :param limit: Upper bound of entities that will be returned. Default it 10.
+    :param order_: An ordering based on the properties of the given Kind. If no order is
+    given, the entities are sorted by ascending key-value
+    :return: A list with the query result
+    """
+    #TODO: Add filter
+    if not order_:
+        order_ = cls.key
+
+    query = cls.query().order(order_)
+    entities = query.fetch(limit)
     return entities
 
 

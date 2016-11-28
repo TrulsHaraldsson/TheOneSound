@@ -33,7 +33,7 @@ handlers:
 - url: /bandpage.*
   script: python.bandpage.app
 #API START
-- url: /api/album.*
+- url: /api/albums.*
   script: python.api.album.app
 
 - url: /api/band.*

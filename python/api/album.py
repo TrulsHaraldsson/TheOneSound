@@ -15,17 +15,9 @@ class AlbumHandler(webapp2.RequestHandler):
 
     def get(self):
         albums = common.get_entities(Album)
-        print("Length: ", len(albums))
         albums_as_dict = entityparser.entities_to_dic_list(albums)
         albums_as_json = json.dumps(albums_as_dict)
         self.response.out.write(albums_as_json)
-
-        """
-        album_name = self.request.get("album_name")
-        albums = get_albums_by_name(album_name)
-        albums_as_dict = entityparser.entities_to_dic_list(albums)
-        albums_as_json = json.dumps(albums_as_dict)
-        self.response.out.write(albums_as_json)"""
 
 
 class AlbumByIdHandler(webapp2.RequestHandler):

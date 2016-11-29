@@ -18,7 +18,7 @@ def get_entities_by_name(cls, entity_name, limit=10, offset_=0, order_=None):
     query = cls.query(cls.name == entity_name).order(order_)
     entities = query.fetch(limit, offset=offset_)
 
-    if not entities:
+    if entities:
         return entities
     else:
         raise ValueError("No entity with name " + entity_name + " exists")

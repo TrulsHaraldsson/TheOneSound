@@ -8,8 +8,8 @@ class Description(ndb.Model):
     description = ndb.StringProperty()
     #more to be added, pics and such.
 
+#Has user as parent
 class Comment(ndb.Model):
-    user_key = ndb.KeyProperty()
     content = ndb.StringProperty()
     date = ndb.DateTimeProperty(auto_now_add=True)
     rating = ndb.StructuredProperty(Rating)
@@ -34,7 +34,7 @@ class Track(ndb.Model):
     comment = ndb.StructuredProperty(Comment, repeated=True)
     rating = ndb.StructuredProperty(Rating)
 
-class User(ndb.Model):
+class Account(ndb.Model):
     name = ndb.StringProperty()
     email = ndb.StringProperty()
     date = ndb.DateTimeProperty(auto_now_add=True)

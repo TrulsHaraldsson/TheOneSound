@@ -9,3 +9,6 @@ def add_login_values(dic, rqhandler):
     else:
         dic["logged_in"] = False
         dic["user_url"] = users.create_login_url(rqhandler.request.uri)
+
+def get_google_user():
+    return users.get_current_user()

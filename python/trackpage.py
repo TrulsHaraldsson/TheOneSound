@@ -1,0 +1,48 @@
+import webapp2
+import jinja2
+import json
+
+from python.util import loginhelper
+from python.util import entityparser
+from python.api import track
+
+
+
+from python import JINJA_ENVIRONMENT
+
+class TrackPageUpdate(webapp2.RequestHandler):
+    def get(self):
+        template_values = {}
+        loginhelper.add_login_values(template_values, self)
+        template = JINJA_ENVIRONMENT.get_template('trackpage/update.html')
+        self.response.write(template.render())
+
+class TrackPageDisplay(webapp2.RequestHandler):
+    def get(self):
+        template_values = {}
+        loginhelper.add_login_values(template_values, self)
+        track_name = self.request.get("track_name")
+        try:
+            tracks = track.get_tracks_by_name(track_name)
+            tracks_dic = entityparser.entities_to_dic_list(tracks)
+            if len(tracks_dic) > 1:
+                pass
+                #redirect to page where you can choose which one you want
+            else:
+                template_values["track"] = tracks_dic[0]
+                template = JINJA_ENVIRONMENT.get_template('trackpage/display.html')
+                self.response.write(template.render(template_values))
+        except Exception as e:
+            print(e)
+            template = JINJA_ENVIRONMENT.get_template('trackpage/update.html')
+            self.response.write(template.render(template_values))
+
+
+
+
+# [START app]
+app = webapp2.WSGIApplication([
+    ('/trackpage/update', TrackPageUpdate),
+    ('/trackpage', TrackPageDisplay)
+], debug=True)
+# [END app]

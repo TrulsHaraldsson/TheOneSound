@@ -32,12 +32,24 @@ handlers:
 
 - url: /bandpage.*
   script: python.bandpage.app
+
+- url: /trackpage.*
+  script: python.trackpage.app
+
+- url: /profilepage.*
+  script: python.profilepage.app
 #API START
 - url: /api/albums.*
   script: python.api.album.app
 
 - url: /api/band.*
   script: python.api.band.app
+
+- url: /api/track.*
+  script: python.api.track.app
+
+- url: /api/account.*
+  script: python.api.account.app
 #API END
 - url: /.*
   script: python.server.app

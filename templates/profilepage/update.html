@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block content %}
+<form id="update-form" action="/api/account" method="post">
+  <p>
+    <label for="account_name">User name:</label>
+    <input type="text" name="account_name" value="">
+  </p>
+  <p>
+    <label for="email">Email:</label>
+    <input type="text" name="email" value="">
+  </p>
+  <p>
+    <label for="submit" class="sr-only">submit:</label>
+    <input type="submit" name="submit" value="submit">
+  </p>
+</form>
+{% endblock %}

@@ -1,13 +1,16 @@
 {% extends "layout.html" %}
 {% block content %}
-<form action="/api/band" method="post">
+<form id="update-form" action="/api/band" method="post">
   <p>
-    Band name: <input type="text" name="band_name" value="">
+    <label for="band_name">Band name:</label>
+    <input type="text" name="band_name" value="">
   </p>
   <p>
-    Description: <input type="text" name="description" value="">
+    <label for="band_description">Band description:</label>
+    <input type="text" name="band_description" value="">
   </p>
   <p>
+    <label for="submit" class="sr-only">submit:</label>
     <input type="submit" name="submit" value="submit">
   </p>
 </form>

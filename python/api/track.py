@@ -3,6 +3,7 @@ import json
 from python.databaseKinds import Rating
 from python.databaseKinds import Comment
 from python.databaseKinds import Album
+from python.databaseKinds import Track
 from python import JINJA_ENVIRONMENT
 from google.appengine.ext import ndb
 from google.appengine.api import users
@@ -43,7 +44,7 @@ class TrackByIdHandler(webapp2.RequestHandler):
     def put(self, track_id):
         try:
             comment_text = self.request.get("comment")
-            update_track(description_text, comment_text, track_id)
+            update_track(comment_text, track_id)
 
         except Exception as e:
             self.response.set_status(400)
@@ -61,6 +62,7 @@ class TrackByNameHandler(webapp2.RequestHandler):
         except Exception as e:
             self.response.set_status(400)
 
+#Should make parent_id as parent!
 def create_new_track(track_name, parent_id):
     if track_name == "":
         raise ValueError("track must have a name.")
@@ -87,7 +89,7 @@ def update_track(comment_text, track_id):
 
 
 def get_tracks_by_name(track_name):
-    return entityparser.get_entities_by_name(Track, track_name):
+    return entityparser.get_entities_by_name(Track, track_name)
 
 
 

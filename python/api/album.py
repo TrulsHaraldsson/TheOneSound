@@ -8,9 +8,10 @@ from python.util import entityparser
 
 class AlbumHandler(webapp2.RequestHandler):
     def post(self):
-        band_id = self.request.get("band_id")
-        album_name = self.request.get("album_name")
-        album_description = self.request.get("album_description");
+        band_id = self.request.get("parent_id")
+        print "parent key is: ", band_id
+        album_name = self.request.get("name")
+        album_description = self.request.get("description")
         add_album(band_id, album_name, album_description)
 
     def get(self):
@@ -42,13 +43,14 @@ def add_album(band_id, album_name, description):
     :param album_name: Name of album
     :param description: Description for the album
     """
-
+    """
     album = does_album_exist(band_id, album_name)
     if not album:
-        desc = Description(description=description)
-        desc.put()
-        album = Album(parent=ndb.Key(Band, band_id), name=album_name, description=desc)
-        album.put()
+    """
+    desc = Description(description=description)
+    desc.put()
+    album = Album(parent=ndb.Key(Band, int(band_id)), name=album_name, description=desc)
+    album.put()
 
 
 def remove_album(band_id, album_name):

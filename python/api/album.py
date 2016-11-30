@@ -9,7 +9,6 @@ from python.util import entityparser
 class AlbumHandler(webapp2.RequestHandler):
     def post(self):
         band_id = self.request.get("parent_id")
-        print "parent key is: ", band_id
         album_name = self.request.get("name")
         album_description = self.request.get("description")
         add_album(band_id, album_name, album_description)
@@ -43,14 +42,13 @@ def add_album(band_id, album_name, description):
     :param album_name: Name of album
     :param description: Description for the album
     """
-    """
-    album = does_album_exist(band_id, album_name)
+
+    album = common.has_child_with_name(Album, album_name, Band, band_id)
     if not album:
-    """
-    desc = Description(description=description)
-    desc.put()
-    album = Album(parent=ndb.Key(Band, int(band_id)), name=album_name, description=desc)
-    album.put()
+        desc = Description(description=description)
+        desc.put()
+        album = Album(parent=ndb.Key(Band, int(band_id)), name=album_name, description=desc)
+        album.put()
 
 
 def remove_album(band_id, album_name):
@@ -62,41 +60,10 @@ def remove_album(band_id, album_name):
     :param album_name: Name of the album
     """
 
-    album = does_album_exist(band_id, album_name)
+    album = common.has_child_with_name(Album, album_name, Band, band_id)
     if album:
         album.key.delete()
 
-"""
-def get_album_by_name(band_id, album_name):
-
-    Returns the album with the given name for the band with the given band name.
-
-    :param band_id: Unique id for an entity of type Band
-    :param album_name: Name of the album
-
-
-    query = Album.query(Album.name == album_name, Album.parent.key == band_id)
-    album = query.get()
-    return album
-
-
-def does_album_exist(band_id, album_name):
-
-    Check if the album with the given name exists and is associated with
-    the band. Returns the album object if it exists, else
-    None is returned.
-
-    :param band_id: Unique id for an entity of type Band
-    :param album_name: Name of album
-
-
-    query = Album.query(Album.name == album_name, ancestor=ndb.Key(Band, band_id))
-    album = query.get()
-    if album:
-        return album
-    else:
-        return None
-"""
 
 # [START app]
 app = webapp2.WSGIApplication([

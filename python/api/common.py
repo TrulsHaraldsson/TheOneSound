@@ -6,7 +6,6 @@ def get_entities_by_name(cls, entity_name, limit=10, offset_=0, order_=None):
     Returns the entities with the given name and Kind. By default the maximum number of
     entities returned is 10 with an offset of 0. E.g. if limit_ = 5 and offset_ = 4 the
     query will return at maximum one entity. That is, there are more than 4 albums with that name.
-
     :param cls: The Kind in the Database
     :param entity_name: Name of entities which are queried
     :param limit: Upper bound of entities that will be returned. Default it 10.
@@ -31,7 +30,6 @@ def get_entities(cls, limit=10, offset_=0, order_=None, filters=None):
     """
     Search among all entities of a given Kind and order them by the given
     ordering parameter.
-
     :param cls: The Kind in the Database
     :param limit: Upper bound of entities that will be returned. Default it 10.
     :param offset_: The number of entities in the query that are initially skipped. Default is 0
@@ -56,7 +54,6 @@ def get_entities(cls, limit=10, offset_=0, order_=None, filters=None):
 def get_entity_by_id(cls, entity_id):
     """
     Search for an entity of a given Kind using the given ID.
-
     :param cls: The Kind in the Database
     :param entity_id: The ID of the entity
     :return: An Entity of the given Kind with the given ID. If no entity is found with the given ID
@@ -138,5 +135,23 @@ def get_children(child_cls, parent_cls, parent_id):
     parent_key = ndb.Key(parent_cls, int(parent_id))
     query = child_cls.query(ancestor=parent_key)
     children = query.fetch()
-    print len(children)
     return children
+
+
+def has_child_with_name(child_cls, child_name, parent_cls, parent_id):
+    """
+    Check if the parent with the given id has a child with the given name. This
+    can be used to avoid having children with identical names.
+    :param child_cls: The class of the child
+    :param child_name: The name of the child search after
+    :param parent_cls: The class of the parent
+    :param parent_id: Unique ID of the parent
+    :return: True if the parent has a child with the given name, else False
+    """
+    parent_key = ndb.Key(parent_cls, parent_id)
+    query = child_cls.query(child_cls.name == child_name, ancestor=parent_key)
+    child = query.get()
+    if child:
+        return True
+    else:
+        return False

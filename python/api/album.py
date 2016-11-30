@@ -2,11 +2,12 @@ import webapp2
 import json
 from python.databaseKinds import Album, Band, Description
 from google.appengine.ext import ndb
-from python.api import common
+from python.api import common, search
 from python.util import entityparser
 
 
 class AlbumHandler(webapp2.RequestHandler):
+
     def post(self):
         band_id = self.request.get("band_id")
         album_name = self.request.get("album_name")
@@ -14,10 +15,16 @@ class AlbumHandler(webapp2.RequestHandler):
         add_album(band_id, album_name, album_description)
 
     def get(self):
-        albums = common.get_entities(Album)
-        albums_as_dict = entityparser.entities_to_dic_list(albums)
-        albums_as_json = json.dumps(albums_as_dict)
-        self.response.out.write(albums_as_json)
+        if self.request.query_string:
+            albums = search.query_kind_by_name(Album, self.request.query_string)
+            albums_as_dict = entityparser.entities_to_dic_list(albums)
+            albums_as_json = json.dumps(albums_as_dict)
+            self.response.out.write(albums_as_json)
+        else:
+            albums = common.get_entities(Album)
+            albums_as_dict = entityparser.entities_to_dic_list(albums)
+            albums_as_json = json.dumps(albums_as_dict)
+            self.response.out.write(albums_as_json)
 
 
 class AlbumByIdHandler(webapp2.RequestHandler):

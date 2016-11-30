@@ -6,6 +6,7 @@ from python.util import loginhelper
 from python.util import entityparser
 from python.api import common
 
+
 class AccountHandler(webapp2.RequestHandler):
     def get(self):
         limit = self.request.get("limit")
@@ -22,6 +23,7 @@ class AccountHandler(webapp2.RequestHandler):
             create_new_account(account_name, email)
         except Exception as e:
             raise
+
 
 class AccountByIdHandler(webapp2.RequestHandler):
     def get(self, account_id):
@@ -40,8 +42,6 @@ class AccountByIdHandler(webapp2.RequestHandler):
             raise
 
 
-
-
 def create_new_account(account_name, email_):
     if account_name != "" and email_ != "" :
         user_id = loginhelper.get_google_user().user_id()
@@ -51,8 +51,6 @@ def create_new_account(account_name, email_):
         raise ValueError("check so all requirements are met.")
 
 
-
-#
 def update_account(account_id, account_name, email_):
     account = common.get_entity_by_id(Account, account_id)
     if email_ != "":

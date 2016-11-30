@@ -2,9 +2,10 @@ import webapp2
 import jinja2
 import json
 
+from python.databaseKinds import Account
 from python.util import loginhelper
 from python.util import entityparser
-from python.api import account
+from python.api import account, common
 
 
 
@@ -24,7 +25,7 @@ class AccountPageDisplay(webapp2.RequestHandler):
 
         try:
             user_id = loginhelper.get_user_id()
-            account_ = account.get_account_by_id(user_id)
+            account_ = common.get_entity_by_id(Account, user_id)
             account_dic = entityparser.entity_to_dic(account_)
             template_values['account'] = account_dic
             template = JINJA_ENVIRONMENT.get_template('profilepage/display.html')

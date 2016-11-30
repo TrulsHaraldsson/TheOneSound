@@ -2,9 +2,10 @@ import webapp2
 import jinja2
 import json
 
+from python.databaseKinds import Track
 from python.util import loginhelper
 from python.util import entityparser
-from python.api import track
+from python.api import common
 
 
 
@@ -21,9 +22,9 @@ class TrackPageDisplay(webapp2.RequestHandler):
     def get(self):
         template_values = {}
         loginhelper.add_login_values(template_values, self)
-        track_name = self.request.get("track_name")
+        track_name = self.request.get("name")
         try:
-            tracks = track.get_tracks_by_name(track_name)
+            tracks = common.get_entities_by_name(Track, track_name)
             tracks_dic = entityparser.entities_to_dic_list(tracks)
             if len(tracks_dic) > 1:
                 pass

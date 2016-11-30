@@ -1,15 +1,11 @@
 import webapp2
-import jinja2
-import json
-
 from python.databaseKinds import Track
 from python.util import loginhelper
 from python.util import entityparser
 from python.api import common
 
-
-
 from python import JINJA_ENVIRONMENT
+
 
 class TrackPageUpdate(webapp2.RequestHandler):
     def get(self):
@@ -17,6 +13,7 @@ class TrackPageUpdate(webapp2.RequestHandler):
         loginhelper.add_login_values(template_values, self)
         template = JINJA_ENVIRONMENT.get_template('trackpage/update.html')
         self.response.write(template.render())
+
 
 class TrackPageDisplay(webapp2.RequestHandler):
     def get(self):
@@ -37,8 +34,6 @@ class TrackPageDisplay(webapp2.RequestHandler):
             print(e)
             template = JINJA_ENVIRONMENT.get_template('trackpage/update.html')
             self.response.write(template.render(template_values))
-
-
 
 
 # [START app]

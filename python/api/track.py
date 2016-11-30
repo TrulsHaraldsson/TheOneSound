@@ -9,8 +9,8 @@ from python.api import common
 
 
 class TrackHandler(webapp2.RequestHandler):
-    #creates one new track
-    #maybe make so multiple can be made ?
+    # creates one new track
+    # maybe make so multiple can be made ?
     def post(self):
         track_name = self.request.get("name")
         parent_id = self.request.get("parent_id")
@@ -19,15 +19,14 @@ class TrackHandler(webapp2.RequestHandler):
         except Exception as e:
             self.response.set_status(400)
 
-    #request
-    #gives list of matching tracks
+    # request
+    # gives list of matching tracks
     def get(self):
-        limit = self.request.get("limit")
-        tracks = common.get_entities(limit)
+        tracks = common.get_kinds(Track, self.request.query_string)
         track_list = entityparser.entities_to_dic_list(tracks)
-
         json_list = json.dumps(track_list)
         self.response.out.write(json_list)
+
 
 class TrackByIdHandler(webapp2.RequestHandler):
     def get(self, track_id):
@@ -38,7 +37,7 @@ class TrackByIdHandler(webapp2.RequestHandler):
         except Exception as e:
             self.response.set_status(400)
 
-    #updates a track with the new information
+    # updates a track with the new information
     def put(self, track_id):
         try:
             comment_text = self.request.get("comment_text")
@@ -47,20 +46,22 @@ class TrackByIdHandler(webapp2.RequestHandler):
         except Exception as e:
             self.response.set_status(400)
 
+
 class TrackByNameHandler(webapp2.RequestHandler):
-    #returns all tracks with matching name
+    # returns all tracks with matching name
     def get(self, track_name):
         try:
             tracks = get_tracks_by_name(track_name)
             if len(tracks) > 1:
-                self.response.set_status(300) #muliple choices
+                self.response.set_status(300)  # multiple choices
             else:
                 track_list = entityparser.entities_to_dic_list(tracks)
                 self.response.out.write(json.dumps(track_list))
         except Exception as e:
             self.response.set_status(400)
 
-#Should make parent_id as parent!
+
+# Should make parent_id as parent!
 def create_new_track(track_name, parent_id):
     if track_name == "":
         raise ValueError("track must have a name.")
@@ -75,15 +76,15 @@ def update_track(comment_text, track_id):
     if comment_text != "":
         comment = Comment(content=comment_text)
         comment.rating = rating
-        #TODO: also add user key
+        # TODO: also add user key
         track.comment = comment
-    #TODO: add rating
+    # TODO: add rating
     track.put()
 
 
 # [START app]
 app = webapp2.WSGIApplication([
-    ('/api/track', TrackHandler),
-    ('/api/track/(\w+)', TrackByNameHandler)
+    ('/api/tracks', TrackHandler),
+    ('/api/tracks/(\w+)', TrackByNameHandler)
 ], debug=True)
 # [END app]

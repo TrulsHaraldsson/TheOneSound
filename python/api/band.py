@@ -2,15 +2,11 @@ import webapp2
 import json
 from python.databaseKinds import Rating, Description, Comment, Band, Account
 from python.api import common
-from python.api import search
 from python.util import entityparser
-from python import JINJA_ENVIRONMENT
 from google.appengine.ext import ndb
-from google.appengine.api import users
+
 
 class BandHandler(webapp2.RequestHandler):
-    #create
-    #creates one new band
     def post(self):
         band_name = self.request.get("name")
         description_text = self.request.get("description")
@@ -19,22 +15,12 @@ class BandHandler(webapp2.RequestHandler):
         except Exception as e:
             self.response.set_status(404)
 
-    #request
-    #gives list of matching bands
     def get(self):
-        limit = self.request.get("limit")
-        query_string = self.request.query_string
-        bands = common.get_entities(Band, limit)
+        bands = common.get_kinds(Band, self.request.query_string)
         band_list = entityparser.entities_to_dic_list(bands)
-
         json_list = json.dumps(band_list)
         self.response.out.write(json_list)
-    #update
-    #def put(self):
 
-
-    #delete
-    #def delete(self):
 
 class BandByIdHandler(webapp2.RequestHandler):
     def get(self, band_id):
@@ -45,7 +31,7 @@ class BandByIdHandler(webapp2.RequestHandler):
         except Exception as e:
             self.response.set_status(404)
 
-    #updates a band with the new information
+    # updates a band with the new information
     def put(self, band_id):
         try:
             description_text = self.request.get("description")
@@ -54,17 +40,17 @@ class BandByIdHandler(webapp2.RequestHandler):
             update_band(description_text, comment_text, int(band_id), user_id)
 
         except Exception as e:
-            print e
+            print (e)
             self.response.set_status(404)
 
 
 class BandByNameHandler(webapp2.RequestHandler):
-    #returns all bands with matching name
+    # returns all bands with matching name
     def get(self, band_name):
         try:
             bands = common.get_entities_by_name(Band, band_name)
             if len(bands) > 1:
-                self.response.set_status(300) #muliple choices
+                self.response.set_status(300)  # multiple choices
             else:
                 band_list = entityparser.entities_to_dic_list(bands)
                 self.response.out.write(json.dumps(band_list))
@@ -94,8 +80,6 @@ def update_band(description_text, comment_text, band_id, user_id):
     band.put()
 
 
-
-
 def create_new_band(band_name, description):
     if band_name == "":
         raise ValueError("Band must have a name.")
@@ -113,8 +97,8 @@ def create_new_band(band_name, description):
 
 # [START app]
 app = webapp2.WSGIApplication([
-    ('/api/band', BandHandler),
-    ('/api/band/(\d+)', BandByIdHandler),
-    ('/api/band/(\w+)', BandByNameHandler)
+    ('/api/bands', BandHandler),
+    ('/api/bands/(\d+)', BandByIdHandler),
+    ('/api/bands/(\w+)', BandByNameHandler)
 ], debug=True)
 # [END app]

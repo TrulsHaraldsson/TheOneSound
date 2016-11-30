@@ -87,7 +87,6 @@ def parse_url_query_parameters(query_parameters):
                 params['limit'] = int(value)
             elif key == 'offset':
                 params['offset'] = int(value)
-    print("Params: ", params)
     return params
 
 
@@ -122,5 +121,4 @@ def create_filters(cls, filters_):
         if f[0] == 'name':
             filters_as_list.append(cls.name == f[1])
 
-    print("Filters: ", filter)
     return filters_as_list

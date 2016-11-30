@@ -42,10 +42,10 @@ handlers:
 - url: /api/albums.*
   script: python.api.album.app
 
-- url: /api/band.*
+- url: /api/bands.*
   script: python.api.band.app
 
-- url: /api/track.*
+- url: /api/tracks.*
   script: python.api.track.app
 
 - url: /api/account.*

@@ -7,7 +7,6 @@ from python.util import entityparser
 
 
 class AlbumHandler(webapp2.RequestHandler):
-
     def post(self):
         band_id = self.request.get("band_id")
         album_name = self.request.get("album_name")
@@ -29,10 +28,10 @@ class AlbumByIdHandler(webapp2.RequestHandler):
         self.response.out.write(album_as_json)
 
     def put(self, album_id):
-        print("Updating album with id " + album_id)
+        raise NotImplementedError
 
     def delete(self, album_id):
-        print("Deleting album with id " + album_id)
+        raise NotImplementedError
 
 
 def add_album(band_id, album_name, description):

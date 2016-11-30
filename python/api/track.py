@@ -15,7 +15,7 @@ class TrackHandler(webapp2.RequestHandler):
         track_name = self.request.get("name")
         parent_id = self.request.get("parent_id")
         try:
-            create_new_track(track_name, parent_id)
+            add_track(parent_id, track_name)
         except Exception as e:
             self.response.set_status(400)
 
@@ -47,28 +47,22 @@ class TrackByIdHandler(webapp2.RequestHandler):
             self.response.set_status(400)
 
 
-class TrackByNameHandler(webapp2.RequestHandler):
-    # returns all tracks with matching name
-    def get(self, track_name):
-        try:
-            tracks = get_tracks_by_name(track_name)
-            if len(tracks) > 1:
-                self.response.set_status(300)  # multiple choices
-            else:
-                track_list = entityparser.entities_to_dic_list(tracks)
-                self.response.out.write(json.dumps(track_list))
-        except Exception as e:
-            self.response.set_status(400)
-
-
-# Should make parent_id as parent!
-def create_new_track(track_name, parent_id):
+def add_track(album_id, track_name):
+    """
+    Create a new track and then add the track to the given album associated
+    with the given id. If the album already has an track with the given name
+    nothing will happen.
+    :param album_id: Unique ID of the album
+    :param track_name: Name of the Track
+    """
     if track_name == "":
-        raise ValueError("track must have a name.")
-    track = Track(name=track_name)
-    rating = Rating(likes=0, dislikes=0)
-    track.rating = rating
-    track.put()
+        raise ValueError("Track must have a name.")
+    track = common.has_child_with_name(Track, track_name, Album, album_id)
+    if not track:
+        track = Track(name=track_name)
+        rating = Rating(likes=0, dislikes=0)
+        track.rating = rating
+        track.put()
 
 
 def update_track(comment_text, track_id):
@@ -82,9 +76,23 @@ def update_track(comment_text, track_id):
     track.put()
 
 
+""" TO BE REMOVED
+class TrackByNameHandler(webapp2.RequestHandler):
+    # returns all tracks with matching name
+    def get(self, track_name):
+        try:
+            tracks = get_tracks_by_name(track_name)
+            if len(tracks) > 1:
+                self.response.set_status(300)  # multiple choices
+            else:
+                track_list = entityparser.entities_to_dic_list(tracks)
+                self.response.out.write(json.dumps(track_list))
+        except Exception as e:
+            self.response.set_status(400)
+"""
+
 # [START app]
 app = webapp2.WSGIApplication([
-    ('/api/tracks', TrackHandler),
-    ('/api/tracks/(\w+)', TrackByNameHandler)
+    ('/api/tracks', TrackHandler)
 ], debug=True)
 # [END app]

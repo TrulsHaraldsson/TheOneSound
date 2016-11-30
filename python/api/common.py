@@ -59,3 +59,28 @@ def get_entity_by_id(cls, entity_id):
         return entity
     else:
         raise ValueError("Entity does not exist!")
+
+
+def parse_query_parameters(query_parameters):
+    params = {'types': [], 'limit': int(10), 'order': None, 'name': None}
+    """
+    params['types'] = []
+    params['limit'] = int(10)
+    params['order'] = None
+    """
+    print("Before parse: ", params)
+    query_parameters_as_list = query_parameters.split('&')
+
+    for query_tuple in query_parameters_as_list:
+        key = query_tuple.split('=')[0]
+        value = query_tuple.split('=')[1]
+        if value != '':
+            if key == 'type':
+                params['types'].append(value)
+            elif key == 'name':
+                params['name'] = value
+            elif key == 'limit':
+                params['limit'] = int(value)
+
+    print("After parse: ", params)
+    return params

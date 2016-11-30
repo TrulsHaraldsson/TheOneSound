@@ -16,6 +16,7 @@ class AlbumHandler(webapp2.RequestHandler):
 
     def get(self):
         if self.request.query_string:
+            params = common.parse_query_parameters(self.request.query_string)
             albums = search.query_kind_by_name(Album, self.request.query_string)
             albums_as_dict = entityparser.entities_to_dic_list(albums)
             albums_as_json = json.dumps(albums_as_dict)

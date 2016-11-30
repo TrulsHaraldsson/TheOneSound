@@ -2,7 +2,7 @@ import webapp2
 import json
 from python.databaseKinds import Album, Band, Description
 from google.appengine.ext import ndb
-from python.api import common, search
+from python.api import common
 from python.util import entityparser
 
 
@@ -15,17 +15,10 @@ class AlbumHandler(webapp2.RequestHandler):
         add_album(band_id, album_name, album_description)
 
     def get(self):
-        if self.request.query_string:
-            params = common.parse_query_parameters(self.request.query_string)
-            albums = search.query_kind_by_name(Album, self.request.query_string)
-            albums_as_dict = entityparser.entities_to_dic_list(albums)
-            albums_as_json = json.dumps(albums_as_dict)
-            self.response.out.write(albums_as_json)
-        else:
-            albums = common.get_entities(Album)
-            albums_as_dict = entityparser.entities_to_dic_list(albums)
-            albums_as_json = json.dumps(albums_as_dict)
-            self.response.out.write(albums_as_json)
+        albums = common.get_kinds(Album, self.request.query_string)
+        albums_as_dict = entityparser.entities_to_dic_list(albums)
+        albums_as_json = json.dumps(albums_as_dict)
+        self.response.out.write(albums_as_json)
 
 
 class AlbumByIdHandler(webapp2.RequestHandler):
@@ -72,45 +65,29 @@ def remove_album(band_id, album_name):
     if album:
         album.key.delete()
 
-
+"""
 def get_album_by_name(band_id, album_name):
-    """
+
     Returns the album with the given name for the band with the given band name.
 
     :param band_id: Unique id for an entity of type Band
     :param album_name: Name of the album
-    """
+
 
     query = Album.query(Album.name == album_name, Album.parent.key == band_id)
     album = query.get()
     return album
 
 
-def get_albums_by_name(album_name, limit_=10, offset_=0):
-    """
-    Returns the albums with the given name. By default the maximum number of
-    albums returned is 10 with an offset of 0. E.g. if limit_ = 5 and offset_ = 4 the
-    query will return at maximum one album, that is there are more than 4 albums with the given name.
-
-    :param album_name: Name of album
-    :param limit_: Maximum number of albums returned
-    :param offset_: Offset
-    """
-
-    query = Album.query(Album.name == album_name)
-    albums = query.fetch(int(limit_), offset=int(offset_))
-    return albums
-
-
 def does_album_exist(band_id, album_name):
-    """
+
     Check if the album with the given name exists and is associated with
     the band. Returns the album object if it exists, else
     None is returned.
 
     :param band_id: Unique id for an entity of type Band
     :param album_name: Name of album
-    """
+
 
     query = Album.query(Album.name == album_name, ancestor=ndb.Key(Band, band_id))
     album = query.get()
@@ -118,6 +95,7 @@ def does_album_exist(band_id, album_name):
         return album
     else:
         return None
+"""
 
 # [START app]
 app = webapp2.WSGIApplication([

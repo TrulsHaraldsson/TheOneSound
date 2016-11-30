@@ -24,7 +24,7 @@ def get_entities_by_name(cls, entity_name, limit=10, offset_=0, order_=None):
         raise ValueError("No entity with name " + entity_name + " exists")
 
 
-def get_entities(cls, limit=10, offset_=0, order_=None):
+def get_entities(cls, limit=10, offset_=0, order_=None, filters=None):
     """
     Search among all entities of a given Kind and order them by the given
     ordering parameter.
@@ -34,13 +34,18 @@ def get_entities(cls, limit=10, offset_=0, order_=None):
     :param offset_: The number of entities in the query that are initially skipped. Default is 0
     :param order_: An ordering based on the properties of the given Kind. If no order is
     given, the entities are sorted by ascending key-value.
+    :param filters: A list of filters that the will be applied on the query
     :return: A list with the query result
     """
-    #TODO: Add filter
+    print("limit: ", limit)
     if not order_:
         order_ = cls.key
 
     query = cls.query().order(order_)
+    if filters:
+        for filter_ in filters:
+            query = query.filter(filter_)
+
     entities = query.fetch(limit, offset=offset_)
     return entities
 
@@ -61,16 +66,15 @@ def get_entity_by_id(cls, entity_id):
         raise ValueError("Entity does not exist!")
 
 
-def parse_query_parameters(query_parameters):
-    params = {'types': [], 'limit': int(10), 'order': None, 'name': None}
+def parse_url_query_parameters(query_parameters):
     """
-    params['types'] = []
-    params['limit'] = int(10)
-    params['order'] = None
+    Parses all the query parameters and but them in a dictionary that is returned.
+    The following parameter-keys can be detected: type, limit, offset, order and name.
+    :param query_parameters: Parameters of the form key1=value1&key2=value2
+    :return: A dictionary with all the query parameters.
     """
-    print("Before parse: ", params)
+    params = {'types': [], 'limit': int(10), 'offset': int(0), 'order': None, 'filters': []}
     query_parameters_as_list = query_parameters.split('&')
-
     for query_tuple in query_parameters_as_list:
         key = query_tuple.split('=')[0]
         value = query_tuple.split('=')[1]
@@ -78,9 +82,45 @@ def parse_query_parameters(query_parameters):
             if key == 'type':
                 params['types'].append(value)
             elif key == 'name':
-                params['name'] = value
+                params['filters'].append(('name', value))
             elif key == 'limit':
                 params['limit'] = int(value)
-
-    print("After parse: ", params)
+            elif key == 'offset':
+                params['offset'] = int(value)
+    print("Params: ", params)
     return params
+
+
+def get_kinds(cls, url_query_string):
+    """
+    Query entities of the given Kind using the query parameters of the
+    :param cls: The Kind in the Database
+    :param url_query_string: Query parameters of the form key=value&key=value...
+    :return: A set of entities of the given Kind
+    """
+    if url_query_string:
+        params = parse_url_query_parameters(url_query_string)
+        filters_ = create_filters(cls, params['filters'])
+        entities = get_entities(cls, limit=params['limit'], offset_=params['offset'], filters=filters_)
+        return entities
+    else:
+        entities = get_entities(cls)
+        return entities
+
+
+def create_filters(cls, filters_):
+    """
+    Given a list of tuples of the following form [(property,value), (property,value)...] a
+    list of ndb filters are created for the given Kind. The filters created are of the form
+    property == value, that is only equal-filters are created.
+    :param cls: The Kind in the Database
+    :param filters_: List of tuples with property-value pairs.
+    :return: A list of filters for the given Kind
+    """
+    filters_as_list = []
+    for f in filters_:
+        if f[0] == 'name':
+            filters_as_list.append(cls.name == f[1])
+
+    print("Filters: ", filter)
+    return filters_as_list

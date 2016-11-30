@@ -36,7 +36,9 @@ class AlbumByIdHandler(webapp2.RequestHandler):
 
 def add_album(band_id, album_name, description):
     """
-    Add an album with the given name to the given band.
+    Create and add an album with the given name to the given band
+    specified by the id. Will not add the album if the band already has
+    an album with the given name.
 
     :param band_id: Unique id for an entity of type Band
     :param album_name: Name of album

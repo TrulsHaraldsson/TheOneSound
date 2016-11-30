@@ -44,6 +44,8 @@ def add_album(band_id, album_name, description):
     :param album_name: Name of album
     :param description: Description for the album
     """
+    if album_name == "":
+        raise ValueError("Album must have a name")
 
     album = common.has_child_with_name(Album, album_name, Band, band_id)
     if not album:

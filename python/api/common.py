@@ -1,3 +1,6 @@
+from google.appengine.ext import ndb
+
+
 def get_entities_by_name(cls, entity_name, limit=10, offset_=0, order_=None):
     """
     Returns the entities with the given name and Kind. By default the maximum number of
@@ -122,3 +125,18 @@ def create_filters(cls, filters_):
             filters_as_list.append(cls.name == f[1])
 
     return filters_as_list
+
+
+def get_children(child_cls, parent_cls, parent_id):
+    """
+    queries the children of the parent
+    :param child_cls: the class of the children
+    :param parent_cls: the class of the parent
+    :param parent_id: id of the parent
+    :return: All the children of the parent
+    """
+    parent_key = ndb.Key(parent_cls, int(parent_id))
+    query = child_cls.query(ancestor=parent_key)
+    children = query.fetch()
+    print len(children)
+    return children

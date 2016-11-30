@@ -1,9 +1,20 @@
 {% extends "layout.html" %}
 {% block content %}
 <h1>{{ band.name }}</h1>
-<h2>{{ band.description.description }}</h1>
+<h2>{{ band.description.description }}</h2>
+
+{% for album in albums %}
+  <h2>{{ album.name }}</h2>
+  <h3>{{ album.description.description }}</h3>
+  {% for track in album.tracks %}
+    <h3>{{ track.name }}</h3>
+  {% endfor %}
+{% endfor %}
+
 <p>
+  {% with commentable_id=band.id, type="band" %}
   {% include 'common/comment.html' %}
+  {% endwith %}
 </p>
 
 {% endblock %}

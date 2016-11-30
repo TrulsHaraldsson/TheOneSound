@@ -4,6 +4,7 @@ from python.databaseKinds import Rating
 from python.databaseKinds import Description
 from python.databaseKinds import Comment
 from python.databaseKinds import Band
+from python.databaseKinds import Account
 from python.util import entityparser
 from python import JINJA_ENVIRONMENT
 from google.appengine.ext import ndb
@@ -18,7 +19,7 @@ class BandHandler(webapp2.RequestHandler):
         try:
             create_new_band(band_name, description_text)
         except Exception as e:
-            self.response.set_status(400)
+            self.response.set_status(404)
 
     #request
     #gives list of matching bands
@@ -43,17 +44,19 @@ class BandByIdHandler(webapp2.RequestHandler):
             band_dic = entityparser.entity_to_dic(band)
             self.response.out.write(json.dumps(band_dic))
         except Exception as e:
-            self.response.set_status(400)
+            self.response.set_status(404)
 
     #updates a band with the new information
     def put(self, band_id):
         try:
             description_text = self.request.get("description")
-            comment_text = self.request.get("comment")
-            update_band(description_text, comment_text, band_id)
+            comment_text = self.request.get("comment_text")
+            user_id = self.request.get("user_id")
+            update_band(description_text, comment_text, band_id, user_id)
 
         except Exception as e:
-            self.response.set_status(400)
+            print e
+            self.response.set_status(404)
 
 
 class BandByNameHandler(webapp2.RequestHandler):
@@ -67,7 +70,7 @@ class BandByNameHandler(webapp2.RequestHandler):
                 band_list = entityparser.entities_to_dic_list(bands)
                 self.response.out.write(json.dumps(band_list))
         except Exception as e:
-            self.response.set_status(400)
+            self.response.set_status(404)
 
 
 ######################
@@ -79,18 +82,21 @@ def get_bands_by_name(band_name):
 
 
 # Not tested yet.
-def update_band(description_text, comment_text, band_id):
-    band = entityparser.get_entity_by_id(band_id)
+def update_band(description_text, comment_text, band_id, user_id):
+    band = entityparser.get_entity_by_id(Band, int(band_id))
     if description_text != "":
         description = Description(description=description_text)
         band.description = description
     if comment_text != "":
-        comment = Comment(content=comment_text)
+        parent_key = ndb.Key(Account, user_id)
+        comment = Comment(parent=parent_key, content=comment_text)
+        rating = Rating(likes=0, dislikes=0)
         comment.rating = rating
-        #TODO: also add user key
-        band.comment = comment
+
+        band.comment.append(comment)
     #TODO: add rating
     band.put()
+
 
 
 
@@ -98,7 +104,7 @@ def create_new_band(band_name, description):
     if band_name == "":
         raise ValueError("Band must have a name.")
 
-    band = Band(name=band_name)
+    band = Band(name=band_name, comment=[])
 
     if description != "":
         desc = Description(description=description)

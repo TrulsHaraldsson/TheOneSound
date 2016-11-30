@@ -2,5 +2,8 @@
 {% block content %}
 <h1>{{ band.name }}</h1>
 <h2>{{ band.description.description }}</h1>
+<p>
+  {% include 'common/comment.html' %}
+</p>
 
 {% endblock %}

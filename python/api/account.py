@@ -65,6 +65,6 @@ def update_account(account_id, account_name, email_):
 # [START app]
 app = webapp2.WSGIApplication([
     ('/api/account', AccountHandler),
-    ('/api/account/(\d+)', AccountByIdHandler)
+    ('/api/account/(\w+)', AccountByIdHandler)
 ], debug=True)
 # [END app]

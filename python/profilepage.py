@@ -23,8 +23,8 @@ class AccountPageDisplay(webapp2.RequestHandler):
         loginhelper.add_login_values(template_values, self)
 
         try:
-            user = loginhelper.get_google_user()
-            account_ = account.get_account_by_id(user.user_id())
+            user_id = loginhelper.get_user_id()
+            account_ = account.get_account_by_id(user_id)
             account_dic = entityparser.entity_to_dic(account_)
             template_values['account'] = account_dic
             template = JINJA_ENVIRONMENT.get_template('profilepage/display.html')

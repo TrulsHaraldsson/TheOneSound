@@ -20,7 +20,7 @@ class AccountHandler(webapp2.RequestHandler):
         account_name = self.request.get("name")
         email = self.request.get("email")
         try:
-            create_new_account(account_name, email)
+            create_account(account_name, email)
         except Exception as e:
             raise
 
@@ -42,7 +42,7 @@ class AccountByIdHandler(webapp2.RequestHandler):
             raise
 
 
-def create_new_account(account_name, email_):
+def create_account(account_name, email_):
     if account_name != "" and email_ != "" :
         user_id = loginhelper.get_google_user().user_id()
         account = Account(id=user_id, name=account_name, email=email_)

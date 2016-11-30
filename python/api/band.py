@@ -11,7 +11,7 @@ class BandHandler(webapp2.RequestHandler):
         band_name = self.request.get("name")
         description_text = self.request.get("description")
         try:
-            create_new_band(band_name, description_text)
+            create_band(band_name, description_text)
         except Exception as e:
             self.response.set_status(404)
 
@@ -80,7 +80,7 @@ def update_band(description_text, comment_text, band_id, user_id):
     band.put()
 
 
-def create_new_band(band_name, description):
+def create_band(band_name, description):
     if band_name == "":
         raise ValueError("Band must have a name.")
 

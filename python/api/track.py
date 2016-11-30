@@ -15,7 +15,7 @@ class TrackHandler(webapp2.RequestHandler):
         track_name = self.request.get("name")
         parent_id = self.request.get("parent_id")
         try:
-            add_track(parent_id, track_name)
+            create_track(parent_id, track_name)
         except Exception as e:
             self.response.set_status(400)
 
@@ -47,7 +47,7 @@ class TrackByIdHandler(webapp2.RequestHandler):
             self.response.set_status(400)
 
 
-def add_track(album_id, track_name):
+def create_track(album_id, track_name):
     """
     Create a new track and then add the track to the given album associated
     with the given id. If the album already has an track with the given name

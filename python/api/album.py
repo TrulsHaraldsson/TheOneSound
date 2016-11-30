@@ -11,7 +11,7 @@ class AlbumHandler(webapp2.RequestHandler):
         band_id = self.request.get("parent_id")
         album_name = self.request.get("name")
         album_description = self.request.get("description")
-        add_album(band_id, album_name, album_description)
+        create_album(band_id, album_name, album_description)
 
     def get(self):
         albums = common.get_kinds(Album, self.request.query_string)
@@ -34,7 +34,7 @@ class AlbumByIdHandler(webapp2.RequestHandler):
         raise NotImplementedError
 
 
-def add_album(band_id, album_name, description):
+def create_album(band_id, album_name, description):
     """
     Create and add an album with the given name to the given band
     specified by the id. Will not add the album if the band already has

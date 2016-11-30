@@ -1,9 +1,10 @@
 import webapp2
 import jinja2
 import json
-
+from python.databaseKinds import Band
 from python.util import loginhelper
 from python.util import entityparser
+from python.api import common
 from python.api import band
 
 
@@ -21,9 +22,9 @@ class BandPageDisplay(webapp2.RequestHandler):
     def get(self):
         template_values = {}
         loginhelper.add_login_values(template_values, self)
-        band_name = self.request.get("band_name")
+        band_name = self.request.get("name")
         try:
-            bands = band.get_bands_by_name(band_name)
+            bands = common.get_entities_by_name(Band, band_name)
             bands_dic = entityparser.entities_to_dic_list(bands)
             if len(bands_dic) > 1:
                 pass

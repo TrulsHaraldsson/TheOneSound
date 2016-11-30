@@ -4,18 +4,19 @@ from python.databaseKinds import Account
 from google.appengine.ext import ndb
 from python.util import loginhelper
 from python.util import entityparser
+from python.api import common
 
 class AccountHandler(webapp2.RequestHandler):
     def get(self):
         limit = self.request.get("limit")
-        accounts = get_multiple_accounts(limit)
+        accounts = common.get_entities(Account, limit)
         account_list = entityparser.entities_to_dic_list(accounts)
 
         json_list = json.dumps(account_list)
         self.response.out.write(json_list)
 
     def post(self):
-        account_name = self.request.get("account_name")
+        account_name = self.request.get("name")
         email = self.request.get("email")
         try:
             create_new_account(account_name, email)
@@ -25,7 +26,7 @@ class AccountHandler(webapp2.RequestHandler):
 class AccountByIdHandler(webapp2.RequestHandler):
     def get(self, account_id):
         try:
-            account = get_account_by_id(account_id)
+            account = common.get_entity_by_id(Account, account_id)
             account_dic = entityparser.entity_to_dic(account)
             self.response.out.write(json.dumps(account_dic))
         except Exception as e:
@@ -39,8 +40,7 @@ class AccountByIdHandler(webapp2.RequestHandler):
             raise
 
 
-def get_multiple_accounts(limit):
-    return entityparser.get_multiple_entities(Account, limit)
+
 
 def create_new_account(account_name, email_):
     if account_name != "" and email_ != "" :
@@ -50,12 +50,11 @@ def create_new_account(account_name, email_):
     else:
         raise ValueError("check so all requirements are met.")
 
-def get_account_by_id(account_id):
-    return entityparser.get_entity_by_id(Account, account_id)
+
 
 #
 def update_account(account_id, account_name, email_):
-    account = entityparser.get_entity_by_id(Account, account_id)
+    account = common.get_entity_by_id(Account, account_id)
     if email_ != "":
         account.email = email_
     if account_name != "":

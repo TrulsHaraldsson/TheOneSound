@@ -1,10 +1,8 @@
 import webapp2
 import json
-from python.databaseKinds import Rating
-from python.databaseKinds import Description
-from python.databaseKinds import Comment
-from python.databaseKinds import Band
-from python.databaseKinds import Account
+from python.databaseKinds import Rating, Description, Comment, Band, Account
+from python.api import common
+from python.api import search
 from python.util import entityparser
 from python import JINJA_ENVIRONMENT
 from google.appengine.ext import ndb
@@ -14,7 +12,7 @@ class BandHandler(webapp2.RequestHandler):
     #create
     #creates one new band
     def post(self):
-        band_name = self.request.get("band_name")
+        band_name = self.request.get("name")
         description_text = self.request.get("description")
         try:
             create_new_band(band_name, description_text)
@@ -25,7 +23,8 @@ class BandHandler(webapp2.RequestHandler):
     #gives list of matching bands
     def get(self):
         limit = self.request.get("limit")
-        bands = get_multiple_bands(limit)
+        query_string = self.request.query_string
+        bands = common.get_entities(Band, limit)
         band_list = entityparser.entities_to_dic_list(bands)
 
         json_list = json.dumps(band_list)
@@ -40,7 +39,7 @@ class BandHandler(webapp2.RequestHandler):
 class BandByIdHandler(webapp2.RequestHandler):
     def get(self, band_id):
         try:
-            band = get_band_by_id(band_id)
+            band = common.get_entity_by_id(Band, int(band_id))
             band_dic = entityparser.entity_to_dic(band)
             self.response.out.write(json.dumps(band_dic))
         except Exception as e:
@@ -52,7 +51,7 @@ class BandByIdHandler(webapp2.RequestHandler):
             description_text = self.request.get("description")
             comment_text = self.request.get("comment_text")
             user_id = self.request.get("user_id")
-            update_band(description_text, comment_text, band_id, user_id)
+            update_band(description_text, comment_text, int(band_id), user_id)
 
         except Exception as e:
             print e
@@ -63,7 +62,7 @@ class BandByNameHandler(webapp2.RequestHandler):
     #returns all bands with matching name
     def get(self, band_name):
         try:
-            bands = get_bands_by_name(band_name)
+            bands = common.get_entities_by_name(Band, band_name)
             if len(bands) > 1:
                 self.response.set_status(300) #muliple choices
             else:
@@ -77,13 +76,10 @@ class BandByNameHandler(webapp2.RequestHandler):
 #####API Functions ###
 ######################
 
-def get_bands_by_name(band_name):
-    return entityparser.get_entities_by_name(Band, band_name)
-
 
 # Not tested yet.
 def update_band(description_text, comment_text, band_id, user_id):
-    band = entityparser.get_entity_by_id(Band, int(band_id))
+    band = common.get_entity_by_id(Band, int(band_id))
     if description_text != "":
         description = Description(description=description_text)
         band.description = description
@@ -114,13 +110,6 @@ def create_new_band(band_name, description):
     band.rating = rating
     band.put()
 
-
-def get_multiple_bands(limit):
-    return entityparser.get_multiple_entities(Band, limit)
-
-
-def get_band_by_id(id):
-    return entityparser.get_entity_by_id(Band, id)
 
 # [START app]
 app = webapp2.WSGIApplication([

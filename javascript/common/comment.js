@@ -3,13 +3,14 @@ $(document).ready(function() {
 
   $("#submit-comment").click(function() {
     var form = $("#comment-form");
-    var band_id = form.data("band-id");
+    var commentable_id = form.data("commentable-id");
     var user_id = form.data("user-id");
+    var type = form.data("type");
     var comment_text = $("#comment-form").serialize();
-    onCommentSubmit(band_id, comment_text, user_id);
+    onCommentSubmit(commentable_id, comment_text, user_id, type);
   });
 
-  function onCommentSubmit(band_id, comment_text, user_id){
+  function onCommentSubmit(commentable_id, comment_text, user_id, type){
     json_data = JSON.stringify({"comment_text": comment_text,
                   "user_id": user_id});
     data_string = comment_text+"&"+
@@ -17,7 +18,7 @@ $(document).ready(function() {
     $.ajax({
       method: "PUT",
       data: data_string,
-      url: "/api/band/"+band_id, //http://theonesound-148310.appspot.com
+      url: "/api/"+type+"/"+commentable_id, //http://theonesound-148310.appspot.com
       statusCode: {
         404: function(){
           alert("page not found!");

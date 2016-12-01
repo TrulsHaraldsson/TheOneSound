@@ -76,21 +76,6 @@ def update_track(comment_text, track_id):
     track.put()
 
 
-""" TO BE REMOVED
-class TrackByNameHandler(webapp2.RequestHandler):
-    # returns all tracks with matching name
-    def get(self, track_name):
-        try:
-            tracks = get_tracks_by_name(track_name)
-            if len(tracks) > 1:
-                self.response.set_status(300)  # multiple choices
-            else:
-                track_list = entityparser.entities_to_dic_list(tracks)
-                self.response.out.write(json.dumps(track_list))
-        except Exception as e:
-            self.response.set_status(400)
-"""
-
 # [START app]
 app = webapp2.WSGIApplication([
     ('/api/tracks', TrackHandler)

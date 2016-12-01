@@ -1,6 +1,6 @@
 import webapp2
 
-from python import JINJA_ENVIRONMENT
+from python.frontend import JINJA_ENVIRONMENT
 from python.api import common
 from python.db.databaseKinds import Track
 from python.util import entityparser

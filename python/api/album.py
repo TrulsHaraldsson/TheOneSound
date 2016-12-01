@@ -3,8 +3,8 @@ import json
 import webapp2
 from google.appengine.ext import ndb
 
-from python.api import common
 from python.db.databaseKinds import Album, Band, Description
+from python.api import common
 from python.util import entityparser
 
 

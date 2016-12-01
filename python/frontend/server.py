@@ -7,22 +7,8 @@ from google.appengine.ext import ndb
 
 import jinja2
 import webapp2
-from python import JINJA_ENVIRONMENT
+from python.frontend import JINJA_ENVIRONMENT
 from python.util import loginhelper
-
-#JINJA_ENVIRONMENT = jinja2.Environment(
-#    loader=jinja2.FileSystemLoader('templates'),
-#    extensions=['jinja2.ext.autoescape'],
-#    autoescape=True)
-# [END imports]
-
-
-
-# [START DataBase Classes]
-
-    #Put ndb classes here
-
-# [END DataBase Classes]
 
 
 # [START main_page]

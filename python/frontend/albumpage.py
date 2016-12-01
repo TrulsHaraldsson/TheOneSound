@@ -1,6 +1,6 @@
 import webapp2
 
-from python import JINJA_ENVIRONMENT
+from python.frontend import JINJA_ENVIRONMENT
 from python.util import loginhelper
 
 

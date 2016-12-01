@@ -2,10 +2,9 @@ import json
 
 import webapp2
 
-from python.api import common
 from python.db.databaseKinds import Account
-from python.util import entityparser
-from python.util import loginhelper
+from python.api import common
+from python.util import entityparser, loginhelper
 
 
 class AccountHandler(webapp2.RequestHandler):

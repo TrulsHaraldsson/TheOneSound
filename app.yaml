@@ -22,22 +22,20 @@ handlers:
   static_dir: javascript
 
 - url: /about
-  script: python.about.app
-
-- url: /test
-  script: python.test.app
+  script: python.frontend.about.app
 
 - url: /albumpage.*
-  script: python.albumpage.app
+  script: python.frontend.albumpage.app
 
 - url: /bandpage.*
-  script: python.bandpage.app
+  script: python.frontend.bandpage.app
 
 - url: /trackpage.*
-  script: python.trackpage.app
+  script: python.frontend.trackpage.app
 
 - url: /profilepage.*
-  script: python.profilepage.app
+  script: python.frontend.profilepage.app
+
 #API START
 - url: /api/albums.*
   script: python.api.album.app
@@ -51,10 +49,9 @@ handlers:
 - url: /api/account.*
   script: python.api.account.app
 #API END
-- url: /.*
-  script: python.server.app
 # [END handlers]
-
+- url: /.*
+  script: python.frontend.server.app
 # [START libraries]
 libraries:
 - name: webapp2

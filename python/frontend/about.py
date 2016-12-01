@@ -2,7 +2,7 @@
 import webapp2
 import jinja2
 from google.appengine.api import users
-from python import JINJA_ENVIRONMENT
+from python.frontend import JINJA_ENVIRONMENT
 from python.util import loginhelper
 
 

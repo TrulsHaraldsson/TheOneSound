@@ -111,7 +111,8 @@ def create_filters(cls, filters_):
     """
     Given a list of tuples of the following form [(property,value), (property,value)...] a
     list of ndb filters are created for the given Kind. The filters created are of the form
-    property == value, that is only equal-filters are created.
+    property == value, that is only equal-filters are created. NOTE: Right now this
+    method can only make name=some_name filters
     :param cls: The Kind in the Database
     :param filters_: List of tuples with property-value pairs.
     :return: A list of filters for the given Kind

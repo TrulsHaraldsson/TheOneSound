@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+<p>
+  Bands:
+</p>
+{% for band in bands %}
+<p>
+  <a href="{{ band.url|safe }}">{{ band.name }}</a>
+</p>
+{% endfor %}
+<p>
+  Albums:
+</p>
+{% for album in albums %}
+<p>
+  <a href="{{ album.url|safe }}">{{ album.name }}</a>
+</p>
+{% endfor %}
+<p>
+  Tracks:
+</p>
+{% for track in tracks %}
+<p>
+  <a href="{{ track.url|safe }}">{{ track.name }}</a>
+</p>
+{% endfor %}
+
+{% endblock %}

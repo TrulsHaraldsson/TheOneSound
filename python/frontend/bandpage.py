@@ -27,24 +27,27 @@ class BandPageDisplay(webapp2.RequestHandler):
                 pass
                 # redirect to page where you can choose which one you want
             else:
-                # 1: fetch all albums belonging to band
-                #   2: fetch all tracks belonging to album
-                template_values["band"] = bands_dic[0]
-                print bands_dic[0]["id"]
-                albums = common.get_children(Album, Band, bands_dic[0]["id"])
-                albums_dic = entityparser.entities_to_dic_list(albums)
-                for album in albums_dic:
-                    print album["id"]
-                    tracks = common.get_children(Track, Album, album["id"])
-                    tracks_dic = entityparser.entities_to_dic_list(tracks)
-                    album["tracks"] = tracks_dic
-                template_values["albums"] = albums_dic
+                add_band_and_decendants(template_values, bands_dic[0])
                 template = JINJA_ENVIRONMENT.get_template('bandpage/display.html')
                 self.response.write(template.render(template_values))
         except Exception as e:
             print "Bandpage: ", e
             template = JINJA_ENVIRONMENT.get_template('bandpage/update.html')
             self.response.write(template.render(template_values))
+
+
+def add_band_and_decendants(template_values, band):
+    # 1: fetch all albums belonging to band
+    #   2: fetch all tracks belonging to album
+    template_values["band"] = band
+    albums = common.get_children(Album, Band, band["id"])
+    albums_dic = entityparser.entities_to_dic_list(albums)
+    for album in albums_dic:
+        print album["id"]
+        tracks = common.get_children(Track, Album, album["id"])
+        tracks_dic = entityparser.entities_to_dic_list(tracks)
+        album["tracks"] = tracks_dic
+    template_values["albums"] = albums_dic
 
 
 # [START app]

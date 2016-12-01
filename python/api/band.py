@@ -15,6 +15,7 @@ class BandHandler(webapp2.RequestHandler):
         try:
             create_band(band_name, description_text)
         except Exception as e:
+            print e
             self.response.set_status(404)
 
     def get(self):
@@ -31,6 +32,7 @@ class BandByIdHandler(webapp2.RequestHandler):
             band_dic = entityparser.entity_to_dic(band)
             self.response.out.write(json.dumps(band_dic))
         except Exception as e:
+            print e
             self.response.set_status(404)
 
     # updates a band with the new information
@@ -57,12 +59,8 @@ class BandByNameHandler(webapp2.RequestHandler):
                 band_list = entityparser.entities_to_dic_list(bands)
                 self.response.out.write(json.dumps(band_list))
         except Exception as e:
+            print e
             self.response.set_status(404)
-
-
-######################
-#####API Functions ###
-######################
 
 
 # Not tested yet.
@@ -78,7 +76,7 @@ def update_band(description_text, comment_text, band_id, user_id):
         comment.rating = rating
 
         band.comment.append(comment)
-    #TODO: add rating
+    # TODO: add rating
     band.put()
 
 

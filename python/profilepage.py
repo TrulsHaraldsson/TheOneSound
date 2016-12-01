@@ -1,15 +1,10 @@
 import webapp2
-import jinja2
-import json
-
-from python.databaseKinds import Account
-from python.util import loginhelper
-from python.util import entityparser
-from python.api import account, common
-
-
 
 from python import JINJA_ENVIRONMENT
+from python.api import common
+from python.db.databaseKinds import Account
+from python.util import entityparser
+from python.util import loginhelper
 
 class AccountPageUpdate(webapp2.RequestHandler):
     def get(self):

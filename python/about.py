@@ -8,8 +8,6 @@ from python.util import loginhelper
 
 class About(webapp2.RequestHandler):
     def get(self):
-
-
         template_values = {}
         loginhelper.add_login_values(template_values, self)
         template = JINJA_ENVIRONMENT.get_template('about.html')

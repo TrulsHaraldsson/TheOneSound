@@ -1,10 +1,10 @@
 import webapp2
-from python.databaseKinds import Track
-from python.util import loginhelper
-from python.util import entityparser
-from python.api import common
 
 from python import JINJA_ENVIRONMENT
+from python.api import common
+from python.db.databaseKinds import Track
+from python.util import entityparser
+from python.util import loginhelper
 
 
 class TrackPageUpdate(webapp2.RequestHandler):

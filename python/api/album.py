@@ -1,8 +1,10 @@
-import webapp2
 import json
-from python.databaseKinds import Album, Band, Description
+
+import webapp2
 from google.appengine.ext import ndb
+
 from python.api import common
+from python.db.databaseKinds import Album, Band, Description
 from python.util import entityparser
 
 

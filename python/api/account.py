@@ -1,10 +1,11 @@
-import webapp2
 import json
-from python.databaseKinds import Account
-from google.appengine.ext import ndb
-from python.util import loginhelper
-from python.util import entityparser
+
+import webapp2
+
 from python.api import common
+from python.db.databaseKinds import Account
+from python.util import entityparser
+from python.util import loginhelper
 
 
 class AccountHandler(webapp2.RequestHandler):

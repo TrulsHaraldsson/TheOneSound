@@ -1,9 +1,11 @@
-import webapp2
 import json
-from python.databaseKinds import Rating, Description, Comment, Band, Account
-from python.api import common
-from python.util import entityparser
+
+import webapp2
 from google.appengine.ext import ndb
+
+from python.api import common
+from python.db.databaseKinds import Rating, Description, Comment, Band, Account
+from python.util import entityparser
 
 
 class BandHandler(webapp2.RequestHandler):

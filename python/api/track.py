@@ -1,11 +1,10 @@
-import webapp2
 import json
-from python.databaseKinds import Rating, Comment, Album, Track
-from python import JINJA_ENVIRONMENT
-from google.appengine.ext import ndb
-from google.appengine.api import users
-from python.util import entityparser
+
+import webapp2
+
 from python.api import common
+from python.db.databaseKinds import Rating, Comment, Album, Track
+from python.util import entityparser
 
 
 class TrackHandler(webapp2.RequestHandler):

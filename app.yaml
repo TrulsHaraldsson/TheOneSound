@@ -21,6 +21,9 @@ handlers:
 - url: /javascript
   static_dir: javascript
 
+- url: /searchall
+  script: python.frontend.searchall.app
+
 - url: /about
   script: python.frontend.about.app
 
@@ -51,7 +54,7 @@ handlers:
 #API END
 # [END handlers]
 - url: /.*
-  script: python.frontend.server.app
+  script: python.frontend.main.app
 # [START libraries]
 libraries:
 - name: webapp2

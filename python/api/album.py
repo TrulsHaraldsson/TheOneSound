@@ -5,6 +5,7 @@ from google.appengine.ext import ndb
 
 from python.db.databaseKinds import Album, Band, Description
 from python.api import common
+from python.api.exceptions import BadRequest, EntityNotFound
 from python.util import entityparser
 
 
@@ -16,18 +17,24 @@ class AlbumHandler(webapp2.RequestHandler):
         create_album(band_id, album_name, album_description)
 
     def get(self):
-        albums = common.get_kinds(Album, self.request.query_string)
-        albums_as_dict = entityparser.entities_to_dic_list(albums)
-        albums_as_json = json.dumps(albums_as_dict)
-        self.response.out.write(albums_as_json)
+        try:
+            albums = common.get_kinds(Album, self.request.query_string)
+            albums_as_dict = entityparser.entities_to_dic_list(albums)
+            albums_as_json = json.dumps(albums_as_dict)
+            self.response.out.write(albums_as_json)
+        except BadRequest:
+            self.response.set_status(400)
 
 
 class AlbumByIdHandler(webapp2.RequestHandler):
     def get(self, album_id):
-        album = common.get_entity_by_id(Album, int(album_id))
-        album_as_dict = entityparser.entity_to_dic(album)
-        album_as_json = json.dumps(album_as_dict)
-        self.response.out.write(album_as_json)
+        try:
+            album = common.get_entity_by_id(Album, int(album_id))
+            album_as_dict = entityparser.entity_to_dic(album)
+            album_as_json = json.dumps(album_as_dict)
+            self.response.out.write(album_as_json)
+        except EntityNotFound:
+            self.response.set_status(404)
 
     def put(self, album_id):
         raise NotImplementedError

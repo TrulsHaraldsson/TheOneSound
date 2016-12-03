@@ -1,4 +1,5 @@
 from google.appengine.ext import ndb
+from python.api.exceptions import BadRequest, EntityNotFound
 
 
 def get_entities_by_name(cls, entity_name, limit=10, offset_=0, order_=None):
@@ -38,7 +39,6 @@ def get_entities(cls, limit=10, offset_=0, order_=None, filters=None):
     :param filters: A list of filters that the will be applied on the query
     :return: A list with the query result
     """
-    print("limit: ", limit)
     if not order_:
         order_ = cls.key
 
@@ -63,7 +63,7 @@ def get_entity_by_id(cls, entity_id):
     if entity:
         return entity
     else:
-        raise ValueError("Entity does not exist!")
+        raise EntityNotFound("Entity does not exist!")
 
 
 def parse_url_query_parameters(query_parameters):
@@ -87,6 +87,8 @@ def parse_url_query_parameters(query_parameters):
                 params['limit'] = int(value)
             elif key == 'offset':
                 params['offset'] = int(value)
+            else:
+                raise BadRequest("Bad query")
     return params
 
 
@@ -99,6 +101,8 @@ def get_kinds(cls, url_query_string):
     """
     if url_query_string:
         params = parse_url_query_parameters(url_query_string)
+        if len(params['types']) > 0:
+            raise BadRequest("Bad query")
         filters_ = create_filters(cls, params['filters'])
         entities = get_entities(cls, limit=params['limit'], offset_=params['offset'], filters=filters_)
         return entities

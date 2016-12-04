@@ -21,11 +21,9 @@ $(document).ready(function() {
       url: "/api/"+type+"/"+commentable_id, //http://theonesound-148310.appspot.com
       statusCode: {
         404: function(){
-          alert("page not found!");
         }
       },
       success: function(){
-        alert("success!!");
       }
 
     })

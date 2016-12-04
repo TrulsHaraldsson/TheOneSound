@@ -2,8 +2,17 @@
 
 {% block content %}
 
-<h1>Album</h1>
+<h1>{{ album.name }}</h1>
+<h2>{{ album.description.description }}</h2>
 
-<b>JSON:</b> {{json}}
+{% for track in tracks %}
+  <h2>{{ track.name }}</h2>
+{% endfor %}
+
+<p>
+  {% with commentable_id=album.id, type="albums" %}
+  {% include 'common/comment.html' %}
+  {% endwith %}
+</p>
 
 {% endblock %}

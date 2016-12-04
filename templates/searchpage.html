@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block content %}
+{% if no_hits %}
+Seems like what you searched for does not exist... yet.<br>
+Feel free to <a href="/bandpage/update">create a new band!</a>
+{% else %}
+  <p>
+    Bands:
+  </p>
+  {% for band in bands %}
+  <p>
+    <a href="{{ band.url|safe }}">{{ band.name }}</a>
+  </p>
+  {% endfor %}
+  <p>
+    Albums:
+  </p>
+  {% for album in albums %}
+  <p>
+    <a href="{{ album.url|safe }}">{{ album.name }}</a>
+  </p>
+  {% endfor %}
+  <p>
+    Tracks:
+  </p>
+  {% for track in tracks %}
+  <p>
+    <a href="{{ track.url|safe }}">{{ track.name }}</a>
+  </p>
+{% endfor %}
+{% endif %}
+
+
+{% endblock %}

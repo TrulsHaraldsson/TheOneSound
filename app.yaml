@@ -21,8 +21,8 @@ handlers:
 - url: /javascript
   static_dir: javascript
 
-- url: /searchall
-  script: python.frontend.searchall.app
+- url: /search.*
+  script: python.frontend.search.app
 
 - url: /about
   script: python.frontend.about.app
@@ -49,7 +49,7 @@ handlers:
 - url: /api/tracks.*
   script: python.api.track.app
 
-- url: /api/account.*
+- url: /api/accounts.*
   script: python.api.account.app
 #API END
 # [END handlers]

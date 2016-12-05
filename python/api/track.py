@@ -60,7 +60,7 @@ def create_track(album_id, track_name):
         raise ValueError("Track must have a name.")
     track = common.has_child_with_name(Track, track_name, Album, album_id)
     if not track:
-        parent_key = ndb.Key(Album, album_id)
+        parent_key = ndb.Key(Album, int(album_id))
         track = Track(owner=parent_key, name=track_name)
         rating = Rating(likes=0, dislikes=0)
         track.rating = rating

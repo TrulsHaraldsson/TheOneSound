@@ -1,7 +1,8 @@
 import webapp2
-
+from python.db.databaseKinds import Band, Album, Track
 from python.frontend import JINJA_ENVIRONMENT
-from python.util import loginhelper
+from python.util import loginhelper, entityparser
+from python.api import common
 
 
 class AlbumPageUpdate(webapp2.RequestHandler):
@@ -13,15 +14,33 @@ class AlbumPageUpdate(webapp2.RequestHandler):
 
 
 class AlbumPageDisplay(webapp2.RequestHandler):
-    def get(self):
+    def get(self, album_id):
         template_values = {}
         loginhelper.add_login_values(template_values, self)
-        template = JINJA_ENVIRONMENT.get_template('albumpage/display.html')
-        self.response.out.write(template.render(template_values))
+        try:
+            album = common.get_entity_by_id(Album, album_id)
+            print "get album finished"
+            album_dic = entityparser.entity_to_dic(album)
+            add_album_and_decendants(template_values, album_dic)
+            template = JINJA_ENVIRONMENT.get_template('albumpage/display.html')
+            self.response.write(template.render(template_values))
+        except Exception as e:
+            print(e)
+            template = JINJA_ENVIRONMENT.get_template('albumpage/update.html')
+            self.response.out.write(template.render(template_values))
+
+
+def add_album_and_decendants(template_values, album):
+    # 1: fetch all tracks belonging to album
+    template_values["album"] = album
+    tracks = common.get_children(Track, Album, album["id"])
+    tracks_dic = entityparser.entities_to_dic_list(tracks)
+    template_values["tracks"] = tracks_dic
+
 
 # [START app]
 app = webapp2.WSGIApplication([
     ('/albumpage/update', AlbumPageUpdate),
-    ('/albumpage/display', AlbumPageDisplay)
+    ('/albumpage/(\d+)', AlbumPageDisplay)
 ], debug=True)
 # [END app]

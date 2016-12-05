@@ -59,7 +59,7 @@ def get_entity_by_id(cls, entity_id):
     :return: An Entity of the given Kind with the given ID. If no entity is found with the given ID
     a ValueError will be raised.
     """
-    entity = cls.get_by_id(entity_id)
+    entity = cls.get_by_id(int(entity_id))
     if entity:
         return entity
     else:
@@ -138,7 +138,7 @@ def get_children(child_cls, parent_cls, parent_id):
     :return: All the children of the parent
     """
     parent_key = ndb.Key(parent_cls, int(parent_id))
-    query = child_cls.query(ancestor=parent_key)
+    query = child_cls.query(child_cls.owner == parent_key)
     children = query.fetch()
     return children
 
@@ -154,7 +154,7 @@ def has_child_with_name(child_cls, child_name, parent_cls, parent_id):
     :return: True if the parent has a child with the given name, else False
     """
     parent_key = ndb.Key(parent_cls, parent_id)
-    query = child_cls.query(child_cls.name == child_name, ancestor=parent_key)
+    query = child_cls.query(child_cls.name == child_name, child_cls.owner == parent_key)
     child = query.get()
     if child:
         return True

@@ -12,24 +12,21 @@ class BandPageUpdate(webapp2.RequestHandler):
         template_values = {}
         loginhelper.add_login_values(template_values, self)
         template = JINJA_ENVIRONMENT.get_template('bandpage/update.html')
-        self.response.write(template.render())
+        self.response.write(template.render(template_values))
 
 
 class BandPageDisplay(webapp2.RequestHandler):
-    def get(self):
+    def get(self, band_id):
         template_values = {}
         loginhelper.add_login_values(template_values, self)
-        band_name = self.request.get("name")
         try:
-            bands = common.get_entities_by_name(Band, band_name)
-            bands_dic = entityparser.entities_to_dic_list(bands)
-            if len(bands_dic) > 1:
-                pass
-                # redirect to page where you can choose which one you want
-            else:
-                add_band_and_decendants(template_values, bands_dic[0])
-                template = JINJA_ENVIRONMENT.get_template('bandpage/display.html')
-                self.response.write(template.render(template_values))
+            print "1: -------------"
+            band = common.get_entity_by_id(Band, band_id)
+            print "2: -------------"
+            band_dic = entityparser.entity_to_dic(band)
+            add_band_and_decendants(template_values, band_dic)
+            template = JINJA_ENVIRONMENT.get_template('bandpage/display.html')
+            self.response.write(template.render(template_values))
         except Exception as e:
             print "Bandpage: ", e
             template = JINJA_ENVIRONMENT.get_template('bandpage/update.html')
@@ -40,7 +37,9 @@ def add_band_and_decendants(template_values, band):
     # 1: fetch all albums belonging to band
     #   2: fetch all tracks belonging to album
     template_values["band"] = band
+    print "3: -------------"
     albums = common.get_children(Album, Band, band["id"])
+    print "4: -------------"
     albums_dic = entityparser.entities_to_dic_list(albums)
     for album in albums_dic:
         print album["id"]
@@ -53,6 +52,6 @@ def add_band_and_decendants(template_values, band):
 # [START app]
 app = webapp2.WSGIApplication([
     ('/bandpage/update', BandPageUpdate),
-    ('/bandpage', BandPageDisplay)
+    ('/bandpage/(\d+)', BandPageDisplay)
 ], debug=True)
 # [END app]

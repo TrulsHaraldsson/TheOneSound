@@ -1,10 +1,9 @@
 import json
-
 import webapp2
-
 from python.db.databaseKinds import Rating, Comment, Album, Track
 from python.api import common
 from python.util import entityparser
+from google.appengine.ext import ndb
 
 
 class TrackHandler(webapp2.RequestHandler):
@@ -16,6 +15,7 @@ class TrackHandler(webapp2.RequestHandler):
         try:
             create_track(parent_id, track_name)
         except Exception as e:
+            print e
             self.response.set_status(400)
 
     # request
@@ -34,6 +34,7 @@ class TrackByIdHandler(webapp2.RequestHandler):
             track_dic = entityparser.entity_to_dic(track)
             self.response.out.write(json.dumps(track_dic))
         except Exception as e:
+            print e
             self.response.set_status(400)
 
     # updates a track with the new information
@@ -43,6 +44,7 @@ class TrackByIdHandler(webapp2.RequestHandler):
             update_track(comment_text, int(track_id))
 
         except Exception as e:
+            print e
             self.response.set_status(400)
 
 
@@ -58,7 +60,8 @@ def create_track(album_id, track_name):
         raise ValueError("Track must have a name.")
     track = common.has_child_with_name(Track, track_name, Album, album_id)
     if not track:
-        track = Track(name=track_name)
+        parent_key = ndb.Key(Album, album_id)
+        track = Track(owner=parent_key, name=track_name)
         rating = Rating(likes=0, dislikes=0)
         track.rating = rating
         track.put()
@@ -68,6 +71,7 @@ def update_track(comment_text, track_id):
     track = common.get_entity_by_id(track_id)
     if comment_text != "":
         comment = Comment(content=comment_text)
+        rating = Rating(likes=0, dislikes=0)
         comment.rating = rating
         # TODO: also add user key
         track.comment = comment

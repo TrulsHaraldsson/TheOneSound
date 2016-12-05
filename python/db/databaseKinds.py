@@ -16,7 +16,7 @@ class Comment(ndb.Model):
     content = ndb.StringProperty()
     date = ndb.DateTimeProperty(auto_now_add=True)
     rating = ndb.StructuredProperty(Rating)
-    account = ndb.KeyProperty()
+    owner = ndb.KeyProperty()
 
 
 class Band(ndb.Model):
@@ -32,7 +32,7 @@ class Album(ndb.Model):
     comment = ndb.StructuredProperty(Comment, repeated=True)
     rating = ndb.StructuredProperty(Rating)
     description = ndb.StructuredProperty(Description)
-    band = ndb.KeyProperty()
+    owner = ndb.KeyProperty()
 
 
 # Has Album as parent
@@ -40,7 +40,7 @@ class Track(ndb.Model):
     name = ndb.StringProperty()
     comment = ndb.StructuredProperty(Comment, repeated=True)
     rating = ndb.StructuredProperty(Rating)
-    album = ndb.KeyProperty()
+    owner = ndb.KeyProperty()
 
 
 class Account(ndb.Model):

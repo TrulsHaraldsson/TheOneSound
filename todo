@@ -1,9 +1,9 @@
 TODO List!
 1. finish search function
-  - search all redirects
-  - create new when nothing found // jinja if
-  - when one is found, url should say .../bandpage/id, not ../searchall?name=blabla
-  - rename search instead of searchall
+  - search all redirects - done
+  - create new when nothing found - done
+  - when one is found, url should say .../bandpage/id, not ../searchall?name=blabla - done
+  - rename search instead of searchall - done
 
 
 2. google cloud storage
@@ -21,7 +21,7 @@ TODO List!
   - Rate function
 
 5. band/album/trackpage
-  - .../bandpage/id
+  - .../bandpage/id - done
   - Display comments.(only for current id)
   - Rate function
   - Display rating
@@ -42,3 +42,5 @@ TODO List!
   - finish put functions
 
 9. design...
+
+10. decide which way to go, longer urls(more than that to be fixed), or switch to keyproperty when parents are used.

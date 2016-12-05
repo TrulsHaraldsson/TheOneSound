@@ -60,7 +60,7 @@ def create_album(band_id, album_name, description):
     if not album:
         desc = Description(description=description)
         desc.put()
-        album = Album(parent=ndb.Key(Band, int(band_id)), name=album_name, description=desc)
+        album = Album(owner=ndb.Key(Band, int(band_id)), name=album_name, description=desc)
         album.put()
 
 

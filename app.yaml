@@ -39,6 +39,9 @@ handlers:
 - url: /profilepage.*
   script: python.frontend.profilepage.app
 
+- url: /toplistpage.*
+  script: python.frontend.toplistpage.app
+
 #API START
 - url: /api/albums.*
   script: python.api.album.app
@@ -51,6 +54,9 @@ handlers:
 
 - url: /api/accounts.*
   script: python.api.account.app
+
+- url: /api/toplists.*
+  script: python.api.toplist.app
 #API END
 # [END handlers]
 - url: /.*

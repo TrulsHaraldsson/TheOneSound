@@ -3,4 +3,8 @@
 <h1>{{ account.name }}</h1>
 <h2>{{ account.email }}</h1>
 
+{% for toplist in toplists %}
+  <h2>{{ toplist.name }}</h2> <!-- Make link to toplistpage -->
+{% endfor %}
+
 {% endblock %}

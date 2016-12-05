@@ -11,7 +11,7 @@ class Description(ndb.Model):
     # more to be added, pics and such.
 
 
-# Has user as parent
+# Has user as owner
 class Comment(ndb.Model):
     content = ndb.StringProperty()
     date = ndb.DateTimeProperty(auto_now_add=True)
@@ -26,7 +26,7 @@ class Band(ndb.Model):
     description = ndb.StructuredProperty(Description)
 
 
-# Has Band as parent
+# Has Band as owner
 class Album(ndb.Model):
     name = ndb.StringProperty()
     comment = ndb.StructuredProperty(Comment, repeated=True)
@@ -35,7 +35,7 @@ class Album(ndb.Model):
     owner = ndb.KeyProperty()
 
 
-# Has Album as parent
+# Has Album as owner
 class Track(ndb.Model):
     name = ndb.StringProperty()
     comment = ndb.StructuredProperty(Comment, repeated=True)
@@ -47,3 +47,13 @@ class Account(ndb.Model):
     name = ndb.StringProperty()
     email = ndb.StringProperty()
     date = ndb.DateTimeProperty(auto_now_add=True)
+
+
+# Has user as owner
+class TopList(ndb.Model):
+    name = ndb.StringProperty()
+    kind = ndb.StringProperty()
+    content = ndb.KeyProperty(repeated=True)
+    date = ndb.DateTimeProperty(auto_now_add=True)
+    rating = ndb.StructuredProperty(Rating)
+    owner = ndb.KeyProperty()

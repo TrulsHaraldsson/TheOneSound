@@ -22,7 +22,8 @@ class AccountHandler(webapp2.RequestHandler):
         try:
             create_account(account_name, email)
         except Exception as e:
-            raise
+            print e
+            self.response.set_status(400)
 
 
 class AccountByIdHandler(webapp2.RequestHandler):
@@ -32,6 +33,7 @@ class AccountByIdHandler(webapp2.RequestHandler):
             account_dic = entityparser.entity_to_dic(account)
             self.response.out.write(json.dumps(account_dic))
         except Exception as e:
+            print e
             self.response.set_status(400)
 
     def put(self, account_id):
@@ -39,13 +41,15 @@ class AccountByIdHandler(webapp2.RequestHandler):
 
             update_account(account_id)
         except Exception as e:
+            print e
             raise
 
 
 def create_account(account_name, email_):
-    if account_name != "" and email_ != "" :
-        user_id = loginhelper.get_google_user().user_id()
-        account = Account(id=user_id, name=account_name, email=email_)
+    print "in create account"
+    if account_name != "" and email_ != "":
+        user_id = loginhelper.get_user_id()
+        account = Account(id=str(user_id), name=account_name, email=email_)
         account.put()
     else:
         raise ValueError("check so all requirements are met.")
@@ -59,9 +63,10 @@ def update_account(account_id, account_name, email_):
         account.name = account_name
     return None
 
+
 # [START app]
 app = webapp2.WSGIApplication([
-    ('/api/account', AccountHandler),
-    ('/api/account/(\w+)', AccountByIdHandler)
+    ('/api/accounts', AccountHandler),
+    ('/api/accounts/(\w+)', AccountByIdHandler)
 ], debug=True)
 # [END app]

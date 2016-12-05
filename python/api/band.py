@@ -71,7 +71,7 @@ def update_band(description_text, comment_text, band_id, user_id):
         band.description = description
     if comment_text != "":
         parent_key = ndb.Key(Account, user_id)
-        comment = Comment(parent=parent_key, content=comment_text)
+        comment = Comment(owner=parent_key, content=comment_text)
         rating = Rating(likes=0, dislikes=0)
         comment.rating = rating
 

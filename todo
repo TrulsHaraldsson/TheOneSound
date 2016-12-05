@@ -1,0 +1,46 @@
+TODO List!
+1. finish search function
+  - search all redirects - done
+  - create new when nothing found - done
+  - when one is found, url should say .../bandpage/id, not ../searchall?name=blabla - done
+  - rename search instead of searchall - done
+
+
+2. google cloud storage
+  - save pictures and sounds
+
+3. profilepage
+  - display data for user
+  - display owned top lists
+
+4. Top-list
+  - create Kind
+  - html template for display
+  - user as parent
+  - redirections from mainpage and profile
+  - Rate function
+
+5. band/album/trackpage
+  - .../bandpage/id - done
+  - Display comments.(only for current id)
+  - Rate function
+  - Display rating
+
+6. Login/Register
+  - only login with google account
+  - Make a good register "page"
+  - add login/register to mainpage
+
+7. create new band
+  - link in footer
+  - link from profile
+  - link when searching
+
+8. api
+  - api function to query toplist( filters )
+  - user can rate ( only one time )
+  - finish put functions
+
+9. design...
+
+10. decide which way to go, longer urls(more than that to be fixed), or switch to keyproperty when parents are used.

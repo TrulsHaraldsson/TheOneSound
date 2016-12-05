@@ -1,9 +1,13 @@
 {% extends "layout.html" %}
 {% block content %}
-<form id="update-form" action="/api/track" method="post">
+<form id="update-form" action="/api/tracks" method="post">
   <p>
     <label for="name">Track name:</label>
     <input type="text" name="name" value="">
+  </p>
+  <p>
+    <label for="parent_id">Album id:</label>
+    <input type="text" name="parent_id" value="">
   </p>
   <p>
     <label for="submit" class="sr-only">submit:</label>

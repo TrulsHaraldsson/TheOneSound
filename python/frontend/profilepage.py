@@ -6,12 +6,14 @@ from python.db.databaseKinds import Account
 from python.util import entityparser
 from python.util import loginhelper
 
+
 class AccountPageUpdate(webapp2.RequestHandler):
     def get(self):
         template_values = {}
         loginhelper.add_login_values(template_values, self)
         template = JINJA_ENVIRONMENT.get_template('profilepage/update.html')
         self.response.write(template.render())
+
 
 class AccountPageDisplay(webapp2.RequestHandler):
     def get(self):

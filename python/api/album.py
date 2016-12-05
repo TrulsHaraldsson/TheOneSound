@@ -11,10 +11,13 @@ from python.util import entityparser
 
 class AlbumHandler(webapp2.RequestHandler):
     def post(self):
-        band_id = self.request.get("parent_id")
-        album_name = self.request.get("name")
-        album_description = self.request.get("description")
-        create_album(band_id, album_name, album_description)
+        try:
+            band_id = self.request.get("parent_id")
+            album_name = self.request.get("name")
+            album_description = self.request.get("description")
+            create_album(band_id, album_name, album_description)
+        except BadRequest:
+            self.response.set_status(400)
 
     def get(self):
         try:
@@ -54,7 +57,7 @@ def create_album(band_id, album_name, description):
     :param description: Description for the album
     """
     if album_name == "":
-        raise ValueError("Album must have a name")
+        raise BadRequest("Album must have a name")
 
     album = common.has_child_with_name(Album, album_name, Band, band_id)
     if not album:

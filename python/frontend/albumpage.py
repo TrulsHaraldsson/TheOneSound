@@ -18,7 +18,7 @@ class AlbumPageDisplay(webapp2.RequestHandler):
         template_values = {}
         loginhelper.add_login_values(template_values, self)
         try:
-            album = common.get_entity_by_id(Album, album_id)
+            album = common.get_entity_by_id(Album, int(album_id))
             print "get album finished"
             album_dic = entityparser.entity_to_dic(album)
             add_album_and_decendants(template_values, album_dic)
@@ -33,7 +33,7 @@ class AlbumPageDisplay(webapp2.RequestHandler):
 def add_album_and_decendants(template_values, album):
     # 1: fetch all tracks belonging to album
     template_values["album"] = album
-    tracks = common.get_children(Track, Album, album["id"])
+    tracks = common.get_children(Track, Album, int(album["id"]))
     tracks_dic = entityparser.entities_to_dic_list(tracks)
     template_values["tracks"] = tracks_dic
 

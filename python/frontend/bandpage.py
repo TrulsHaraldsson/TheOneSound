@@ -20,7 +20,7 @@ class BandPageDisplay(webapp2.RequestHandler):
         template_values = {}
         loginhelper.add_login_values(template_values, self)
         try:
-            band = common.get_entity_by_id(Band, band_id)
+            band = common.get_entity_by_id(Band, int(band_id))
             band_dic = entityparser.entity_to_dic(band)
             add_band_and_decendants(template_values, band_dic)
             template = JINJA_ENVIRONMENT.get_template('bandpage/display.html')
@@ -35,11 +35,11 @@ def add_band_and_decendants(template_values, band):
     # 1: fetch all albums belonging to band
     #   2: fetch all tracks belonging to album
     template_values["band"] = band
-    albums = common.get_children(Album, Band, band["id"])
+    albums = common.get_children(Album, Band, int(band["id"]))
     albums_dic = entityparser.entities_to_dic_list(albums)
     for album in albums_dic:
         print album["id"]
-        tracks = common.get_children(Track, Album, album["id"])
+        tracks = common.get_children(Track, Album, int(album["id"]))
         tracks_dic = entityparser.entities_to_dic_list(tracks)
         album["tracks"] = tracks_dic
     template_values["albums"] = albums_dic

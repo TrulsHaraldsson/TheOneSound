@@ -6,7 +6,7 @@ from google.appengine.ext import ndb
 from python.db.databaseKinds import Album, Band, Description, Account, Comment, Rating
 from python.api import common
 from python.api.exceptions import BadRequest, EntityNotFound
-from python.util import entityparser
+from python.util import entityparser, loginhelper
 
 
 class AlbumHandler(webapp2.RequestHandler):
@@ -41,7 +41,7 @@ class AlbumByIdHandler(webapp2.RequestHandler):
 
     def put(self, album_id):
         try:
-            update_album(album_id, self.request.query_string)
+            update_album(album_id, self.request.POST)
         except BadRequest:
             self.response.set_status(400)
         except EntityNotFound:
@@ -72,20 +72,28 @@ def create_album(band_id, album_name, description):
         album.put()
 
 
-def update_album(album_id, query_string):
+def update_album(album_id, post_params):
     album = common.get_entity_by_id(Album, int(album_id))
-    keys = ['description', 'comment_text', 'rating', 'user_id']
-    params = common.parse_specific_url_parameters(query_string, keys, required=True)
+    user_id = loginhelper.get_user_id()
 
-    description = Description(description=params['description'])
-    album.description = description;
+    if 'comment_text' in post_params.keys():
+        parent_key = ndb.Key(Account, user_id)
+        if post_params['comment_text'] != "":
+            comment = Comment(owner=parent_key, content=post_params['comment_text'])
+            album.comment.append(comment)
+        else:
+            raise BadRequest("comment must be none empty")
 
-    parent_key = ndb.Key(Account, params['user_id'])
-    comment = Comment(owner=parent_key, content=params['comment_text'])
-    album.comment.append(comment)
+    if 'description' in post_params.keys():
+        if post_params['description'] != "":
+            description = Description(description=str(post_params['description']))
+            album.description = description;
+        else:
+            raise BadRequest("description must be none empty")
 
-    rating = Rating(likes=0, dislikes=0)
-    album.rating = rating
+    if 'rating' in post_params.keys():
+        rating = Rating(likes=0, dislikes=0)
+        album.rating = rating
 
     album.put()
 

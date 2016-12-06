@@ -66,21 +66,6 @@ def get_entity_by_id(cls, entity_id):
         raise EntityNotFound("Entity does not exist!")
 
 
-def parse_specific_url_parameters(query_parameters, keys, required=False):
-    params = {}
-    query_parameters_as_list = query_parameters.split('&')
-    for query_tuple in query_parameters_as_list:
-        key = query_tuple.split('=')[0]
-        value = query_tuple.split('=')[1]
-        if value == "":
-            raise BadRequest
-        if key in keys:
-            params[key] = value
-        elif required:
-            raise BadRequest
-    return params
-
-
 def parse_url_query_parameters(query_parameters):
     """
     Parses all the query parameters and but them in a dictionary that is returned.
@@ -108,12 +93,6 @@ def parse_url_query_parameters(query_parameters):
                 params['limit'] = int(value)
             elif key == 'offset':
                 params['offset'] = int(value)
-            elif key == 'comment_text':
-                params['comment_text'] = value
-            elif key == 'rating':
-                params['rating'] = value
-            elif key == 'description':
-                params['description'] = value
             else:
                 raise BadRequest("Bad query")
     return params

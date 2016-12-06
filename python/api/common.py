@@ -54,12 +54,13 @@ def get_entities(cls, limit=10, offset_=0, order_=None, filters=None):
 def get_entity_by_id(cls, entity_id):
     """
     Search for an entity of a given Kind using the given ID.
+    Id may need typecasting to make sure it is int or string.
     :param cls: The Kind in the Database
     :param entity_id: The ID of the entity
     :return: An Entity of the given Kind with the given ID. If no entity is found with the given ID
     a ValueError will be raised.
     """
-    entity = cls.get_by_id(int(entity_id))
+    entity = cls.get_by_id(entity_id)
     if entity:
         return entity
     else:
@@ -143,7 +144,7 @@ def get_children(child_cls, parent_cls, parent_id):
     :param parent_id: id of the parent
     :return: All the children of the parent
     """
-    parent_key = ndb.Key(parent_cls, int(parent_id))
+    parent_key = ndb.Key(parent_cls, parent_id)
     query = child_cls.query(child_cls.owner == parent_key)
     children = query.fetch()
     return children
@@ -173,3 +174,10 @@ def has_child_with_name(child_cls, child_name, parent_cls, parent_id):
     else:
         print("False")
         return False
+
+
+def create_key(cls, id):
+    """
+    creates a key with class cls and id = id
+    """
+    return ndb.Key(cls, id)

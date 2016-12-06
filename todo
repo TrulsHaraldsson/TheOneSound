@@ -7,16 +7,16 @@ TODO List!
 
 
 2. google cloud storage
-  - save pictures and sounds
+  - save pictures and sounds - Needs free trial sign up
 
 3. profilepage
   - display data for user
-  - display owned top lists
+  - display owned top lists - Done(no links yet, just name)
 
 4. Top-list
-  - create Kind
-  - html template for display
-  - user as parent
+  - create Kind - Done
+  - html template for display - Done
+  - user as owner - Done
   - redirections from mainpage and profile
   - Rate function
 

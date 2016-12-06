@@ -1,11 +1,9 @@
 import json
-
 import webapp2
-from google.appengine.ext import ndb
 
 from python.db.databaseKinds import Rating, Description, Comment, Band, Account
 from python.api import common
-from python.util import entityparser
+from python.util import entityparser, loginhelper
 
 
 class BandHandler(webapp2.RequestHandler):
@@ -40,37 +38,22 @@ class BandByIdHandler(webapp2.RequestHandler):
         try:
             description_text = self.request.get("description")
             comment_text = self.request.get("comment_text")
-            user_id = self.request.get("user_id")
-            update_band(description_text, comment_text, int(band_id), user_id)
+            update_band(description_text, comment_text, int(band_id))
 
         except Exception as e:
             print (e)
             self.response.set_status(404)
 
 
-class BandByNameHandler(webapp2.RequestHandler):
-    # returns all bands with matching name
-    def get(self, band_name):
-        try:
-            bands = common.get_entities_by_name(Band, band_name)
-            if len(bands) > 1:
-                self.response.set_status(300)  # multiple choices
-            else:
-                band_list = entityparser.entities_to_dic_list(bands)
-                self.response.out.write(json.dumps(band_list))
-        except Exception as e:
-            print e
-            self.response.set_status(404)
-
-
 # Not tested yet.
-def update_band(description_text, comment_text, band_id, user_id):
+def update_band(description_text, comment_text, band_id):
+    user_id = loginhelper.get_user_id()
     band = common.get_entity_by_id(Band, int(band_id))
     if description_text != "":
         description = Description(description=description_text)
         band.description = description
     if comment_text != "":
-        parent_key = ndb.Key(Account, user_id)
+        parent_key = common.create_key(Account, user_id)
         comment = Comment(owner=parent_key, content=comment_text)
         rating = Rating(likes=0, dislikes=0)
         comment.rating = rating
@@ -98,7 +81,6 @@ def create_band(band_name, description):
 # [START app]
 app = webapp2.WSGIApplication([
     ('/api/bands', BandHandler),
-    ('/api/bands/(\d+)', BandByIdHandler),
-    ('/api/bands/(\w+)', BandByNameHandler)
+    ('/api/bands/(\d+)', BandByIdHandler)
 ], debug=True)
 # [END app]

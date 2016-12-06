@@ -20,7 +20,7 @@ class TrackPageDisplay(webapp2.RequestHandler):
         template_values = {}
         loginhelper.add_login_values(template_values, self)
         try:
-            track = common.get_entity_by_id(Track, track_id)
+            track = common.get_entity_by_id(Track, int(track_id))
             track_dic = entityparser.entity_to_dic(track)
             template_values["track"] = track_dic
             template = JINJA_ENVIRONMENT.get_template('trackpage/display.html')

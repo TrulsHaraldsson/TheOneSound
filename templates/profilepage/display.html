@@ -1,6 +1,10 @@
 {% extends "layout.html" %}
 {% block content %}
 <h1>{{ account.name }}</h1>
-<h2>{{ account.email }}</h1>
+<h2>{{ account.email }}</h2>
+
+{% for toplist in toplists %}
+  <a href="{{ toplist.url }}"><h3>{{ toplist.name }}</h3></a>
+{% endfor %}
 
 {% endblock %}

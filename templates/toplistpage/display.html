@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block content %}
+<script src="/javascript/toplistpage/addcontent.js"></script>
+<h1>{{ toplist.name }}</h1>
+
+{% for content in content_list %}
+<a href="{{ content.url|safe }}">{{ content.name }}</a>
+<br>
+{% endfor %}
+
+Add content
+<form id="update-content-form" action="#" data-toplist-id="{{ toplist.id }}">
+  <p>
+    <label for="content_id">content id:</label>
+    <input type="text" name="content_id" value="">
+  </p>
+  <p>
+    <label for="submit" class="sr-only">submit:</label>
+    <input type="submit" name="submit" value="submit" id="submit-toplist-content">
+  </p>
+</form>
+{% endblock %}

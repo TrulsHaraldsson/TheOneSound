@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block content %}
+Create toplist
+<form id="update-form" action="/api/toplists" method="post">
+  <p>
+    <label for="type">Band:</label>
+    <input type="radio" name="type" value="band">
+  </p>
+  <p>
+    <label for="type">Album:</label>
+    <input type="radio" name="type" value="album">
+  </p>
+  <p>
+    <label for="type">Track:</label>
+    <input type="radio" name="type" value="track">
+  </p>
+  <p>
+    <label for="name">Toplist name:</label>
+    <input type="text" name="name" value="">
+  </p>
+  <p>
+    <label for="submit" class="sr-only">submit:</label>
+    <input type="submit" name="submit" value="submit">
+  </p>
+</form>
+{% endblock %}

@@ -2,6 +2,12 @@
 {% block content %}
 <script src="/javascript/toplistpage/addcontent.js"></script>
 <h1>{{ toplist.name }}</h1>
+
+{% for content in content_list %}
+<a href="{{ content.url|safe }}">{{ content.name }}</a>
+<br>
+{% endfor %}
+
 Add content
 <form id="update-content-form" action="#" data-toplist-id="{{ toplist.id }}">
   <p>

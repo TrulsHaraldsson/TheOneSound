@@ -3,7 +3,7 @@ import webapp2
 from python.frontend import JINJA_ENVIRONMENT
 from python.api import common
 from python.db.databaseKinds import Account, TopList
-from python.util import entityparser
+from python.util import entityparser, urlhelper
 from python.util import loginhelper
 
 
@@ -37,6 +37,7 @@ def add_account_and_toplists(template_values, account):
     template_values['account'] = account
     toplists = common.get_children(TopList, Account, str(account["id"]))
     toplists_dic = entityparser.entities_to_dic_list(toplists)
+    urlhelper.attach_links("/toplistpage/", toplists_dic)
     template_values['toplists'] = toplists_dic
 
 

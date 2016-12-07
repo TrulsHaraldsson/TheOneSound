@@ -163,16 +163,18 @@ def has_child_with_name(child_cls, child_name, parent_cls, parent_id):
     parent_key = ndb.Key(parent_cls, parent_id)
     query = child_cls.query(child_cls.name == child_name, child_cls.owner == parent_key)
     child = query.fetch(1)
+
+    #TODO:  child_cls.owner == parent_key does not work properly
     #print("Parent KEY = ", parent_key)
     #print("Child owner key: ", child[0].owner)
     #print("IDs", parent_key.id(), " childID = ", child[0].owner.id())
     #print("child owner key == parent key: ", child[0].owner == parent_key)
 
     if child:
-        print("True")
+        #print("True")
         return True
     else:
-        print("False")
+        #print("False")
         return False
 
 

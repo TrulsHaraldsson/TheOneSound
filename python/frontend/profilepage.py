@@ -1,7 +1,7 @@
 import webapp2
 
 from python.frontend import JINJA_ENVIRONMENT
-from python.api import common
+from python.api import common, account
 from python.db.databaseKinds import Account, TopList
 from python.util import entityparser, urlhelper
 from python.util import loginhelper
@@ -20,8 +20,13 @@ class AccountPageDisplay(webapp2.RequestHandler):
         template_values = {}
         loginhelper.add_login_values(template_values, self)
         try:
-            user_id = loginhelper.get_user_id()
-            account_ = common.get_entity_by_id(Account, str(user_id))
+            user = loginhelper.get_google_user()
+            user_id = user.user_id()
+            try:
+                account_ = common.get_entity_by_id(Account, str(user_id))
+            except Exception as e:
+                account.create_account(user.nickname(), user.email())
+                account_ = common.get_entity_by_id(Account, str(user_id))
             account_dic = entityparser.entity_to_dic(account_)
             add_account_and_toplists(template_values, account_dic)
             template = JINJA_ENVIRONMENT.get_template('profilepage/display.html')

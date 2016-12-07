@@ -40,6 +40,7 @@ class TrackByIdHandler(webapp2.RequestHandler):
     # updates a track with the new information
     def put(self, track_id):
         try:
+            print("PUT")
             comment_text = self.request.get("comment_text")
             update_track(comment_text, int(track_id))
 
@@ -69,7 +70,8 @@ def create_track(album_id, track_name):
 
 
 def update_track(comment_text, track_id):
-    track = common.get_entity_by_id(track_id)
+    print(comment_text, " : ", track_id)
+    track = common.get_entity_by_id(Track, track_id)
     if comment_text != "":
         comment = Comment(content=comment_text)
         rating = Rating(likes=0, dislikes=0)
@@ -82,6 +84,7 @@ def update_track(comment_text, track_id):
 
 # [START app]
 app = webapp2.WSGIApplication([
-    ('/api/tracks', TrackHandler)
+    ('/api/tracks', TrackHandler),
+    ('/api/tracks/(\d+)', TrackByIdHandler)
 ], debug=True)
 # [END app]

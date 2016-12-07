@@ -40,7 +40,8 @@ class BandByIdHandler(webapp2.RequestHandler):
         try:
             description_text = self.request.get("description")
             comment_text = self.request.get("comment_text")
-            update_band(description_text, comment_text, int(band_id))
+            rating = self.request.get("rating")
+            update_band(description_text, comment_text, int(band_id), rating)
 
         except Exception as e:
             print (e)
@@ -48,7 +49,7 @@ class BandByIdHandler(webapp2.RequestHandler):
 
 
 # Not tested yet.
-def update_band(description_text, comment_text, band_id):
+def update_band(description_text, comment_text, band_id, rating_):
     user_id = loginhelper.get_user_id()
     band = common.get_entity_by_id(Band, int(band_id))
     if description_text != "":
@@ -59,8 +60,12 @@ def update_band(description_text, comment_text, band_id):
         comment = Comment(owner=parent_key, content=comment_text)
         rating = Rating(likes=0, dislikes=0)
         comment.rating = rating
-
         band.comment.append(comment)
+    if rating_ != "":
+        if rating_ == "1":
+            band.rating.likes += 1
+        elif rating_ == "0":
+            band.rating.dislikes += 1
     # TODO: add rating
     band.put()
 

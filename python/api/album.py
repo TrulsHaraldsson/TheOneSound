@@ -3,18 +3,19 @@ import json
 import webapp2
 from google.appengine.ext import ndb
 
-from python.db.databaseKinds import Album, Band, Description
+from python.db.databaseKinds import Album, Band, Description, Account, Comment, Rating
 from python.api import common
 from python.api.exceptions import BadRequest, EntityNotFound
-from python.util import entityparser
+from python.util import entityparser, loginhelper
 
 
 class AlbumHandler(webapp2.RequestHandler):
     def post(self):
-        band_id = self.request.get("parent_id")
-        album_name = self.request.get("name")
-        album_description = self.request.get("description")
-        create_album(band_id, album_name, album_description)
+        try:
+            band_id = self.request.get("parent_id")
+            create_album(band_id, self.request.POST)
+        except BadRequest:
+            self.response.set_status(400)
 
     def get(self):
         try:
@@ -37,31 +38,70 @@ class AlbumByIdHandler(webapp2.RequestHandler):
             self.response.set_status(404)
 
     def put(self, album_id):
-        raise NotImplementedError
+        try:
+            update_album(album_id, self.request.POST)
+        except BadRequest:
+            self.response.set_status(400)
+        except EntityNotFound:
+            self.response.set_status(404)
 
     def delete(self, album_id):
         raise NotImplementedError
 
 
-def create_album(band_id, album_name, description):
+def create_album(band_id, post_params):
     """
-    Create and add an album with the given name to the given band
-    specified by the id. Will not add the album if the band already has
-    an album with the given name.
-
-    :param band_id: Unique id for an entity of type Band
-    :param album_name: Name of album
-    :param description: Description for the album
+    Create and album and add it the specific band given by the band ID.
+    Will not add the album if the band already has an album with the given album name.
+    :param band_id: Unique id for an entity of type Album
+    :param post_params: A dictionary with data containing information about album name and description
     """
-    if album_name == "":
-        raise ValueError("Album must have a name")
 
-    album = common.has_child_with_name(Album, album_name, Band, band_id)
-    if not album:
-        desc = Description(description=description)
-        desc.put()
-        album = Album(owner=ndb.Key(Band, int(band_id)), name=album_name, description=desc)
+    user_id = loginhelper.get_user_id()  # TODO: Check if user_id exists in our database in order for them to submit
+
+    if 'name' not in post_params.keys() or post_params['name'] == "":
+        raise BadRequest('Album must have name')
+
+    album_exists = common.has_child_with_name(Album, post_params['name'], Band, band_id)
+    if not album_exists:
+
+        if 'description' in post_params.keys():
+            desc = Description(description=post_params['description'])
+
+        album = Album(owner=ndb.Key(Band, int(band_id)), name=post_params['name'], description=desc)
         album.put()
+
+
+def update_album(album_id, post_params):
+    """
+    Update the Album with the given ID. The attributes that can be update for an Album
+    is the description, rating and adding a comment.
+    :param album_id: Unique ID for an entity of type Album
+    :param post_params: A dictionary with the new value that will update or be appended to the Album
+    """
+    album = common.get_entity_by_id(Album, int(album_id))
+    user_id = loginhelper.get_user_id()
+
+    if 'comment_text' in post_params.keys():
+        parent_key = ndb.Key(Account, user_id)
+        if post_params['comment_text'] != "":
+            comment = Comment(owner=parent_key, content=post_params['comment_text'])
+            album.comment.append(comment)
+        else:
+            raise BadRequest("comment must be none empty")
+
+    if 'description' in post_params.keys():
+        if post_params['description'] != "":
+            description = Description(description=str(post_params['description']))
+            album.description = description;
+        else:
+            raise BadRequest("description must be none empty")
+
+    if 'rating' in post_params.keys():
+        rating = Rating(likes=0, dislikes=0)
+        album.rating = rating
+
+    album.put()
 
 
 def remove_album(band_id, album_name):

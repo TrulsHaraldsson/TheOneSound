@@ -74,7 +74,13 @@ def parse_url_query_parameters(query_parameters):
     :param query_parameters: Parameters of the form key1=value1&key2=value2
     :return: A dictionary with all the query parameters.
     """
-    params = {'types': [], 'limit': int(10), 'offset': int(0), 'order': None, 'filters': []}
+    params = {
+        'types': [],
+        'limit': int(10),
+        'offset': int(0),
+        'order': None,
+        'filters': [],
+    }
     query_parameters_as_list = query_parameters.split('&')
     for query_tuple in query_parameters_as_list:
         key = query_tuple.split('=')[0]
@@ -156,10 +162,17 @@ def has_child_with_name(child_cls, child_name, parent_cls, parent_id):
     """
     parent_key = ndb.Key(parent_cls, parent_id)
     query = child_cls.query(child_cls.name == child_name, child_cls.owner == parent_key)
-    child = query.get()
+    child = query.fetch(1)
+    #print("Parent KEY = ", parent_key)
+    #print("Child owner key: ", child[0].owner)
+    #print("IDs", parent_key.id(), " childID = ", child[0].owner.id())
+    #print("child owner key == parent key: ", child[0].owner == parent_key)
+
     if child:
+        print("True")
         return True
     else:
+        print("False")
         return False
 
 

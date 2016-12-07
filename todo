@@ -27,14 +27,14 @@ TODO List!
   - Display rating
 
 6. Login/Register
-  - only login with google account
-  - Make a good register "page"
-  - add login/register to mainpage
+  - only login with google account - Done
+  - Make a good register "page" - detta behövs ej atm
+  - add login/register to mainpage - detta behövs ej atm
 
 7. create new band
-  - link in footer
+  - link in footer - Done
   - link from profile
-  - link when searching
+  - link when searching - Done
 
 8. api
   - api function to query toplist( filters )

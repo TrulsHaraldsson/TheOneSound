@@ -9,13 +9,14 @@ from python.api import common
 class SearchHandler(webapp2.RequestHandler):
     def get(self):
         query_string = self.request.query_string
+        query_string = query_string.replace("+", " ")  # pre process query string
         template_values = {}
         loginhelper.add_login_values(template_values, self)
         bands = common.get_kinds(Band, query_string)
         albums = common.get_kinds(Album, query_string)
         tracks = common.get_kinds(Track, query_string)
-        numberOfHits = len(bands) + len(albums) + len(tracks)
-        if numberOfHits == 0:
+        number_of_hits = len(bands) + len(albums) + len(tracks)
+        if number_of_hits == 0:
             template_values["no_hits"] = True
             template = JINJA_ENVIRONMENT.get_template('searchpage.html')
         else:

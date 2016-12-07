@@ -60,7 +60,7 @@ def update_band(description_text, comment_text, band_id):
         rating = Rating(likes=0, dislikes=0)
         comment.rating = rating
 
-        band.comment.append(comment)
+        band.comment.insert(0, comment)
     # TODO: add rating
     band.put()
 

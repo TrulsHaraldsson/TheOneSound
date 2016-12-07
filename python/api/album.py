@@ -89,7 +89,7 @@ def update_album(album_id, post_params):
         parent_key = ndb.Key(Account, user_id)
         if post_params['comment_text'] != "":
             comment = Comment(owner=parent_key, content=post_params['comment_text'])
-            album.comment.append(comment)
+            album.comment.insert(0, comment)
         else:
             raise BadRequest("comment must be none empty")
 

@@ -80,7 +80,7 @@ def update_track(comment_text, track_id):
         rating = Rating(likes=0, dislikes=0)
         comment.rating = rating
         # TODO: also add user key
-        track.comment.append(comment)
+        track.comment.insert(0, comment)
     # TODO: add rating
     track.put()
 

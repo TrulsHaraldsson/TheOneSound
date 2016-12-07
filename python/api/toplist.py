@@ -11,8 +11,11 @@ class TopListHandler(webapp2.RequestHandler):
     def post(self):
         toplist_name = self.request.get("name")
         toplist_type = self.request.get("type")
+        print "toplist name: " + toplist_name
         try:
-            create_toplist(toplist_name, toplist_type)
+            entity_id = create_toplist(toplist_name, toplist_type)
+            json_obj = entityparser.entity_id_to_json(entity_id)
+            self.response.out.write(json_obj)
         except Exception as e:
             print e
             self.response.set_status(400)
@@ -63,14 +66,15 @@ def update_toplist(toplist_id, content_id):
 
 def create_toplist(toplist_name, toplist_type):
     if toplist_name == "":
-        raise ValueError("toplist must have a name.")
+        raise BadRequest("toplist must have a name.")
     if toplist_type != "track" and toplist_type != "album" and toplist_type != "band":
-        raise BadRequest("toplist type is incorrect")
+        raise BadRequest("toplist type is incorrect.")
     owner_key = common.create_key(Account, str(loginhelper.get_user_id()))
     toplist = TopList(name=toplist_name, content=[], owner=owner_key, kind=toplist_type)
     rating = Rating(likes=0, dislikes=0)
     toplist.rating = rating
     toplist.put()
+    return toplist.key.id()
 
 
 # [START app]

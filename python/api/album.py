@@ -13,7 +13,9 @@ class AlbumHandler(webapp2.RequestHandler):
     def post(self):
         try:
             band_id = self.request.get("parent_id")
-            create_album(band_id, self.request.POST)
+            entity_id = create_album(band_id, self.request.POST)
+            json_obj = entityparser.entity_id_to_json(entity_id)
+            self.response.out.write(json_obj)
         except BadRequest:
             self.response.set_status(400)
 
@@ -70,6 +72,7 @@ def create_album(band_id, post_params):
 
         album = Album(owner=ndb.Key(Band, int(band_id)), name=post_params['name'], description=desc)
         album.put()
+        return album.key.id()
 
 
 def update_album(album_id, post_params):

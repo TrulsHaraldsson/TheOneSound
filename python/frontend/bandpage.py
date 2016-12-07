@@ -7,11 +7,11 @@ from python.util import entityparser
 from python.util import loginhelper
 
 
-class BandPageUpdate(webapp2.RequestHandler):
+class BandPageCreate(webapp2.RequestHandler):
     def get(self):
         template_values = {}
         loginhelper.add_login_values(template_values, self)
-        template = JINJA_ENVIRONMENT.get_template('bandpage/update.html')
+        template = JINJA_ENVIRONMENT.get_template('bandpage/create.html')
         self.response.write(template.render(template_values))
 
 
@@ -27,7 +27,7 @@ class BandPageDisplay(webapp2.RequestHandler):
             self.response.write(template.render(template_values))
         except Exception as e:
             print "Bandpage: ", e
-            template = JINJA_ENVIRONMENT.get_template('bandpage/update.html')
+            template = JINJA_ENVIRONMENT.get_template('bandpage/create.html')
             self.response.write(template.render(template_values))
 
 
@@ -47,7 +47,7 @@ def add_band_and_decendants(template_values, band):
 
 # [START app]
 app = webapp2.WSGIApplication([
-    ('/bandpage/update', BandPageUpdate),
+    ('/bandpage/create', BandPageCreate),
     ('/bandpage/(\d+)', BandPageDisplay)
 ], debug=True)
 # [END app]

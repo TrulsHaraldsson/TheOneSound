@@ -11,7 +11,9 @@ class BandHandler(webapp2.RequestHandler):
         band_name = self.request.get("name")
         description_text = self.request.get("description")
         try:
-            create_band(band_name, description_text)
+            entity_id = create_band(band_name, description_text)
+            json_obj = entityparser.entity_id_to_json(entity_id)
+            self.response.out.write(json_obj)
         except Exception as e:
             print e
             self.response.set_status(404)
@@ -76,6 +78,7 @@ def create_band(band_name, description):
     rating = Rating(likes=0, dislikes=0)
     band.rating = rating
     band.put()
+    return band.key.id()
 
 
 # [START app]

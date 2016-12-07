@@ -6,7 +6,8 @@ $(document).ready(function() {
         var commentable_id = form.data("commentable-id");
         var type = form.data("type");
         var comment_text = $("#comment-form").serialize();
-        onCommentSubmit(commentable_id, comment_text, type);
+        //onCommentSubmit(commentable_id, comment_text, type);
+        onCommentSubmit(form)
         resetCommentForm(form)
     });
 
@@ -17,20 +18,50 @@ $(document).ready(function() {
         $form.find('input:text').val('');
     }
 
+    function onCommentSubmit(form){
+            var commentable_id = form.data("commentable-id");
+            var type = form.data("type");
+            var comment_text = form.serialize();
+            var text = form.find('input:text').val()
+            console.log(text)
+
+            data_string = comment_text;
+            $.ajax({
+                method: "PUT",
+                data: data_string,
+                url: "/api/"+type+"/"+commentable_id, //http://theonesound-148310.appspot.com
+                statusCode: {
+                    404: function(){
+                    }
+                },
+                success: function(){
+                    var commentSection = $("#comment_section") // this is a list <ul></ul>
+                    var li = $('<li></li>')
+                        .text(text)
+                        .prependTo(comment_section)
+                }
+
+            })
+        }
+/*
     function onCommentSubmit(commentable_id, comment_text, type){
         data_string = comment_text;
         $.ajax({
-              method: "PUT",
-              data: data_string,
-              url: "/api/"+type+"/"+commentable_id, //http://theonesound-148310.appspot.com
-              statusCode: {
-                    404: function(){
-                    }
-              },
-                success: function(){
-              }
+            method: "PUT",
+            data: data_string,
+            url: "/api/"+type+"/"+commentable_id, //http://theonesound-148310.appspot.com
+            statusCode: {
+                404: function(){
+                }
+            },
+            success: function(){
+                var commentSection = $("#comment_section")
+                comment_section.append(comment_text)
+            }
 
         })
     }
+    */
+
 
 })

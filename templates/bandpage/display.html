@@ -17,4 +17,7 @@
   {% endwith %}
 </p>
 
+{% with comments=band.comment %}
+{% include 'common/commentdisplay.html' %}
+{% endwith %}
 {% endblock %}

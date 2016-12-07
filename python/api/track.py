@@ -62,6 +62,7 @@ def create_track(album_id, track_name):
     if not track:
         parent_key = ndb.Key(Album, int(album_id))
         track = Track(owner=parent_key, name=track_name)
+        track.comment = []
         rating = Rating(likes=0, dislikes=0)
         track.rating = rating
         track.put()
@@ -74,7 +75,7 @@ def update_track(comment_text, track_id):
         rating = Rating(likes=0, dislikes=0)
         comment.rating = rating
         # TODO: also add user key
-        track.comment = comment
+        track.comment.append(comment)
     # TODO: add rating
     track.put()
 

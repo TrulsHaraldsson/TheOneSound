@@ -3,4 +3,13 @@
 <h1>{{ track.name }}</h1>
 <h2>{{ track }}</h1>
 
+<p>
+{% with commentable_id=track.id, type="tracks" %}
+{% include 'common/comment.html' %}
+{% endwith %}
+</p>
+
+{% with comments=track.comment %}
+{% include 'common/commentdisplay.html' %}
+{% endwith %}
 {% endblock %}

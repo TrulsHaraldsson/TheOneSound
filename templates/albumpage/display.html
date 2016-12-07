@@ -15,4 +15,7 @@
   {% endwith %}
 </p>
 
+{% with comments=album.comment %}
+{% include 'common/commentdisplay.html' %}
+{% endwith %}
 {% endblock %}

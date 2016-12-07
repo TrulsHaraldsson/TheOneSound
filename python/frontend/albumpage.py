@@ -19,7 +19,6 @@ class AlbumPageDisplay(webapp2.RequestHandler):
         loginhelper.add_login_values(template_values, self)
         try:
             album = common.get_entity_by_id(Album, int(album_id))
-            print "get album finished"
             album_dic = entityparser.entity_to_dic(album)
             add_album_and_decendants(template_values, album_dic)
             template = JINJA_ENVIRONMENT.get_template('albumpage/display.html')

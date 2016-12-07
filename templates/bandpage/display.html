@@ -3,6 +3,10 @@
 <h1>{{ band.name }}</h1>
 <h2>{{ band.description.description }}</h2>
 
+{% with id=band.id, type="bands" %}
+{% include 'common/rating.html' %}
+{% endwith %}
+
 {% for album in albums %}
   <h2>{{ album.name }}</h2>
   <h3>{{ album.description.description }}</h3>

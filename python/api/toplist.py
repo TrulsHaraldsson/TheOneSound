@@ -40,27 +40,32 @@ class TopListByIdHandler(webapp2.RequestHandler):
     # updates a toplist with the new information
     def put(self, toplist_id):
         try:
-            content_id = self.request.get("content_id")
-            update_toplist(int(toplist_id), int(content_id))
+            update_toplist(int(toplist_id), self.request.POST)
 
         except Exception as e:
             print (e)
             self.response.set_status(404)
 
 
-# Not tested yet.
-def update_toplist(toplist_id, content_id):
+def update_toplist(toplist_id, post_params):
     toplist = common.get_entity_by_id(TopList, int(toplist_id))
 
-    if content_id != "":
+    if 'content_id' in post_params:
+        content_id = post_params['content_id']
         if toplist.kind == "track":
             content_key = common.create_key(Track, content_id)
         elif toplist.kind == "album":
             content_key = common.create_key(Album, content_id)
         else:
             content_key = common.create_key(Band, content_id)
-        toplist.content.append(content_key)
-    # TODO: add rating
+        if content_key.get():  # Check if content exists TODO: throw Exception
+            toplist.content.append(content_key)
+    if 'rating' in post_params:
+        rating = post_params['rating']
+        if rating == "1":
+            toplist.rating.likes += 1
+        elif rating == "0":
+            toplist.rating.dislikes += 1
     toplist.put()
 
 

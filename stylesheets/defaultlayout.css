@@ -9,3 +9,27 @@ body {
   padding-top: 18px;
   text-align: right;
 }
+
+.rating-div {
+  max-width: 15%;
+}
+
+.pointable {
+  cursor: pointer;
+}
+
+span.glyphicon {
+  font-size: 1.5em;
+}
+
+.enlargeable:hover {
+  z-index: 2;
+  -webkit-transition: all 100ms ease-in;
+  -webkit-transform: scale(1.2);
+  -ms-transition: all 100ms ease-in;
+  -ms-transform: scale(1.2);
+  -moz-transition: all 100ms ease-in;
+  -moz-transform: scale(1.2);
+  transition: all 100ms ease-in;
+  transform: scale(1.2);
+}

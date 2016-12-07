@@ -5,6 +5,10 @@
 <h1>{{ album.name }}</h1>
 <h2>{{ album.description.description }}</h2>
 
+{% with id=album.id, type="albums" %}
+{% include 'common/rating.html' %}
+{% endwith %}
+
 {% for track in tracks %}
   <h2>{{ track.name }}</h2>
 {% endfor %}

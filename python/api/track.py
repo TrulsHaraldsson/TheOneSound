@@ -42,9 +42,7 @@ class TrackByIdHandler(webapp2.RequestHandler):
     # updates a track with the new information
     def put(self, track_id):
         try:
-            print("PUT")
-            comment_text = self.request.get("comment_text")
-            update_track(comment_text, int(track_id))
+            update_track(int(track_id), self.request.POST)
 
         except Exception as e:
             print e
@@ -72,16 +70,21 @@ def create_track(album_id, track_name):
         return track.key.id()
 
 
-def update_track(comment_text, track_id):
-    print(comment_text, " : ", track_id)
+def update_track(track_id, post_params):
     track = common.get_entity_by_id(Track, track_id)
-    if comment_text != "":
+    if 'comment_text'in post_params:
+        comment_text = post_params['comment_text']
         comment = Comment(content=comment_text)
         rating = Rating(likes=0, dislikes=0)
         comment.rating = rating
         # TODO: also add user key
         track.comment.insert(0, comment)
-    # TODO: add rating
+    if 'rating' in post_params:
+        rating = post_params['rating']
+        if rating == "1":
+            track.rating.likes += 1
+        elif rating == "0":
+            track.rating.dislikes += 1
     track.put()
 
 

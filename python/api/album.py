@@ -71,6 +71,8 @@ def create_album(band_id, post_params):
             desc = Description(description=post_params['description'])
 
         album = Album(owner=ndb.Key(Band, int(band_id)), name=post_params['name'], description=desc)
+        rating = Rating(likes=0, dislikes=0)
+        album.rating = rating
         album.put()
         return album.key.id()
 
@@ -96,13 +98,16 @@ def update_album(album_id, post_params):
     if 'description' in post_params.keys():
         if post_params['description'] != "":
             description = Description(description=str(post_params['description']))
-            album.description = description;
+            album.description = description
         else:
             raise BadRequest("description must be none empty")
 
     if 'rating' in post_params.keys():
-        rating = Rating(likes=0, dislikes=0)
-        album.rating = rating
+        rating = post_params['rating']
+        if rating == "1":
+            album.rating.likes += 1
+        elif rating == "0":
+            album.rating.dislikes += 1
 
     album.put()
 

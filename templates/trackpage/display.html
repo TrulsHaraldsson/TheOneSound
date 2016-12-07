@@ -2,6 +2,10 @@
 {% block content %}
 <h1>{{ track.name }}</h1>
 
+{% with id=track.id, type="tracks" %}
+{% include 'common/rating.html' %}
+{% endwith %}
+
 <p>
 {% with commentable_id=track.id, type="tracks" %}
 {% include 'common/comment.html' %}

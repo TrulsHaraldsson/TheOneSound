@@ -20,7 +20,9 @@ class AccountHandler(webapp2.RequestHandler):
         account_name = self.request.get("name")
         email = self.request.get("email")
         try:
-            create_account(account_name, email)
+            entity_id = create_account(account_name, email)
+            json_obj = entityparser.entity_id_to_json(entity_id)
+            self.response.out.write(json_obj)
         except Exception as e:
             print e
             self.response.set_status(400)
@@ -51,6 +53,7 @@ def create_account(account_name, email_):
         user_id = loginhelper.get_user_id()
         account = Account(id=str(user_id), name=account_name, email=email_)
         account.put()
+        return account.key.id()
     else:
         raise ValueError("check so all requirements are met.")
 

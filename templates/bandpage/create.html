@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
-<form id="update-form" action="/api/bands" method="post">
+<script src="/javascript/pages/bandpage/create.js"></script>
+<form id="new-band-form" action="#">
   <p>
     <label for="name">Band name:</label>
     <input type="text" name="name" value="">
@@ -11,7 +12,7 @@
   </p>
   <p>
     <label for="submit" class="sr-only">submit:</label>
-    <input type="submit" name="submit" value="submit">
+    <input type="button" name="submit" value="submit" id="submit-new-band">
   </p>
 </form>
 

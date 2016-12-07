@@ -5,11 +5,11 @@ from python.api import common
 from python.db.databaseKinds import TopList
 
 
-class TopListPageUpdate(webapp2.RequestHandler):
+class TopListPageCreate(webapp2.RequestHandler):
     def get(self):
         template_values = {}
         loginhelper.add_login_values(template_values, self)
-        template = JINJA_ENVIRONMENT.get_template('toplistpage/update.html')
+        template = JINJA_ENVIRONMENT.get_template('toplistpage/create.html')
         self.response.write(template.render(template_values))
 
 
@@ -24,7 +24,7 @@ class TopListPageDisplay(webapp2.RequestHandler):
             self.response.write(template.render(template_values))
         except Exception as e:
             print "toplistpage: ", e
-            template = JINJA_ENVIRONMENT.get_template('toplistpage/update.html')
+            template = JINJA_ENVIRONMENT.get_template('toplistpage/create.html')
             self.response.write(template.render(template_values))
 
 
@@ -42,7 +42,7 @@ def add_toplist_and_content(template_values, toplist):
 
 # [START app]
 app = webapp2.WSGIApplication([
-    ('/toplistpage/update', TopListPageUpdate),
+    ('/toplistpage/create', TopListPageCreate),
     ('/toplistpage/(\d+)', TopListPageDisplay)
 ], debug=True)
 # [END app]

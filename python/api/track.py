@@ -13,7 +13,9 @@ class TrackHandler(webapp2.RequestHandler):
         track_name = self.request.get("name")
         parent_id = self.request.get("parent_id")
         try:
-            create_track(parent_id, track_name)
+            entity_id = create_track(parent_id, track_name)
+            json_obj = entityparser.entity_id_to_json(entity_id)
+            self.response.out.write(json_obj)
         except Exception as e:
             print e
             self.response.set_status(400)
@@ -67,6 +69,7 @@ def create_track(album_id, track_name):
         rating = Rating(likes=0, dislikes=0)
         track.rating = rating
         track.put()
+        return track.key.id()
 
 
 def update_track(comment_text, track_id):

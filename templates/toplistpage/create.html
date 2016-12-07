@@ -1,7 +1,8 @@
 {% extends "layout.html" %}
 {% block content %}
+<script src="/javascript/pages/toplistpage/create.js"></script>
 Create toplist
-<form id="update-form" action="/api/toplists" method="post">
+<form id="new-toplist-form" action="#">
   <p>
     <label for="type">Band:</label>
     <input type="radio" name="type" value="band">
@@ -20,7 +21,7 @@ Create toplist
   </p>
   <p>
     <label for="submit" class="sr-only">submit:</label>
-    <input type="submit" name="submit" value="submit">
+    <input type="button" name="submit" value="submit" id="submit-new-toplist">
   </p>
 </form>
 {% endblock %}

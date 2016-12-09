@@ -1,24 +1,27 @@
 <!DOCTYPE html>
 {% autoescape true %}
-<html>
+<html lang="en">
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- [START css] -->
     <!-- Latest compiled and minified bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
     integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <!-- Own stylesheets -->
     <link rel="stylesheet" href="/stylesheets/defaultlayout.css">
+    <link rel="stylesheet" href="/stylesheets/tos_navbar.css">
+    <link rel="stylesheet" href="/stylesheets/tos_footer.css">
     <!-- [END css] -->
   </head>
-      <body>
-        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <!-- Latest compiled and minified bootstrap JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        {% include 'navigationbar.html' %}
-        {% block content %}{% endblock %}
-        {% include 'footer.html' %}
-      </body>
+    <body>
+      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+      <!-- Latest compiled and minified bootstrap JavaScript -->
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+      {% include 'navigationbar.html' %}
+      {% block content %}{% endblock %}
+      {% include 'footer.html' %}
+    </body>
 </html>
 {% endautoescape %}

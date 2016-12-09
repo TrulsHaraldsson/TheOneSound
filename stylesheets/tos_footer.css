@@ -1,0 +1,15 @@
+/*
+    Style for the footer (navbar-fixed-bottom)
+*/
+.footer-div {
+  padding-top: 18px;
+  text-align: right;
+}
+
+.footer-div a {
+  color: #000000;
+}
+
+.navbar-fixed-bottom {
+  border-top-width: 1px;
+}

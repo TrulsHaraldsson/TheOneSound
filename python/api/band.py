@@ -1,7 +1,7 @@
 import json
 import webapp2
 
-from python.db.databaseKinds import Rating, Description, Comment, Band, Account
+from python.db.databaseKinds import Rating, BandDescription, Comment, Band, Account
 from python.api import common
 from python.util import entityparser, loginhelper
 
@@ -9,9 +9,8 @@ from python.util import entityparser, loginhelper
 class BandHandler(webapp2.RequestHandler):
     def post(self):
         band_name = self.request.get("name")
-        description_text = self.request.get("description")
         try:
-            entity_id = create_band(band_name, description_text)
+            entity_id = create_band(band_name)
             json_obj = entityparser.entity_id_to_json(entity_id)
             self.response.out.write(json_obj)
         except Exception as e:
@@ -38,10 +37,7 @@ class BandByIdHandler(webapp2.RequestHandler):
     # updates a band with the new information
     def put(self, band_id):
         try:
-            description_text = self.request.get("description")
-            comment_text = self.request.get("comment_text")
-            rating = self.request.get("rating")
-            update_band(description_text, comment_text, int(band_id), rating)
+            update_band(int(band_id), self.request.POST)
 
         except Exception as e:
             print (e)
@@ -49,34 +45,43 @@ class BandByIdHandler(webapp2.RequestHandler):
 
 
 # Not tested yet.
-def update_band(description_text, comment_text, band_id, rating_):
+def update_band(band_id, post_params):
     user_id = loginhelper.get_user_id()
     band = common.get_entity_by_id(Band, int(band_id))
-    if description_text != "":
-        description = Description(description=description_text)
-        band.description = description
-    if comment_text != "":
+    if 'biography' in post_params.keys():
+        biography = post_params['biography']
+        band.description.biography = biography
+    if 'genre' in post_params.keys():
+        genre = post_params['genre']
+        band.description.genres.append(genre)
+    if 'member' in post_params.keys():
+        member = post_params['member']
+        band.description.members.append(member)
+    if 'picture_url' in post_params.keys():
+        picture_url = post_params['picture_url']
+        band.description.picture_url = picture_url
+    if 'comment_text' in post_params.keys():
+        comment_text = post_params['comment_text']
         parent_key = common.create_key(Account, user_id)
         comment = Comment(owner=parent_key, content=comment_text)
         rating = Rating(likes=0, dislikes=0)
         comment.rating = rating
         band.comment.insert(0, comment)
-    if rating_ != "":
+    if 'rating' in post_params.keys():
+        rating = post_params['rating']
         account = common.get_entity_by_id(Account, str(user_id))
-        band = common.add_rating(Band, band, account, rating_)
-    # TODO: add rating
+        band = common.add_rating(Band, band, account, rating)
     band.put()
 
 
-def create_band(band_name, description):
+def create_band(band_name):
     if band_name == "":
         raise ValueError("Band must have a name.")
 
     band = Band(name=band_name, comment=[])
 
-    if description != "":
-        desc = Description(description=description)
-        band.description = desc
+    desc = BandDescription(biography="", members=[], genres=[], picture_url="")
+    band.description = desc
     # rating not tested
     rating = Rating(likes=0, dislikes=0)
     band.rating = rating

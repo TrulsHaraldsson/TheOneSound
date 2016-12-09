@@ -13,6 +13,15 @@ class Rating(ndb.Model):
 
 class Description(ndb.Model):
     description = ndb.StringProperty()
+    picture_url = ndb.StringProperty()
+    # more to be added, pics and such.
+
+
+class BandDescription(ndb.Model):
+    biography = ndb.StringProperty()
+    members = ndb.StringProperty(repeated=True)
+    genres = ndb.StringProperty(repeated=True)
+    picture_url = ndb.StringProperty()
     # more to be added, pics and such.
 
 
@@ -28,7 +37,7 @@ class Band(ndb.Model):
     name = ndb.StringProperty()
     comment = ndb.StructuredProperty(Comment, repeated=True)
     rating = ndb.StructuredProperty(Rating)
-    description = ndb.StructuredProperty(Description)
+    description = ndb.StructuredProperty(BandDescription)
 
 
 # Has Band as owner

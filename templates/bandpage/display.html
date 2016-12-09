@@ -1,7 +1,64 @@
 {% extends "layout.html" %}
 {% block content %}
+<script src="/javascript/pages/bandpage/display.js"></script>
 <h1>{{ band.name }}</h1>
-<h2>{{ band.description.description }}</h2>
+<!-- Add visibilty hidden to all "edit divs" -->
+<div class="picture-container">
+  <h3>Picture div</h3>
+  <div id="picture-display" class="">
+    {{ band.description.picture_url }}
+  </div>
+  <div id="picture-edit">
+    <form id="update-picture-form" action="#" data-id="{{ band.id }}">
+      <input type="url" name="picture_url" value="URL to new picture">
+      <input type="submit" name="submit" value="submit">
+    </form>
+  </div>
+</div>
+
+<div class="biography-container">
+  <h3>Biography</h3>
+  <div id="biography-display">
+    {{ band.description.biography }}
+  </div>
+  <div id="biography-edit">
+    <form id="update-biography-form" action="#" data-id="{{ band.id }}">
+      <input type="text" name="biography" value="{{ band.description.biography }}">
+      <input type="submit" name="submit" value="submit">
+    </form>
+  </div>
+</div>
+
+<div class="members-container">
+  <h3>Members</h3>
+  <div id="members-display">
+    {% for member in band.description.members %}
+      {{ member }}<br>
+    {% endfor %}
+  </div>
+  <div id="members-edit">
+    <form id="update-members-form" action="#" data-id="{{ band.id }}">
+      <input type="text" name="member" value="New member name">
+      <input type="submit" name="submit" value="submit">
+    </form>
+  </div>
+</div>
+
+<div class="genres-container">
+  <h3>Genres</h3>
+  <div id="genres-display">
+    {% for genre in band.description.genres %}
+      {{ genre }}<br>
+    {% endfor %}
+  </div>
+  <div id="genres-edit">
+    <form id="update-genres-form" action="#" data-id="{{ band.id }}">
+      <input type="text" name="genre" value="New genre">
+      <input type="submit" name="submit" value="submit">
+    </form>
+  </div>
+</div>
+
 {% with id=band.id, type="bands", rating=band.rating, rated=rated %}
 {% include 'common/rating.html' %}
 {% endwith %}

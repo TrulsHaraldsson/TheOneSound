@@ -1,9 +1,36 @@
 {% extends "layout.html" %}
-
 {% block content %}
+<script src="/javascript/common/update-entity.js"></script>
+<script src="/javascript/pages/albumpage/display.js"></script>
 
 <h1>{{ album.name }}</h1>
 <h2>{{ album.description.description }}</h2>
+
+<div class="picture-container">
+  <h3>Picture div</h3>
+  <div id="picture-display" class="">
+    {{ album.description.picture_url }}
+  </div>
+  <div id="picture-edit">
+    <form id="update-picture-form" action="#" data-id="{{ album.id }}">
+      <input type="url" name="picture_url" value="URL to new picture">
+      <input type="submit" name="submit" value="submit">
+    </form>
+  </div>
+</div>
+
+<div class="description-container">
+  <h3>Description</h3>
+  <div id="description-display">
+    {{ album.description.description }}
+  </div>
+  <div id="description-edit">
+    <form id="update-description-form" action="#" data-id="{{ album.id }}">
+      <input type="text" name="description" value="{{ album.description.description }}">
+      <input type="submit" name="submit" value="submit">
+    </form>
+  </div>
+</div>
 
 {% with id=album.id, type="albums", rating=album.rating, rated=rated %}
 {% include 'common/rating.html' %}

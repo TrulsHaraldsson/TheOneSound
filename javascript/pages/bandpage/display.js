@@ -1,10 +1,10 @@
 $(document).ready(function() {
 
-  addSubmitListener("#update-picture-form");
-  addSubmitListener("#update-biography-form");
-  addSubmitListener("#update-members-form");
-  addSubmitListener("#update-genres-form");
-
+  addSubmitListener("#update-picture-form", "bands");
+  addSubmitListener("#update-biography-form", "bands");
+  addSubmitListener("#update-members-form", "bands");
+  addSubmitListener("#update-genres-form", "bands");
+  /*
   function addSubmitListener(form_id){
     $(form_id).submit(function() {
       var form = $(form_id);
@@ -29,6 +29,6 @@ $(document).ready(function() {
         console.log("put ok!");
       }
     })
-  }
+  }*/
 
 })

@@ -11,7 +11,7 @@ class Rating(ndb.Model):
     dislikes = ndb.IntegerProperty()
 
 
-class Description(ndb.Model):
+class AlbumDescription(ndb.Model):
     description = ndb.StringProperty()
     picture_url = ndb.StringProperty()
     # more to be added, pics and such.
@@ -45,7 +45,7 @@ class Album(ndb.Model):
     name = ndb.StringProperty()
     comment = ndb.StructuredProperty(Comment, repeated=True)
     rating = ndb.StructuredProperty(Rating)
-    description = ndb.StructuredProperty(Description)
+    description = ndb.StructuredProperty(AlbumDescription)
     owner = ndb.KeyProperty()
 
 

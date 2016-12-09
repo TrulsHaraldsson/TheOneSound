@@ -1,0 +1,25 @@
+/*
+  Style for the navigation bar
+*/
+
+.navbar {
+  background-color: #26A0D4;
+  border-bottom-color: #FFFFFF;
+  border-right-width: 0px;
+  border-left-width: 0px;
+  border-top-width: 0px;
+  border-radius: 0;
+}
+
+.nav.navbar-nav li a {
+  color: #000000;
+}
+
+.navbar-default .navbar-brand {
+    color: #000000;
+    font-size: 200%;
+}
+
+span.glyphicon-log-in {
+    font-size: 1em;
+}

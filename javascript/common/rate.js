@@ -1,12 +1,42 @@
 $(document).ready(function() {
 
     $("#like").click(function() {
-        onRatingSubmit("1");
+        console.log("like clicked");
+        var rated = $("#rating-div").data("rated");
+        console.log(rated);
+        if (rated == "None") {
+            onRatingSubmit("1");
+            $("#rating-div").data("rated", "True");
+            updateHTML("#likes", 1);
+        }
+        else if (rated == "False") {
+          onRatingSubmit("1");
+          $("#rating-div").data("rated", "True");
+          updateHTML("#likes", 1);
+          updateHTML("#dislikes", -1);
+        }
     });
 
     $("#dislike").click(function() {
+      var rated = $("#rating-div").data("rated");
+      if (rated == "None" ) {
+          onRatingSubmit("0");
+          $("#rating-div").data("rated", "False");
+          updateHTML("#dislikes", 1);
+      }
+      else if (rated == "True") {
         onRatingSubmit("0");
+        $("#rating-div").data("rated", "False");
+        updateHTML("#likes", -1);
+        updateHTML("#dislikes", 1);
+      }
     });
+
+    function updateHTML(id, amount){
+      var newVal = parseInt($(id).html(), 10) + amount;
+      $(id).html(newVal);
+    }
+
 
     function onRatingSubmit(rating){
       var div = $("#rating-div");

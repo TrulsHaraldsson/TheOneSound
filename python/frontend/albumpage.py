@@ -1,7 +1,7 @@
 import webapp2
-from python.db.databaseKinds import Band, Album, Track
+from python.db.databaseKinds import Album, Track
 from python.frontend import JINJA_ENVIRONMENT
-from python.util import loginhelper, entityparser
+from python.util import loginhelper, entityparser, templatehelper
 from python.api import common
 
 
@@ -21,6 +21,7 @@ class AlbumPageDisplay(webapp2.RequestHandler):
             album = common.get_entity_by_id(Album, int(album_id))
             album_dic = entityparser.entity_to_dic(album)
             add_album_and_decendants(template_values, album_dic)
+            templatehelper.add_rated(template_values, album)
             template = JINJA_ENVIRONMENT.get_template('albumpage/display.html')
             self.response.write(template.render(template_values))
         except Exception as e:

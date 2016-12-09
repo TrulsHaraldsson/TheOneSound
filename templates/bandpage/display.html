@@ -2,8 +2,7 @@
 {% block content %}
 <h1>{{ band.name }}</h1>
 <h2>{{ band.description.description }}</h2>
-
-{% with id=band.id, type="bands" %}
+{% with id=band.id, type="bands", rating=band.rating, rated=rated %}
 {% include 'common/rating.html' %}
 {% endwith %}
 

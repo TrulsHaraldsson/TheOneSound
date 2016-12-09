@@ -5,7 +5,7 @@
 <h1>{{ album.name }}</h1>
 <h2>{{ album.description.description }}</h2>
 
-{% with id=album.id, type="albums" %}
+{% with id=album.id, type="albums", rating=album.rating, rated=rated %}
 {% include 'common/rating.html' %}
 {% endwith %}
 

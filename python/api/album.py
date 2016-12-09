@@ -104,10 +104,8 @@ def update_album(album_id, post_params):
 
     if 'rating' in post_params.keys():
         rating = post_params['rating']
-        if rating == "1":
-            album.rating.likes += 1
-        elif rating == "0":
-            album.rating.dislikes += 1
+        account = common.get_entity_by_id(Account, str(user_id))
+        album = common.add_rating(Band, album, account, rating)
 
     album.put()
 

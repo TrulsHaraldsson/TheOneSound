@@ -1,9 +1,10 @@
 $(document).ready(function() {
 
-  $("#submit-new-toplist").click(function() {
+  $("#new-toplist-form").submit(function() {
     var form = $("#new-toplist-form");
     var form_data = form.serialize();
     onToplistSubmit(form_data);
+    return false;
   });
 
   function onToplistSubmit(form_data){

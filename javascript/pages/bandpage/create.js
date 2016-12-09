@@ -1,9 +1,10 @@
 $(document).ready(function() {
 
-  $("#submit-new-band").click(function() {
+  $("#new-band-form").submit(function() {
     var form = $("#new-band-form");
     var form_data = form.serialize();
     onBandSubmit(form_data);
+    return false;
   });
 
   function onBandSubmit(form_data){

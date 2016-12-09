@@ -4,7 +4,7 @@ from python.frontend import JINJA_ENVIRONMENT
 from python.api import common
 from python.db.databaseKinds import Band, Album, Track
 from python.util import entityparser
-from python.util import loginhelper
+from python.util import loginhelper, templatehelper
 
 
 class BandPageCreate(webapp2.RequestHandler):
@@ -23,6 +23,7 @@ class BandPageDisplay(webapp2.RequestHandler):
             band = common.get_entity_by_id(Band, int(band_id))
             band_dic = entityparser.entity_to_dic(band)
             add_band_and_decendants(template_values, band_dic)
+            templatehelper.add_rated(template_values, band)
             template = JINJA_ENVIRONMENT.get_template('bandpage/display.html')
             self.response.write(template.render(template_values))
         except Exception as e:

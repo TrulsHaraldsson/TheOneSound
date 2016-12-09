@@ -1,6 +1,8 @@
 <script src="/javascript/common/rate.js"></script>
-<div class="rating-div text-center" data-id="{{ id }}" data-type="{{ type }}" id="rating-div">
+<div class="rating-div text-center" data-id="{{ id }}" data-type="{{ type }}" data-rated="{{ rated }}" id="rating-div">
   Show how you feel <br>
+  <span id="likes">{{ rating.likes }}</span>
   <span class="pointable enlargeable glyphicon glyphicon-thumbs-up" id="like"></span>
   <span class="pointable enlargeable glyphicon glyphicon-thumbs-down" id="dislike"></span>
+  <span id="dislikes">{{ rating.dislikes }}</span>
 </div>

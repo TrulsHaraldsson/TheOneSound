@@ -51,7 +51,7 @@ def create_account(account_name, email_):
     print "in create account"
     if account_name != "" and email_ != "":
         user_id = loginhelper.get_user_id()
-        account = Account(id=str(user_id), name=account_name, email=email_)
+        account = Account(id=str(user_id), name=account_name, email=email_, ratings=[])
         account.put()
         return account.key.id()
     else:

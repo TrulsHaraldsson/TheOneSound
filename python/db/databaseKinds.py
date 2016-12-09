@@ -1,6 +1,11 @@
 from google.appengine.ext import ndb
 
 
+class UserRating(ndb.Model):
+    rated_key = ndb.KeyProperty()
+    value = ndb.BooleanProperty()  # true = like, false = dislike
+
+
 class Rating(ndb.Model):
     likes = ndb.IntegerProperty()
     dislikes = ndb.IntegerProperty()
@@ -47,6 +52,7 @@ class Account(ndb.Model):
     name = ndb.StringProperty()
     email = ndb.StringProperty()
     date = ndb.DateTimeProperty(auto_now_add=True)
+    ratings = ndb.StructuredProperty(UserRating, repeated=True)
 
 
 # Has user as owner

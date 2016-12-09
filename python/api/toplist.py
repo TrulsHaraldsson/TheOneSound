@@ -49,7 +49,7 @@ class TopListByIdHandler(webapp2.RequestHandler):
 
 def update_toplist(toplist_id, post_params):
     toplist = common.get_entity_by_id(TopList, int(toplist_id))
-
+    print "in update toplist"
     if 'content_id' in post_params:
         content_id = post_params['content_id']
         if toplist.kind == "track":
@@ -61,11 +61,10 @@ def update_toplist(toplist_id, post_params):
         if content_key.get():  # Check if content exists TODO: throw Exception
             toplist.content.append(content_key)
     if 'rating' in post_params:
+        print "rating found"
         rating = post_params['rating']
-        if rating == "1":
-            toplist.rating.likes += 1
-        elif rating == "0":
-            toplist.rating.dislikes += 1
+        account = common.get_entity_by_id(Account, str(loginhelper.get_user_id()))
+        toplist = common.add_rating(TopList, toplist, account, rating)
     toplist.put()
 
 

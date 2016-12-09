@@ -1,7 +1,7 @@
 
 $(document).ready(function() {
 
-    $("#submit-comment").click(function() {
+    $("#comment-form").submit(function() {
         var form = $("#comment-form");
         var commentable_id = form.data("commentable-id");
         var type = form.data("type");
@@ -9,6 +9,7 @@ $(document).ready(function() {
         //onCommentSubmit(commentable_id, comment_text, type);
         onCommentSubmit(form)
         resetCommentForm(form)
+        return false;
     });
 
     function resetCommentForm($form) {

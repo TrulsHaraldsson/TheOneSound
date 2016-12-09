@@ -1,8 +1,8 @@
 import json
 import webapp2
-from python.db.databaseKinds import Rating, Comment, Album, Track
+from python.db.databaseKinds import Rating, Comment, Album, Track, Account
 from python.api import common
-from python.util import entityparser
+from python.util import entityparser, loginhelper
 from google.appengine.ext import ndb
 
 
@@ -81,10 +81,8 @@ def update_track(track_id, post_params):
         track.comment.insert(0, comment)
     if 'rating' in post_params:
         rating = post_params['rating']
-        if rating == "1":
-            track.rating.likes += 1
-        elif rating == "0":
-            track.rating.dislikes += 1
+        account = common.get_entity_by_id(Account, str(loginhelper.get_user_id()))
+        track = common.add_rating(Track, track, account, rating)
     track.put()
 
 

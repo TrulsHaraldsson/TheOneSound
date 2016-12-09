@@ -2,7 +2,7 @@
 {% block content %}
 <h1>{{ track.name }}</h1>
 
-{% with id=track.id, type="tracks" %}
+{% with id=track.id, type="tracks", rating=track.rating, rated=rated %}
 {% include 'common/rating.html' %}
 {% endwith %}
 

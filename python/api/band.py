@@ -62,10 +62,8 @@ def update_band(description_text, comment_text, band_id, rating_):
         comment.rating = rating
         band.comment.insert(0, comment)
     if rating_ != "":
-        if rating_ == "1":
-            band.rating.likes += 1
-        elif rating_ == "0":
-            band.rating.dislikes += 1
+        account = common.get_entity_by_id(Account, str(user_id))
+        band = common.add_rating(Band, band, account, rating_)
     # TODO: add rating
     band.put()
 

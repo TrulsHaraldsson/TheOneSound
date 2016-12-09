@@ -1,5 +1,6 @@
 from google.appengine.ext import ndb
 from python.api.exceptions import BadRequest, EntityNotFound
+from python.db.databaseKinds import UserRating
 
 
 def get_entities_by_name(cls, entity_name, limit=10, offset_=0, order_=None):
@@ -164,17 +165,17 @@ def has_child_with_name(child_cls, child_name, parent_cls, parent_id):
     query = child_cls.query(child_cls.name == child_name, child_cls.owner == parent_key)
     child = query.fetch(1)
 
-    #TODO:  child_cls.owner == parent_key does not work properly
-    #print("Parent KEY = ", parent_key)
-    #print("Child owner key: ", child[0].owner)
-    #print("IDs", parent_key.id(), " childID = ", child[0].owner.id())
-    #print("child owner key == parent key: ", child[0].owner == parent_key)
+    # TODO:  child_cls.owner == parent_key does not work properly
+    # print("Parent KEY = ", parent_key)
+    # print("Child owner key: ", child[0].owner)
+    # print("IDs", parent_key.id(), " childID = ", child[0].owner.id())
+    # print("child owner key == parent key: ", child[0].owner == parent_key)
 
     if child:
-        #print("True")
+        # print("True")
         return True
     else:
-        #print("False")
+        # print("False")
         return False
 
 
@@ -183,3 +184,37 @@ def create_key(cls, id):
     creates a key with class cls and id = id
     """
     return ndb.Key(cls, id)
+
+
+def add_rating(cls, entity, account, rating):
+    print account.ratings
+    already_rated = False
+    for user_rating in account.ratings:
+        if user_rating.rated_key == entity.key:
+            already_rated = True
+            value = user_rating.value
+            if rating == "1" and not value:
+                entity.rating.likes += 1
+                entity.rating.dislikes -= 1
+                user_rating.value = True
+                account.put()
+            elif rating == "0" and value:
+                entity.rating.dislikes += 1
+                entity.rating.likes -= 1
+                user_rating.value = False
+                account.put()
+    if not already_rated:
+        new_user_rating = UserRating(rated_key=entity.key, value=bool(int(rating)))
+        account.ratings.append(new_user_rating)
+        account.put()
+        if rating == "1":
+            entity.rating.likes += 1
+        elif rating == "0":
+            entity.rating.dislikes += 1
+    return entity
+
+
+def have_rated(account, entity):
+    for user_rating in account.ratings:
+        if user_rating.rated_key == entity.key:
+            return user_rating

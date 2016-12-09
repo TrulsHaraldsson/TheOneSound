@@ -1,6 +1,6 @@
 import webapp2
 from python.frontend import JINJA_ENVIRONMENT
-from python.util import loginhelper, entityparser, urlhelper
+from python.util import loginhelper, entityparser, urlhelper, templatehelper
 from python.api import common
 from python.db.databaseKinds import TopList
 
@@ -20,6 +20,7 @@ class TopListPageDisplay(webapp2.RequestHandler):
         try:
             toplist = common.get_entity_by_id(TopList, int(toplist_id))
             add_toplist_and_content(template_values, toplist)
+            templatehelper.add_rated(template_values, toplist)
             template = JINJA_ENVIRONMENT.get_template('toplistpage/display.html')
             self.response.write(template.render(template_values))
         except Exception as e:

@@ -3,6 +3,47 @@
 <script src="/javascript/common/update-entity.js"></script>
 <script src="/javascript/pages/albumpage/display.js"></script>
 
+<link rel="stylesheet" href="/stylesheets/tos_album.css">
+
+<div class="album-container">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-6">
+            <!-- CHANGE THE IMAGE LOCATION LATER-->
+            <img src="http://www.rock-n-metal.de/queen2.jpg" class="img-thumbnail" alt="Album Image" width="512" height="512">
+            <h1>{{ album.name }}</h1>
+          </div>
+          <div class="col-md-6">
+            <h2>{{ album.description.description }}</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            {% with comments=album.comment %}
+            {% include 'common/commentdisplay.html' %}
+            {% endwith %}
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">Tracks</div>
+          <div class="panel-body">
+            {% for track in tracks %}
+            <p>
+              <a href="{{ track.url|safe }}">{{ track.name }}</a>
+            </p>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--
 <h1>{{ album.name }}</h1>
 <h2>{{ album.description.description }}</h2>
 
@@ -44,9 +85,6 @@
   {% with commentable_id=album.id, type="albums" %}
   {% include 'common/comment.html' %}
   {% endwith %}
-</p>
+</p> -->
 
-{% with comments=album.comment %}
-{% include 'common/commentdisplay.html' %}
-{% endwith %}
 {% endblock %}

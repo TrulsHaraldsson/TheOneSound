@@ -1,6 +1,13 @@
-<h1><u>Comments:</u></h1>
-<ul id="comment_section">
-{% for comment in comments %}
-    <li>{{ comment.content }}</li>
-{% endfor %}
-</ul>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    Comments
+  </div>
+  <div id="comment-section" class="panel-body">
+    {% for comment in comments %}
+      <p>{{ comment.content }}</p>
+    {% endfor %}
+  </div>
+  <div class="panel-footer">
+    <a>Show More</a>
+  </div>
+</div>

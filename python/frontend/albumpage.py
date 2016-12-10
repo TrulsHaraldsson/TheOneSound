@@ -1,7 +1,7 @@
 import webapp2
 from python.db.databaseKinds import Album, Track
 from python.frontend import JINJA_ENVIRONMENT
-from python.util import loginhelper, entityparser, templatehelper
+from python.util import loginhelper, entityparser, templatehelper, urlhelper
 from python.api import common
 
 
@@ -36,6 +36,7 @@ def add_album_and_decendants(template_values, album):
     tracks = common.get_children(Track, Album, int(album["id"]))
     tracks_dic = entityparser.entities_to_dic_list(tracks)
     template_values["tracks"] = tracks_dic
+    urlhelper.attach_links("/trackpage/", template_values["tracks"])
 
 
 # [START app]

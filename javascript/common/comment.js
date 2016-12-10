@@ -24,7 +24,6 @@ $(document).ready(function() {
             var type = form.data("type");
             var comment_text = form.serialize();
             var text = form.find('input:text').val()
-            console.log(text)
 
             data_string = comment_text;
             $.ajax({
@@ -36,33 +35,12 @@ $(document).ready(function() {
                     }
                 },
                 success: function(){
-                    var commentSection = $("#comment_section") // this is a list <ul></ul>
-                    var li = $('<li></li>')
+                    var commentSection = $("#comment-section") // This is a class panel-body from BS
+                    var li = $('<p></p>')
                         .text(text)
-                        .prependTo(comment_section)
+                        .prependTo(commentSection)
                 }
 
             })
         }
-/*
-    function onCommentSubmit(commentable_id, comment_text, type){
-        data_string = comment_text;
-        $.ajax({
-            method: "PUT",
-            data: data_string,
-            url: "/api/"+type+"/"+commentable_id, //http://theonesound-148310.appspot.com
-            statusCode: {
-                404: function(){
-                }
-            },
-            success: function(){
-                var commentSection = $("#comment_section")
-                comment_section.append(comment_text)
-            }
-
-        })
-    }
-    */
-
-
 })

@@ -1,33 +1,62 @@
 {% extends "layout.html" %}
 {% block content %}
+<link rel="stylesheet" href="/stylesheets/tos_search_result.css">
 {% if no_hits %}
 Seems like what you searched for does not exist... yet.<br>
 Feel free to <a href="/bandpage/create">create a new band!</a>
 {% else %}
-  <p>
+  <div class="search-result-container">
+    <div class="container-fluid">
+      <div class="row">
+        <!-- BANDS SEARCH RESULTS -->
+        <div class="col-md-4">
+          <div class="panel panel-default">
+            <div class="panel-heading">Bands</div>
+            <div class="panel-body">
+              {% for band in bands %}
+              <p>
+                <a href="{{ band.url|safe }}">{{ band.name }}</a>
+              </p>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <!-- ALBUMS SEARCH RESULTS -->
+        <div class="col-md-4">
+          <div class="panel panel-default">
+            <div class="panel-heading">Albums</div>
+            <div class="panel-body">
+              {% for album in albums %}
+              <p>
+                <a href="{{ album.url|safe }}">{{ album.name }}</a>
+              </p>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <!-- TRACKS SEARCH RESULTS -->
+        <div class="col-md-4">
+          <div class="panel panel-default">
+            <div class="panel-heading">Tracks</div>
+            <div class="panel-body">
+              {% for track in tracks %}
+              <p>
+                <a href="{{ track.url|safe }}">{{ track.name }}</a>
+              </p>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--<p>
     Bands:
   </p>
-  {% for band in bands %}
-  <p>
-    <a href="{{ band.url|safe }}">{{ band.name }}</a>
-  </p>
-  {% endfor %}
-  <p>
-    Albums:
-  </p>
-  {% for album in albums %}
-  <p>
-    <a href="{{ album.url|safe }}">{{ album.name }}</a>
-  </p>
-  {% endfor %}
-  <p>
-    Tracks:
-  </p>
-  {% for track in tracks %}
-  <p>
-    <a href="{{ track.url|safe }}">{{ track.name }}</a>
-  </p>
-{% endfor %}
+
+
+
+  </p>-->
 {% endif %}
 
 

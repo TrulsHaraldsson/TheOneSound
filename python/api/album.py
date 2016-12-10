@@ -3,7 +3,7 @@ import json
 import webapp2
 from google.appengine.ext import ndb
 
-from python.db.databaseKinds import Album, Band, Description, Account, Comment, Rating
+from python.db.databaseKinds import Album, Band, AlbumDescription, Account, Comment, Rating
 from python.api import common
 from python.api.exceptions import BadRequest, EntityNotFound
 from python.util import entityparser, loginhelper
@@ -67,8 +67,7 @@ def create_album(band_id, post_params):
     album_exists = common.has_child_with_name(Album, post_params['name'], Band, band_id)
     if not album_exists:
 
-        if 'description' in post_params.keys():
-            desc = Description(description=post_params['description'])
+        desc = AlbumDescription(description="", picture_url="")
 
         album = Album(owner=ndb.Key(Band, int(band_id)), name=post_params['name'], description=desc)
         rating = Rating(likes=0, dislikes=0)
@@ -97,10 +96,17 @@ def update_album(album_id, post_params):
 
     if 'description' in post_params.keys():
         if post_params['description'] != "":
-            description = Description(description=str(post_params['description']))
-            album.description = description
+            description = post_params['description']
+            album.description.description = description
         else:
             raise BadRequest("description must be none empty")
+
+    if 'picture_url' in post_params.keys():
+        if post_params['picture_url'] != "":
+            picture_url = post_params['picture_url']
+            album.description.picture_url = picture_url
+        else:
+            raise BadRequest("picture url must be none empty")
 
     if 'rating' in post_params.keys():
         rating = post_params['rating']

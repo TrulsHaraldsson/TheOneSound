@@ -10,6 +10,10 @@ body {
   opacity: 0.3;
 }
 
+.tos-well {
+    background-color: #3394CC;
+}
+
 .news-panel {
     background-color:#3394CC;
     min-height: 400px;

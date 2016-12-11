@@ -3,10 +3,22 @@
 <script src="/javascript/pages/toplistpage/addcontent.js"></script>
 <h1>{{ toplist.name }}</h1>
 
-{% for content in content_list %}
-<a href="{{ content.url|safe }}">{{ content.name }}</a>
-<br>
-{% endfor %}
+
+<div class="col-md-6 pull-right">
+  <div class="panel panel-default">
+    <div class="panel-heading">Top List</div>
+    <div class="panel-body">
+      {% for content in content_list %}
+      <p>
+        <a href="{{ content.url|safe }}">{{ content.name }}</a>
+      </p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+
+
 
 {% with id=toplist.id, type="toplists", rating=toplist.rating, rated=rated %}
 {% include 'common/rating.html' %}

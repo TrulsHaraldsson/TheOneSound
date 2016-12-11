@@ -14,6 +14,9 @@
             <!-- CHANGE THE IMAGE LOCATION LATER-->
             <img src="http://www.rock-n-metal.de/queen2.jpg" class="img-thumbnail" alt="Album Image" width="512" height="512">
             <h1>{{ album.name }}</h1>
+            {% with id=album.id, type="albums", rating=album.rating, rated=rated %}
+            {% include 'common/rating.html' %}
+            {% endwith %}
           </div>
           <div class="col-md-6">
             <h2>{{ album.description.description }}</h2>

@@ -4,7 +4,7 @@ from python.frontend import JINJA_ENVIRONMENT
 from python.api import common
 from python.db.databaseKinds import Band, Album, Track
 from python.util import entityparser
-from python.util import loginhelper, templatehelper
+from python.util import loginhelper, templatehelper, urlhelper
 
 
 class BandPageCreate(webapp2.RequestHandler):
@@ -39,11 +39,11 @@ def add_band_and_decendants(template_values, band):
     albums = common.get_children(Album, Band, int(band["id"]))
     albums_dic = entityparser.entities_to_dic_list(albums)
     for album in albums_dic:
-        print album["id"]
         tracks = common.get_children(Track, Album, int(album["id"]))
         tracks_dic = entityparser.entities_to_dic_list(tracks)
         album["tracks"] = tracks_dic
     template_values["albums"] = albums_dic
+    urlhelper.attach_links("/albumpage/", template_values["albums"])
 
 
 # [START app]

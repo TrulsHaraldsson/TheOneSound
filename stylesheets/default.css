@@ -4,6 +4,26 @@ body {
   background-color: #114D6B;
 }
 
+.news-container {
+  padding: 1%;
+  background-color: #2EBDFF;
+  opacity: 0.3;
+}
+
+.news-panel {
+    background-color:#3394CC;
+    min-height: 400px;
+    max-height: 400px;
+}
+
+.news-panel a {
+    color: #000000;
+}
+
+.news-panel p {
+    color: #000000;
+}
+
 .rating-div {
   max-width: 15%;
 }

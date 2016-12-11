@@ -12,7 +12,7 @@ Feel free to <a href="/bandpage/create">create a new band!</a>
         <div class="col-md-4">
           <div class="panel panel-default">
             <div class="panel-heading">Bands</div>
-            <div class="panel-body">
+            <div class="panel-body search-result-table">
               {% for band in bands %}
               <p>
                 <a href="{{ band.url|safe }}">{{ band.name }}</a>
@@ -25,7 +25,7 @@ Feel free to <a href="/bandpage/create">create a new band!</a>
         <div class="col-md-4">
           <div class="panel panel-default">
             <div class="panel-heading">Albums</div>
-            <div class="panel-body">
+            <div class="panel-body search-result-table">
               {% for album in albums %}
               <p>
                 <a href="{{ album.url|safe }}">{{ album.name }}</a>
@@ -38,7 +38,7 @@ Feel free to <a href="/bandpage/create">create a new band!</a>
         <div class="col-md-4">
           <div class="panel panel-default">
             <div class="panel-heading">Tracks</div>
-            <div class="panel-body">
+            <div class="panel-body search-result-table">
               {% for track in tracks %}
               <p>
                 <a href="{{ track.url|safe }}">{{ track.name }}</a>

@@ -11,6 +11,11 @@ class Rating(ndb.Model):
     dislikes = ndb.IntegerProperty()
 
 
+class TrackDescription(ndb.Model):
+    description = ndb.StringProperty()
+    youtube_url = ndb.StringProperty()
+
+
 class AlbumDescription(ndb.Model):
     description = ndb.StringProperty()
     picture_url = ndb.StringProperty()
@@ -55,6 +60,7 @@ class Track(ndb.Model):
     comment = ndb.StructuredProperty(Comment, repeated=True)
     rating = ndb.StructuredProperty(Rating)
     owner = ndb.KeyProperty()
+    description = ndb.StructuredProperty(TrackDescription)
 
 
 class Account(ndb.Model):

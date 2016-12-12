@@ -25,7 +25,6 @@ function onEntityUpdate(form_data, id, type){
   })
 }
 
-
 function showNewDescription() {
   var newText = $("#description-textarea").val();
   $("#description-display").text(newText);

@@ -1,7 +1,15 @@
+:root {
+  --font-size-factor: medium;
+}
+
 body {
   padding-top: 0px;
   padding-bottom: 40px;
   background-color: #114D6B;
+}
+
+.big-textarea {
+  width: 100%;
 }
 
 .news-container {

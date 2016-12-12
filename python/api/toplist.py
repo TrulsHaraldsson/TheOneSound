@@ -51,7 +51,8 @@ def update_toplist(toplist_id, post_params):
     toplist = common.get_entity_by_id(TopList, int(toplist_id))
     print "in update toplist"
     if 'content_id' in post_params:
-        content_id = post_params['content_id']
+        content_id = int(post_params['content_id'])
+        print "content_id is here"
         if toplist.kind == "track":
             content_key = common.create_key(Track, content_id)
         elif toplist.kind == "album":
@@ -59,6 +60,7 @@ def update_toplist(toplist_id, post_params):
         else:
             content_key = common.create_key(Band, content_id)
         if content_key.get():  # Check if content exists TODO: throw Exception
+            print "key exists!"
             toplist.content.append(content_key)
     if 'rating' in post_params:
         print "rating found"

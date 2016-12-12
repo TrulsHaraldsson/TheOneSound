@@ -72,7 +72,8 @@ def create_track(album_id, track_name):
 
 
 def update_track(track_id, post_params):
-    track = common.get_entity_by_id(Track, track_id)
+    track = common.get_entity_by_id(Track, int(track_id))
+    print track
     if 'description' in post_params.keys():
         description = post_params['description']
         if description != "":

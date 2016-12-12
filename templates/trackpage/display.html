@@ -23,7 +23,7 @@
                 </form>
               </div>
             </div>
-            <button class="pull-right btn btn-default" type="button" name="button" id="toggle-youtube">Edit</button>
+            <button class="pull-right btn btn-default btn-sm" type="button" name="button" id="toggle-youtube">Edit</button>
             {% with id=track.id, type="tracks", rating=track.rating, rated=rated %}
             {% include 'common/rating.html' %}
             {% endwith %}
@@ -49,7 +49,7 @@
               <input type="submit" name="submit" value="submit">
             </form>
           </div>
-          <button class="pull-right" type="button" name="button" id="toggle-description">Edit</button>
+          <button class="pull-right btn btn-default btn-sm" type="button" name="button" id="toggle-description">Edit</button>
         </div>
       </div>
     </div>

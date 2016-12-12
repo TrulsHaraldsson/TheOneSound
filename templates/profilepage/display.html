@@ -1,13 +1,55 @@
 {% extends "layout.html" %}
 {% block content %}
-<h1>{{ account.name }}</h1>
-<h2>{{ account.email }}</h2>
+<script src="/javascript/common/update-entity.js"></script>
+<script src="/javascript/pages/profilepage/display.js"></script>
 
-{% for toplist in toplists %}
-  <a href="{{ toplist.url }}"><h3>{{ toplist.name }}</h3></a>
-{% endfor %}
-<p>
-  <a href="/toplistpage/create">Create new TopList</a>
-</p>
+<link rel="stylesheet" href="/stylesheets/tos_profile.css">
+
+<div class="profile-container">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8">
+        <h1>{{ account.name }}</h1>
+        <h2>{{ account.email }}</h2>
+      </div>
+      <div class="col-md-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <button id="button-add-toplist" type="submit" class="pull-right btn btn-default">
+              <span class="glyphicon glyphicon-plus"></span>
+            </button>
+            <h4>Top lists</h4>
+            <div id="div-add-toplist">
+              <form id="new-entity-form" action="#" data-id="{{ user.id }}">
+                <div class="form-group">
+                  <input type="text" name="name" placeholder="Toplist name">
+                </div>
+                <div class="form-group">
+                  <label for="type">Band:</label>
+                  <input type="radio" name="type" value="band">
+
+                  <label for="type">Album:</label>
+                  <input type="radio" name="type" value="album">
+
+                  <label for="type">Track:</label>
+                  <input type="radio" name="type" value="track">
+                  <button type="submit" name="button" class="btn btn-default">Create</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="panel-body">
+            {% for toplist in toplists %}
+              <a href="{{ toplist.url }}">{{ toplist.name }}</a>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 
 {% endblock %}

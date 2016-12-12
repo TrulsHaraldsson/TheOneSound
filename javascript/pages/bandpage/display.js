@@ -13,8 +13,8 @@ $(document).ready(function() {
     $("#description-display").toggle();
   });
 
-  $("#button-add-album").click(function(){
-    $("#div-add-album").toggle();
+  $("#button-add-entity").click(function(){
+    $("#div-add-entity").toggle();
   });
 
 })

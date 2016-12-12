@@ -7,8 +7,8 @@ $(document).ready(function() {
         var type = form.data("type");
         var comment_text = $("#comment-form").serialize();
         //onCommentSubmit(commentable_id, comment_text, type);
-        onCommentSubmit(form)
-        resetCommentForm(form)
+        onCommentSubmit(form);
+        resetCommentForm(form);
         return false;
     });
 
@@ -16,14 +16,14 @@ $(document).ready(function() {
         /*
         * Will remove the text inside the input:text element that belongs to the given form
         */
-        $form.find('input:text').val('');
+        $form.find('textarea[name="comment_text"]').val('');
     }
 
     function onCommentSubmit(form){
             var commentable_id = form.data("commentable-id");
             var type = form.data("type");
             var comment_text = form.serialize();
-            var text = form.find('input:text').val()
+            var text = form.find('textarea[name="comment_text"]').val();
 
             data_string = comment_text;
             $.ajax({

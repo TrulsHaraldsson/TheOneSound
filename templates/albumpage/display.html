@@ -36,7 +36,7 @@
         </div>
         <div class="row">
           <div class="col-md-12">
-            {% with comments=album.comment %}
+            {% with comments=album.comment, commentable_id=album.id, type="albums" %}
             {% include 'common/commentdisplay.html' %}
             {% endwith %}
           </div>

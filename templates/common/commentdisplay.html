@@ -1,6 +1,16 @@
+<script src="/javascript/common/comment.js"></script>
+
 <div class="panel panel-default">
   <div class="panel-heading">
-    Comments
+
+    <form class="form-inline" id="comment-form" action="#" data-commentable-id="{{ commentable_id }}" data-type="{{ type }}">
+      <div class="form-group">
+        <label for="comment_text" class="sr-only">Comment:</label>
+        <textarea class="big-textarea" name="comment_text" rows="4" cols="30" placeholder="Comment here!"></textarea>
+      </div>
+      <input type="submit" name="submit" value="Comment!">
+    </form>
+
   </div>
   <div id="comment-section" class="panel-body">
     {% for comment in comments %}

@@ -4,6 +4,17 @@ $(document).ready(function() {
   addSubmitListener("#update-biography-form", "bands");
   addSubmitListener("#update-members-form", "bands");
   addSubmitListener("#update-genres-form", "bands");
+
+  //$(document).ready(function() {
+
+    //addSubmitListener("#update-youtube-form", "bands");
+
+    $("#toggle-description").click(function (){
+      $("#description-edit").toggle();
+      $("#description-display").toggle();
+    });
+
+  //})
   /*
   function addSubmitListener(form_id){
     $(form_id).submit(function() {

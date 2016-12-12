@@ -19,7 +19,19 @@
             {% endwith %}
           </div>
           <div class="col-md-6 well tos-well">
-            <h2>{{ album.description.description }}</h2>
+            <div class="description-container">
+              <h3>Description</h3>
+              <div id="description-display">
+                {{ album.description.description }}
+              </div>
+              <div id="description-edit">
+                <textarea class="big-textarea" name="description" form="update-description-form" rows="12" cols="40">{{ album.description.description }}</textarea>
+                <form id="update-description-form" action="#" data-id="{{ album.id }}">
+                  <input type="submit" name="submit" value="submit">
+                </form>
+              </div>
+              <button class="pull-right" type="button" name="button" id="toggle-description">Edit</button>
+            </div>
           </div>
         </div>
         <div class="row">

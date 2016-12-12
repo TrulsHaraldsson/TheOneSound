@@ -48,10 +48,13 @@ class BandByIdHandler(webapp2.RequestHandler):
 def update_band(band_id, post_params):
     user_id = loginhelper.get_user_id()
     band = common.get_entity_by_id(Band, int(band_id))
+    print(band.name)
+    print(post_params)
     if 'biography' in post_params.keys():
         biography = post_params['biography']
         band.description.biography = biography
     if 'genre' in post_params.keys():
+        print("genre")
         genre = post_params['genre']
         band.description.genres.append(genre)
     if 'member' in post_params.keys():

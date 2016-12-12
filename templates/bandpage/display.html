@@ -20,9 +20,18 @@
           </div>
           <div class="col-md-6 well tos-well">
             <!--<h2>{{ band.description.description }}</h2>-->
-            <h1>Biography</h1>
-            <div id="biography-display">
-              {{ band.description.biography }}
+            <div class="description-container">
+              <h3>Biography</h3>
+              <div id="description-display">
+                {{ band.description.biography }}
+              </div>
+              <div id="description-edit">
+                <textarea class="big-textarea" name="biography" form="update-biography-form" rows="12" cols="40">{{ band.description.description }}</textarea>
+                <form id="update-biography-form" action="#" data-id="{{ band.id }}">
+                  <input type="submit" name="submit" value="submit">
+                </form>
+              </div>
+              <button class="pull-right" type="button" name="button" id="toggle-description">Edit</button>
             </div>
           </div>
         </div>

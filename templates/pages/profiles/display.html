@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
 <script src="/javascript/common/update-entity.js"></script>
+<script src="/javascript/common/create-entity.js"></script>
 <script src="/javascript/pages/profilepage/display.js"></script>
 
 <link rel="stylesheet" href="/stylesheets/tos_profile.css">
@@ -20,7 +21,7 @@
             </button>
             <h4>Top lists</h4>
             <div id="div-add-toplist">
-              <form id="new-entity-form" action="#" data-id="{{ user.id }}">
+              <form id="create-toplist-form" action="#" data-id="{{ user.id }}">
                 <div class="form-group">
                   <input type="text" name="name" placeholder="Toplist name">
                 </div>
@@ -40,7 +41,9 @@
           </div>
           <div class="panel-body">
             {% for toplist in toplists %}
+            <p>
               <a href="{{ toplist.url }}">{{ toplist.name }}</a>
+            </p>
             {% endfor %}
           </div>
         </div>

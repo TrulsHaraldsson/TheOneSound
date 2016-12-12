@@ -3,14 +3,7 @@ from python.db.databaseKinds import Album, Track
 from python.frontend import JINJA_ENVIRONMENT
 from python.util import loginhelper, entityparser, templatehelper, urlhelper
 from python.api import common
-
-
-class AlbumsUpdate(webapp2.RequestHandler):
-    def get(self):
-        template_values = {}
-        loginhelper.add_login_values(template_values, self)
-        template = JINJA_ENVIRONMENT.get_template('pages/albums/update.html')
-        self.response.write(template.render(template_values))
+from python.api.exceptions import EntityNotFound
 
 
 class AlbumsDisplay(webapp2.RequestHandler):
@@ -24,10 +17,8 @@ class AlbumsDisplay(webapp2.RequestHandler):
             templatehelper.add_rated(template_values, album)
             template = JINJA_ENVIRONMENT.get_template('pages/albums/display.html')
             self.response.write(template.render(template_values))
-        except Exception as e:
+        except EntityNotFound as e:
             print(e)
-            template = JINJA_ENVIRONMENT.get_template('pages/albums/update.html')
-            self.response.out.write(template.render(template_values))
 
 
 def add_album_and_decendants(template_values, album):
@@ -41,7 +32,6 @@ def add_album_and_decendants(template_values, album):
 
 # [START app]
 app = webapp2.WSGIApplication([
-    ('/albums/update', AlbumsUpdate),
     ('/albums/(\d+)', AlbumsDisplay)
 ], debug=True)
 # [END app]

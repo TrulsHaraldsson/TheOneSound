@@ -3,6 +3,7 @@ import webapp2
 
 from python.db.databaseKinds import Rating, BandDescription, Comment, Band, Account
 from python.api import common
+from python.api.exceptions import BadRequest, EntityNotFound
 from python.util import entityparser, loginhelper
 
 
@@ -13,9 +14,8 @@ class BandHandler(webapp2.RequestHandler):
             entity_id = create_band(band_name)
             json_obj = entityparser.entity_id_to_json(entity_id)
             self.response.out.write(json_obj)
-        except Exception as e:
-            print e
-            self.response.set_status(404)
+        except BadRequest:
+            self.response.set_status(400)
 
     def get(self):
         bands = common.get_kinds(Band, self.request.query_string)
@@ -30,26 +30,24 @@ class BandByIdHandler(webapp2.RequestHandler):
             band = common.get_entity_by_id(Band, int(band_id))
             band_dic = entityparser.entity_to_dic(band)
             self.response.out.write(json.dumps(band_dic))
-        except Exception as e:
-            print e
+        except BadRequest:
+            self.response.set_status(400)
+        except EntityNotFound:
             self.response.set_status(404)
 
     # updates a band with the new information
     def put(self, band_id):
         try:
             update_band(int(band_id), self.request.POST)
-
-        except Exception as e:
-            print (e)
+        except BadRequest:
+            self.response.set_status(400)
+        except EntityNotFound:
             self.response.set_status(404)
-
 
 # Not tested yet.
 def update_band(band_id, post_params):
     user_id = loginhelper.get_user_id()
     band = common.get_entity_by_id(Band, int(band_id))
-    print(band.name)
-    print(post_params)
     if 'biography' in post_params.keys():
         biography = post_params['biography']
         band.description.biography = biography

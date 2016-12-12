@@ -9,31 +9,42 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-6">
-        <!-- CHANGE THE IMAGE LOCATION LATER-->
-        <h1>{{ track.name }}</h1>
-        <div class="youtube-container thumbnail">
-          <div id="youtube-display" class="">
-            <iframe class="youtube-frame" src="{{ track.description.youtube_url }}" frameborder="0" allowfullscreen></iframe>
-          </div>
-          <div id="youtube-edit">
-            <form id="update-youtube-form" action="#" data-id="{{ track.id }}">
-              <input type="url" name="youtube_url" placeholder="youtube embed-url">
-              <input type="submit" name="submit" value="submit">
-            </form>
+        <div class="row">
+          <div class="col-md-12">
+            <!-- CHANGE THE IMAGE LOCATION LATER-->
+            <div class="youtube-container thumbnail">
+              <div id="youtube-display" class="">
+                <iframe id="youtube-vid" class="youtube-frame" src="{{ track.description.youtube_url }}" frameborder="0" allowfullscreen></iframe>
+              </div>
+              <div id="youtube-edit">
+                <form id="update-youtube-form" action="#" data-id="{{ track.id }}">
+                  <input id="youtube-input" type="url" name="youtube_url" placeholder="youtube embed-url">
+                  <input type="submit" name="submit" value="submit">
+                </form>
+              </div>
+            </div>
+            <button class="pull-right btn btn-default" type="button" name="button" id="toggle-youtube">Edit</button>
+            {% with id=track.id, type="tracks", rating=track.rating, rated=rated %}
+            {% include 'common/rating.html' %}
+            {% endwith %}
           </div>
         </div>
-        {% with id=track.id, type="tracks", rating=track.rating, rated=rated %}
-        {% include 'common/rating.html' %}
-        {% endwith %}
+        <div class="row">
+          <div class="col-md-12">
+            {% with comments=track.comment %}
+            {% include 'common/commentdisplay.html' %}
+            {% endwith %}
+          </div>
+        </div>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-6 well tos-well">
+        <h2>{{ track.name }}</h2>
         <div class="description-container">
-          <h3>Description</h3>
           <div id="description-display">
             {{ track.description.description }}
           </div>
           <div id="description-edit">
-            <textarea class="big-textarea" name="description" form="update-description-form" rows="12" cols="40">{{ track.description.description }}</textarea>
+            <textarea id="description-textarea" class="big-textarea" name="description" form="update-description-form" rows="12" cols="40">{{ track.description.description }}</textarea>
             <form id="update-description-form" action="#" data-id="{{ track.id }}">
               <input type="submit" name="submit" value="submit">
             </form>
@@ -42,13 +53,7 @@
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-12">
-        {% with comments=track.comment %}
-        {% include 'common/commentdisplay.html' %}
-        {% endwith %}
-      </div>
-    </div>
+
   </div>
 </div>
 

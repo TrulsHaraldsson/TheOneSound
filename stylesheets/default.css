@@ -12,6 +12,10 @@ body {
   width: 100%;
 }
 
+#description-edit {
+  display: none;
+}
+
 .news-container {
   padding: 1%;
   background-color: #2EBDFF;

@@ -1,3 +1,7 @@
+/*
+change to general form
+ */
+
 $(document).ready(function() {
 
   $("#new-toplist-form").submit(function() {

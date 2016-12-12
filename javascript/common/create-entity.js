@@ -20,7 +20,7 @@ function onEntityCreate(form_data, parent_id, type){
       }
     },
     success: function(data){
-      window.location.replace("/albumpage/" + data.id);
+      window.location.replace("/" + type + "/" + data.id); 
     }
   })
 }

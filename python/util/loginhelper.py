@@ -11,7 +11,7 @@ def add_login_values(dic, rqhandler):
         user_dic["id"] = user.user_id()
     else:
         user_dic["logged_in"] = False
-        user_dic["url"] = users.create_login_url("/profilepage")
+        user_dic["url"] = users.create_login_url("/profiles")
     dic["user"] = user_dic
 
 

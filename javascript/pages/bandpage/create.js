@@ -1,3 +1,7 @@
+/*
+change to general submit form
+ */
+
 $(document).ready(function() {
 
   $("#new-band-form").submit(function() {

@@ -5,15 +5,15 @@ from python.api import common
 from python.db.databaseKinds import TopList
 
 
-class TopListPageCreate(webapp2.RequestHandler):
+class TopListsCreate(webapp2.RequestHandler):
     def get(self):
         template_values = {}
         loginhelper.add_login_values(template_values, self)
-        template = JINJA_ENVIRONMENT.get_template('toplistpage/create.html')
+        template = JINJA_ENVIRONMENT.get_template('pages/toplists/create.html')
         self.response.write(template.render(template_values))
 
 
-class TopListPageDisplay(webapp2.RequestHandler):
+class TopListsDisplay(webapp2.RequestHandler):
     def get(self, toplist_id):
         template_values = {}
         loginhelper.add_login_values(template_values, self)
@@ -21,11 +21,11 @@ class TopListPageDisplay(webapp2.RequestHandler):
             toplist = common.get_entity_by_id(TopList, int(toplist_id))
             add_toplist_and_content(template_values, toplist)
             templatehelper.add_rated(template_values, toplist)
-            template = JINJA_ENVIRONMENT.get_template('toplistpage/display.html')
+            template = JINJA_ENVIRONMENT.get_template('pages/toplists/display.html')
             self.response.write(template.render(template_values))
         except Exception as e:
-            print "toplistpage: ", e
-            template = JINJA_ENVIRONMENT.get_template('toplistpage/create.html')
+            print "toplists: ", e
+            template = JINJA_ENVIRONMENT.get_template('pages/toplists/create.html')
             self.response.write(template.render(template_values))
 
 
@@ -37,13 +37,13 @@ def add_toplist_and_content(template_values, toplist):
         content = content_key.get()
         print content
         content_list.append(entityparser.entity_to_dic(content))
-    urlhelper.attach_links("/" + toplist_dic["kind"] + "page/", content_list)
+    urlhelper.attach_links("/" + toplist_dic["kind"] + "s/", content_list)
     template_values["content_list"] = content_list
 
 
 # [START app]
 app = webapp2.WSGIApplication([
-    ('/toplistpage/create', TopListPageCreate),
-    ('/toplistpage/(\d+)', TopListPageDisplay)
+    ('/toplists/create', TopListsCreate),
+    ('/toplists/(\d+)', TopListsDisplay)
 ], debug=True)
 # [END app]

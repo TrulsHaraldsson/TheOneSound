@@ -1,11 +1,10 @@
 import webapp2
 from python.db.databaseKinds import Band, Album, Track
-from python.frontend import JINJA_ENVIRONMENT, bandpage
+from python.frontend import JINJA_ENVIRONMENT
 from python.util import loginhelper, entityparser, urlhelper
 from python.api import common
 
 
-# [START main_page]
 class SearchHandler(webapp2.RequestHandler):
     def get(self):
         query_string = self.request.query_string
@@ -18,21 +17,20 @@ class SearchHandler(webapp2.RequestHandler):
         number_of_hits = len(bands) + len(albums) + len(tracks)
         if number_of_hits == 0:
             template_values["no_hits"] = True
-            template = JINJA_ENVIRONMENT.get_template('searchpage.html')
+            template = JINJA_ENVIRONMENT.get_template('pages/search.html')
         else:
             template_values["no_hits"] = False
             if bands:
                 template_values["bands"] = entityparser.entities_to_dic_list(bands)
-                urlhelper.attach_links("/bandpage/", template_values["bands"])
+                urlhelper.attach_links("/bands/", template_values["bands"])
             if albums:
                 template_values["albums"] = entityparser.entities_to_dic_list(albums)
-                urlhelper.attach_links("/albumpage/", template_values["albums"])
+                urlhelper.attach_links("/albums/", template_values["albums"])
             if tracks:
                 template_values["tracks"] = entityparser.entities_to_dic_list(tracks)
-                urlhelper.attach_links("/trackpage/", template_values["tracks"])
-            template = JINJA_ENVIRONMENT.get_template('searchpage.html')
+                urlhelper.attach_links("/tracks/", template_values["tracks"])
+            template = JINJA_ENVIRONMENT.get_template('pages/search.html')
         self.response.write(template.render(template_values))
-# [END main_page]
 
 
 """

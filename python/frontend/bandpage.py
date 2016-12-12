@@ -7,15 +7,15 @@ from python.util import entityparser
 from python.util import loginhelper, templatehelper, urlhelper
 
 
-class BandPageCreate(webapp2.RequestHandler):
+class BandsCreate(webapp2.RequestHandler):
     def get(self):
         template_values = {}
         loginhelper.add_login_values(template_values, self)
-        template = JINJA_ENVIRONMENT.get_template('bandpage/create.html')
+        template = JINJA_ENVIRONMENT.get_template('pages/bands/create.html')
         self.response.write(template.render(template_values))
 
 
-class BandPageDisplay(webapp2.RequestHandler):
+class BandsDisplay(webapp2.RequestHandler):
     def get(self, band_id):
         template_values = {}
         loginhelper.add_login_values(template_values, self)
@@ -24,11 +24,11 @@ class BandPageDisplay(webapp2.RequestHandler):
             band_dic = entityparser.entity_to_dic(band)
             add_band_and_decendants(template_values, band_dic)
             templatehelper.add_rated(template_values, band)
-            template = JINJA_ENVIRONMENT.get_template('bandpage/display.html')
+            template = JINJA_ENVIRONMENT.get_template('pages/bands/display.html')
             self.response.write(template.render(template_values))
         except Exception as e:
             print "Bandpage: ", e
-            template = JINJA_ENVIRONMENT.get_template('bandpage/create.html')
+            template = JINJA_ENVIRONMENT.get_template('pages/bands/create.html')
             self.response.write(template.render(template_values))
 
 
@@ -43,12 +43,12 @@ def add_band_and_decendants(template_values, band):
         tracks_dic = entityparser.entities_to_dic_list(tracks)
         album["tracks"] = tracks_dic
     template_values["albums"] = albums_dic
-    urlhelper.attach_links("/albumpage/", template_values["albums"])
+    urlhelper.attach_links("/albums/", template_values["albums"])
 
 
 # [START app]
 app = webapp2.WSGIApplication([
-    ('/bandpage/create', BandPageCreate),
-    ('/bandpage/(\d+)', BandPageDisplay)
+    ('/bands/create', BandsCreate),
+    ('/bands/(\d+)', BandsDisplay)
 ], debug=True)
 # [END app]

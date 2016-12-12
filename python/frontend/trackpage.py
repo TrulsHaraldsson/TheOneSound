@@ -7,15 +7,15 @@ from python.util import entityparser, templatehelper
 from python.util import loginhelper
 
 
-class TrackPageUpdate(webapp2.RequestHandler):
+class TracksUpdate(webapp2.RequestHandler):
     def get(self):
         template_values = {}
         loginhelper.add_login_values(template_values, self)
-        template = JINJA_ENVIRONMENT.get_template('trackpage/update.html')
+        template = JINJA_ENVIRONMENT.get_template('pages/tracks/update.html')
         self.response.write(template.render(template_values))
 
 
-class TrackPageDisplay(webapp2.RequestHandler):
+class TracksDisplay(webapp2.RequestHandler):
     def get(self, track_id):
         template_values = {}
         loginhelper.add_login_values(template_values, self)
@@ -24,17 +24,17 @@ class TrackPageDisplay(webapp2.RequestHandler):
             track_dic = entityparser.entity_to_dic(track)
             template_values["track"] = track_dic
             templatehelper.add_rated(template_values, track)
-            template = JINJA_ENVIRONMENT.get_template('trackpage/display.html')
+            template = JINJA_ENVIRONMENT.get_template('pages/tracks/display.html')
             self.response.write(template.render(template_values))
         except Exception as e:
             print(e)
-            template = JINJA_ENVIRONMENT.get_template('trackpage/update.html')
+            template = JINJA_ENVIRONMENT.get_template('pages/tracks/update.html')
             self.response.write(template.render(template_values))
 
 
 # [START app]
 app = webapp2.WSGIApplication([
-    ('/trackpage/update', TrackPageUpdate),
-    ('/trackpage/(\d+)', TrackPageDisplay)
+    ('/tracks/update', TracksUpdate),
+    ('/tracks/(\d+)', TracksDisplay)
 ], debug=True)
 # [END app]

@@ -27,19 +27,19 @@ handlers:
 - url: /about
   script: python.frontend.about.app
 
-- url: /albumpage.*
+- url: /albums.*
   script: python.frontend.albumpage.app
 
-- url: /bandpage.*
+- url: /bands.*
   script: python.frontend.bandpage.app
 
-- url: /trackpage.*
+- url: /tracks.*
   script: python.frontend.trackpage.app
 
-- url: /profilepage.*
+- url: /profiles.*
   script: python.frontend.profilepage.app
 
-- url: /toplistpage.*
+- url: /toplists.*
   script: python.frontend.toplistpage.app
 
 #API START

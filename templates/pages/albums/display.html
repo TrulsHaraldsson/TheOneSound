@@ -14,24 +14,25 @@
           <div class="col-md-6">
             <!-- CHANGE THE IMAGE LOCATION LATER-->
             <img src="http://www.rock-n-metal.de/queen2.jpg" class="img-thumbnail" alt="Album Image" width="512" height="512">
-            <h1>{{ album.name }}</h1>
+
             {% with id=album.id, type="albums", rating=album.rating, rated=rated %}
             {% include 'common/rating.html' %}
             {% endwith %}
           </div>
           <div class="col-md-6 well tos-well">
             <div class="description-container">
-              <h3>Description</h3>
+              <h3>{{ album.name }}</h3>
               <div id="description-display">
                 {{ album.description.description }}
               </div>
-              <div id="description-edit">
-                <textarea class="big-textarea" name="description" form="update-description-form" rows="12" cols="40">{{ album.description.description }}</textarea>
+              <a href="#description-edit" class="btn btn-sm btn-default" data-toggle="collapse">Edit</a>
+              <div id="description-edit" class="collapse">
+                <textarea id="description-textarea" class="big-textarea" name="description" form="update-description-form" rows="12" cols="40">{{ album.description.description }}</textarea>
                 <form id="update-description-form" action="#" data-id="{{ album.id }}">
                   <input type="submit" name="submit" value="submit">
                 </form>
               </div>
-              <button class="pull-right" type="button" name="button" id="toggle-description">Edit</button>
+              <!--<button class="pull-right" type="button" name="button" id="toggle-description">Edit</button>-->
             </div>
           </div>
         </div>
@@ -44,7 +45,7 @@
         </div>
       </div>
       <div class="col-md-4">
-        {% with heading='Albums', children=tracks %}
+        {% with heading='Tracks', children=tracks, parent_id=album.id %}
         {% include 'common/childrenlist.html' %}
         {% endwith %}
         </div>

@@ -11,19 +11,20 @@
       <div class="col-md-6">
         <div class="row">
           <div class="col-md-12">
-            <!-- CHANGE THE IMAGE LOCATION LATER-->
+            <!-- YOUTUE VIDEO -->
             <div class="youtube-container thumbnail">
               <div id="youtube-display" class="">
                 <iframe id="youtube-vid" class="youtube-frame" src="{{ track.description.youtube_url }}" frameborder="0" allowfullscreen></iframe>
               </div>
-              <div id="youtube-edit">
+              <a href="#youtube-edit" class="btn btn-sm btn-default" data-toggle="collapse">Edit</a>
+              <div id="youtube-edit" class="collapse">
                 <form id="update-youtube-form" action="#" data-id="{{ track.id }}">
                   <input id="youtube-input" type="url" name="youtube_url" placeholder="youtube embed-url">
                   <input type="submit" name="submit" value="submit">
                 </form>
               </div>
             </div>
-            <button class="pull-right btn btn-default btn-sm" type="button" name="button" id="toggle-youtube">Edit</button>
+            <!--<button class="pull-right btn btn-default btn-sm" type="button" name="button" id="toggle-youtube">Edit</button>-->
             {% with id=track.id, type="tracks", rating=track.rating, rated=rated %}
             {% include 'common/rating.html' %}
             {% endwith %}
@@ -43,13 +44,14 @@
           <div id="description-display">
             {{ track.description.description }}
           </div>
-          <div id="description-edit">
+          <a href="#description-edit" class="btn btn-sm btn-default" data-toggle="collapse">Edit</a>
+          <div id="description-edit" class="collapse">
             <textarea id="description-textarea" class="big-textarea" name="description" form="update-description-form" rows="12" cols="40">{{ track.description.description }}</textarea>
             <form id="update-description-form" action="#" data-id="{{ track.id }}">
               <input type="submit" name="submit" value="submit">
             </form>
           </div>
-          <button class="pull-right btn btn-default btn-sm" type="button" name="button" id="toggle-description">Edit</button>
+          <!--<button class="pull-right btn btn-default btn-sm" type="button" name="button" id="toggle-description">Edit</button>-->
         </div>
       </div>
     </div>

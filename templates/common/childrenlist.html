@@ -1,11 +1,14 @@
 <div class="panel panel-default">
   <div class="panel-heading">
-    <button id="button-add-entity" type="submit" class="pull-right btn btn-default">
+    <!--<button id="button-add-entity" type="submit" class="pull-right btn btn-default">
       <span class="glyphicon glyphicon-plus"></span>
-    </button>
+    </button>-->
+    <a href="#add-entity" class="pull-right btn btn-sm btn-default" data-toggle="collapse">
+      <span class="glyphicon glyphicon-plus"></span>
+    </a>
     <h4>{{heading}}</h4>
-    <div id="div-add-entity">
-      <form id="new-entity-form" action="#" data-id="{{ album.id }}">
+    <div id="add-entity" class="collapse">
+      <form id="new-entity-form" action="#" data-id="{{ parent_id }}">
         <input type="text" name="name">
         <input type="submit" name="submit" value="submit">
       </form>

@@ -12,7 +12,7 @@ class Rating(ndb.Model):
 
 
 class TrackDescription(ndb.Model):
-    description = ndb.StringProperty()
+    description = ndb.TextProperty()
     youtube_url = ndb.StringProperty()
 
 

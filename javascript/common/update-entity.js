@@ -20,6 +20,21 @@ function onEntityUpdate(form_data, id, type){
     },
     success: function(){
       console.log("put ok!");
+      successFunction();
     }
   })
+}
+
+
+function showNewDescription() {
+  var newText = $("#description-textarea").val();
+  $("#description-display").text(newText);
+  $("#description-edit").toggle();
+  $("#description-display").toggle();
+}
+
+function showNewYoutubeVideo() {
+  var newLink = $("#youtube-input").val();
+  $("#youtube-vid").attr('src', newLink);
+  $("#youtube-edit").toggle();
 }

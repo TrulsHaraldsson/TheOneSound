@@ -5,6 +5,7 @@ $(document).ready(function() {
   addSubmitListener("#update-description-form", "tracks", showNewDescription);
   */
 
+  addPostSubmitListener("#create-toplist-form", "toplists");
 
   $("#button-add-toplist").click(function (){
     $("#div-add-toplist").toggle();

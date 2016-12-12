@@ -1,4 +1,3 @@
-
 function addSubmitListener(form_id, type){
   $(form_id).submit(function() {
     var form = $(form_id);

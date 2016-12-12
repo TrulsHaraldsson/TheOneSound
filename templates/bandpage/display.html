@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
+<script src="/javascript/common/create-entity.js"></script>
 <script src="/javascript/common/update-entity.js"></script>
 <script src="/javascript/pages/bandpage/display.js"></script>
 
@@ -45,7 +46,18 @@
       </div>
       <div class="col-md-4">
         <div class="panel panel-default">
-          <div class="panel-heading">Albums</div>
+          <div class="panel-heading">
+            <button id="button-add-album" type="submit" class="pull-right btn btn-default">
+              <span class="glyphicon glyphicon-plus"></span>
+            </button>
+            <h4>Albums</h4>
+            <div id="div-add-album">
+              <form id="new-entity-form" action="#" data-id="{{ band.id }}">
+                <input type="text" name="name">
+                <input type="submit" name="submit" value="submit">
+              </form>
+            </div>
+          </div>
           <div class="panel-body">
             {% for album in albums %}
             <p>

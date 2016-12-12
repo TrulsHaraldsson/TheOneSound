@@ -4,42 +4,17 @@ $(document).ready(function() {
   addSubmitListener("#update-biography-form", "bands");
   addSubmitListener("#update-members-form", "bands");
   addSubmitListener("#update-genres-form", "bands");
+  addSubmitListener("#button-add-album", "bands");
+  addPostSubmitListener("#new-entity-form", "albums")
 
-  //$(document).ready(function() {
 
-    //addSubmitListener("#update-youtube-form", "bands");
+  $("#toggle-description").click(function (){
+    $("#description-edit").toggle();
+    $("#description-display").toggle();
+  });
 
-    $("#toggle-description").click(function (){
-      $("#description-edit").toggle();
-      $("#description-display").toggle();
-    });
-
-  //})
-  /*
-  function addSubmitListener(form_id){
-    $(form_id).submit(function() {
-      var form = $(form_id);
-      var id = form.data("id");
-      var form_data = form.serialize();
-      onBandUpdate(form_data, id);
-      return false;
-    });
-  }
-
-  function onBandUpdate(form_data, id){
-    $.ajax({
-      method: "PUT",
-      data: form_data,
-      url: "/api/bands/"+id, //http://theonesound-148310.appspot.com
-      statusCode: {
-        404: function(){
-          alert("something wrong!");
-        }
-      },
-      success: function(){
-        console.log("put ok!");
-      }
-    })
-  }*/
+  $("#button-add-album").click(function(){
+    $("#div-add-album").toggle();
+  });
 
 })

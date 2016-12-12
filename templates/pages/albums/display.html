@@ -44,26 +44,9 @@
         </div>
       </div>
       <div class="col-md-4">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <button id="button-add-entity" type="submit" class="pull-right btn btn-default">
-              <span class="glyphicon glyphicon-plus"></span>
-            </button>
-            <h4>Tracks</h4>
-            <div id="div-add-entity">
-              <form id="new-entity-form" action="#" data-id="{{ album.id }}">
-                <input type="text" name="name">
-                <input type="submit" name="submit" value="submit">
-              </form>
-            </div>
-          </div>
-          <div class="panel-body">
-            {% for track in tracks %}
-            <p>
-              <a href="{{ track.url|safe }}">{{ track.name }}</a>
-            </p>
-            {% endfor %}
-          </div>
+        {% with heading='Albums', children=tracks %}
+        {% include 'common/childrenlist.html' %}
+        {% endwith %}
         </div>
       </div>
     </div>

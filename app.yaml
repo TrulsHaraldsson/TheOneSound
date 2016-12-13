@@ -57,6 +57,10 @@ handlers:
 
 - url: /api/toplists.*
   script: python.api.toplist.app
+
+- url: /api/storage.*
+  script: python.api.storage.app
+
 #API END
 # [END handlers]
 - url: /.*

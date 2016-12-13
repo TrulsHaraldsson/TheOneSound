@@ -23,7 +23,7 @@ class AlbumDescription(ndb.Model):
 
 
 class BandDescription(ndb.Model):
-    biography = ndb.StringProperty()
+    description = ndb.StringProperty()
     members = ndb.StringProperty(repeated=True)
     genres = ndb.StringProperty(repeated=True)
     picture_url = ndb.StringProperty()

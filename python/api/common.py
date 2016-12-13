@@ -190,6 +190,8 @@ def add_rating(cls, entity, account, rating):
     print account.ratings
     already_rated = False
     for user_rating in account.ratings:
+        print "user rating here: -------"
+        print user_rating
         if user_rating.rated_key == entity.key:
             already_rated = True
             value = user_rating.value
@@ -203,6 +205,8 @@ def add_rating(cls, entity, account, rating):
                 entity.rating.likes -= 1
                 user_rating.value = False
                 account.put()
+            return entity
+
     if not already_rated:
         new_user_rating = UserRating(rated_key=entity.key, value=bool(int(rating)))
         account.ratings.append(new_user_rating)

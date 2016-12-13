@@ -1,0 +1,21 @@
+
+<div class="picture-container">
+  <div id="picture-display" class="">
+    <img id="img-element" src="{{ picture_url }}" class="img-thumbnail picture-frame" alt="Image">
+  </div>
+  <div id="picture-edit" class="collapse">
+    <form id="update-picture-form" class="form-inline" action="#" data-id="{{ id }}" data-type="{{ type }}">
+      <!--<div class="form-group">
+        <input id="picture-input" type="url" name="picture_url" placeholder="URL to new picture">
+      </div> -->
+      <div class="form-group">
+        <input type="file" name="data">
+      </div>
+      <div class="form-group">
+        <input type="submit" name="submit" value="submit">
+      </div>
+    </form>
+  </div>
+
+  <a href="#picture-edit" class="btn btn-sm btn-default" data-toggle="collapse">Edit</a>
+</div>

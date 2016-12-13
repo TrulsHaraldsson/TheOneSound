@@ -44,13 +44,14 @@ class BandByIdHandler(webapp2.RequestHandler):
         except EntityNotFound:
             self.response.set_status(404)
 
+
 # Not tested yet.
 def update_band(band_id, post_params):
     user_id = loginhelper.get_user_id()
     band = common.get_entity_by_id(Band, int(band_id))
-    if 'biography' in post_params.keys():
-        biography = post_params['biography']
-        band.description.biography = biography
+    if 'description' in post_params.keys():
+        description = post_params['description']
+        band.description.description = description
     if 'genre' in post_params.keys():
         print("genre")
         genre = post_params['genre']
@@ -81,7 +82,7 @@ def create_band(band_name):
 
     band = Band(name=band_name, comment=[])
 
-    desc = BandDescription(biography="", members=[], genres=[], picture_url="")
+    desc = BandDescription(description="", members=[], genres=[], picture_url="")
     band.description = desc
     # rating not tested
     rating = Rating(likes=0, dislikes=0)

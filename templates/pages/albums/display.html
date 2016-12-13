@@ -2,6 +2,7 @@
 {% block content %}
 <script src="/javascript/common/create-entity.js"></script>
 <script src="/javascript/common/update-entity.js"></script>
+<script src="/javascript/common/postpicture.js"></script>
 <script src="/javascript/pages/albumpage/display.js"></script>
 
 <link rel="stylesheet" href="/stylesheets/tos_album.css">
@@ -13,7 +14,10 @@
         <div class="row">
           <div class="col-md-6">
             <!-- CHANGE THE IMAGE LOCATION LATER-->
-            <img src="http://www.rock-n-metal.de/queen2.jpg" class="img-thumbnail" alt="Album Image" width="512" height="512">
+
+            {% with id=album.id, picture_url=album.description.picture_url, type="albums" %}
+            {% include 'common/picturecontainer.html' %}
+            {% endwith %}
 
             {% with id=album.id, type="albums", rating=album.rating, rated=rated %}
             {% include 'common/rating.html' %}

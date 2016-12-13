@@ -1,14 +1,15 @@
 {% extends "layout.html" %}
 {% block content %}
+<script src="/javascript/common/create-entity.js"></script>
 <script src="/javascript/pages/bandpage/create.js"></script>
-<form id="new-band-form" action="#">
+<form id="new-band-form" action="#" data-id="0">
   <p>
     <label for="name">Band name:</label>
     <input type="text" name="name" value="">
   </p>
   <p>
-    <label for="biography">Biography:</label>
-    <input type="text" name="biography" value="">
+    <label for="description">Biography:</label>
+    <input type="text" name="description" value="">
   </p>
   <p>
     <label for="submit" class="sr-only">submit:</label>

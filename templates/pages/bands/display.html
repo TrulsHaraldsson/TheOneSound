@@ -2,6 +2,7 @@
 {% block content %}
 <script src="/javascript/common/create-entity.js"></script>
 <script src="/javascript/common/update-entity.js"></script>
+<script src="/javascript/common/postpicture.js"></script>
 <script src="/javascript/pages/bandpage/display.js"></script>
 
 <link rel="stylesheet" href="/stylesheets/tos_band.css">
@@ -14,66 +15,11 @@
         <div class="row">
           <div class="col-md-6">
             <!-- CHANGE THE IMAGE LOCATION LATER-->
-            <div class="picture-container">
-              <div id="picture-display" class="">
-                <img id="img-element" src="{{ band.description.picture_url }}" class="img-thumbnail picture-frame" alt="Band Image">
-              </div>
-              <div id="picture-edit" class="collapse">
-                <form id="update-picture-form" action="#" data-id="{{ band.id }}">
-                  <input id="picture-input" type="url" name="picture_url" placeholder="URL to new picture">
-                  <input type="submit" name="submit" value="submit">
-                </form>
-              </div>
+            {% with id=band.id, picture_url=band.description.picture_url, type="bands" %}
+            {% include 'common/picturecontainer.html' %}
+            {% endwith %}
 
-              <a href="#picture-edit" class="btn btn-sm btn-default" data-toggle="collapse">Edit</a>
-            </div>
-
-            <div class="row">
-              <div class="col-md-6">
-                <!-- Members -->
-                <div class="members-container well tos-well">
-                  <h3>Members</h3>
-                  <div id="members-display">
-                    {% for member in band.description.members %}
-                    <p>
-                        {{ member }}
-                    </p>
-                    {% endfor %}
-                  </div>
-                  <a href="#members-edit" class="btn btn-sm btn-default" data-toggle="collapse">Edit</a>
-                  <div id="members-edit" class="collapse">
-                    <form id="update-members-form" action="#" data-id="{{ band.id }}">
-                      <input id="member-input" type="text" name="member" placeholder="New member name">
-                      <input type="submit" name="submit" value="submit">
-                    </form>
-                  </div>
-                  <!--<button id="toggle-members-edit" class="pull-right btn btn-default btn-sm" type="button" name="button">Edit</button> -->
-                </div>
-              </div>
-              <div class="col-md-6">
-                <!-- Genres -->
-                <div class="genres-container well tos-well">
-
-                  <h3>Genres</h3>
-                  <div id="genres-display">
-                    {% for genre in band.description.genres %}
-                    <p>
-                        {{ genre }}
-                    </p>
-                    {% endfor %}
-                  </div>
-                  <a href="#genres-edit" class="btn btn-sm btn-default" data-toggle="collapse">Edit</a>
-                  <!--<button data-toggle="collapse" data-target="#genres-edit" class="pull-right btn btn-default btn-sm" type="button" name="button">Edit</button>-->
-                  <div id="genres-edit" class="collapse">
-                    <form id="update-genres-form" action="#" data-id="{{ band.id }}">
-                      <input id="genre-input" type="text" name="genre" placeholder="New genre">
-                      <input type="submit" name="submit" value="submit">
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-
+            {% include 'pages/bands/genres-and-members.html' %}
             <!--<button id="toggle-picture-edit" class="pull-right btn btn-default btn-sm" type="button" name="button">Edit</button>-->
 
             {% with id=band.id, type="bands", rating=band.rating, rated=rated %}

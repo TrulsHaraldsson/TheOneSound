@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-  addSubmitListener("#update-picture-form", "bands", showNewPicture);
+  //addSubmitListener("#update-picture-form", "bands", showNewPicture);
   addSubmitListener("#update-biography-form", "bands", nothing);
   addSubmitListener("#update-members-form", "bands", showNewMember);
   addSubmitListener("#update-genres-form", "bands", showNewGenre);

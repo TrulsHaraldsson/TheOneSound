@@ -81,14 +81,16 @@ def create_band(band_name):
         raise ValueError("Band must have a name.")
 
     band = Band(name=band_name, comment=[])
-
-    desc = BandDescription(description="", members=[], genres=[], picture_url="")
+    desc = BandDescription(description="", members=[], genres=[])
     band.description = desc
     # rating not tested
     rating = Rating(likes=0, dislikes=0)
     band.rating = rating
+    band_key = band.put()
+    picture_url = "https://storage.googleapis.com/theonesound-148310.appspot.com/bands/"+str(band_key.id())
+    band.description.picture_url = picture_url
     band.put()
-    return band.key.id()
+    return band_key.id()
 
 
 # [START app]

@@ -1,20 +1,27 @@
 $(document).ready(function(){
 
     $("#update-picture-form").submit(function() {
-      var form = $(this);
+      var form = $("#update-picture-form");
       var id = form.data("id");
       var type = form.data("type");
-      var form_data = form.serialize();
-      form_data += "&id="+id+"&type="+type;
-      onEntityUpdate(form_data, id, type);
+      var file = document.getElementById("file-input").files[0];
+      var formData = new FormData();
+      console.log(file.name+" size: "+file.size);
+      formData.append("image", file);
+      formData.append("id", id);
+      formData.append("type", type);
+
+      onPictureUpload(formData, id, type);
       return false;
-    }
+    })
 
 
-  function onEntityUpdate(form_data, id, type){
+  function onPictureUpload(formData, id, type){
     $.ajax({
       method: "POST",
-      data: form_data,
+      data: formData,
+      processData: false,  // tell jQuery not to process the data
+      contentType: false,  // tell jQuery not to set contentType
       url: "/api/storage", //http://theonesound-148310.appspot.com
       statusCode: {
         404: function(){
@@ -23,6 +30,9 @@ $(document).ready(function(){
       },
       success: function(){
         console.log("post ok!");
+        //var formData = new FormData();
+        //formData.append("picture_url", "https://storage.googleapis.com/theonesound-148310.appspot.com/" + type + "/" + id);
+        //onEntityUpdate(formData, id, type, showNewPicture);
       }
     })
   }

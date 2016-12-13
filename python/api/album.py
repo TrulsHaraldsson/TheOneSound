@@ -72,8 +72,11 @@ def create_album(band_id, post_params):
         album = Album(owner=ndb.Key(Band, int(band_id)), name=post_params['name'], description=desc)
         rating = Rating(likes=0, dislikes=0)
         album.rating = rating
+        album_key = album.put()
+        picture_url = "https://storage.googleapis.com/theonesound-148310.appspot.com/albums/"+str(album_key.id())
+        album.description.picture_url = picture_url
         album.put()
-        return album.key.id()
+        return album_key.id()
 
 
 def update_album(album_id, post_params):

@@ -32,12 +32,12 @@
               <h2>{{ band.name }}</h2>
               <h3>Biography</h3>
               <div id="description-display">
-                {{ band.description.biography }}
+                {{ band.description.description }}
               </div>
               <a href="#description-edit" class="btn btn-sm btn-default" data-toggle="collapse">Edit</a>
               <div id="description-edit" class="collapse">
-                <textarea class="big-textarea" name="biography" form="update-biography-form" rows="12" cols="40">{{ band.description.description }}</textarea>
-                <form id="update-biography-form" action="#" data-id="{{ band.id }}">
+                <textarea id="description-textarea" class="big-textarea" name="description" form="update-description-form" rows="12" cols="40">{{ band.description.description }}</textarea>
+                <form id="update-description-form" action="#" data-id="{{ band.id }}">
                   <input type="submit" name="submit" value="submit">
                 </form>
               </div>

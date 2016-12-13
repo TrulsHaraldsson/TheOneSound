@@ -10,11 +10,11 @@ class StorageHandler(webapp2.RequestHandler):
 
         post_params = self.request.POST
         data = post_params['data']
-        type = post_params['type']
-        id = post_params['id']
+        type_ = post_params['type']
+        id_ = post_params['id']
         bucket_name = os.environ.get('BUCKET_NAME',
                                      app_identity.get_default_gcs_bucket_name())
-        filename = '/'+bucket_name+'/'+type+'/'+id
+        filename = '/'+bucket_name+'/'+type_+'/'+id_
         self.write_data_to_file(filename, data)
 
     def get(self):
@@ -52,7 +52,6 @@ class StorageHandler(webapp2.RequestHandler):
         gcs_file.write('abcde\n')
         gcs_file.write('f'*1024*4 + '\n')
         gcs_file.close()
-        #self.tmp_filenames_to_clean_up.append(filename)
 
     def list_bucket(self, bucket):
         self.response.write("Listing files \n")

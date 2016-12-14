@@ -21,28 +21,18 @@
 
             {% include 'pages/bands/genres-and-members.html' %}
             <!--<button id="toggle-picture-edit" class="pull-right btn btn-default btn-sm" type="button" name="button">Edit</button>-->
-
-            {% with id=band.id, type="bands", rating=band.rating, rated=rated %}
-            {% include 'common/rating.html' %}
-            {% endwith %}
-          </div>
-          <div class="col-md-6 well tos-well">
-            <!--<h2>{{ band.description.description }}</h2>-->
-            <div class="description-container">
-              <h2>{{ band.name }}</h2>
-              <h3>Biography</h3>
-              <div id="description-display">
-                {{ band.description.description }}
-              </div>
-              <a href="#description-edit" class="btn btn-sm btn-default" data-toggle="collapse">Edit</a>
-              <div id="description-edit" class="collapse">
-                <textarea id="description-textarea" class="big-textarea" name="description" form="update-description-form" rows="12" cols="40">{{ band.description.description }}</textarea>
-                <form id="update-description-form" action="#" data-id="{{ band.id }}">
-                  <input type="submit" name="submit" value="submit">
-                </form>
-              </div>
-              <!-- <button class="pull-right" type="button" name="button" id="toggle-description">Edit</button> -->
+            <div class="row">
+              {% with id=band.id, type="bands", rating=band.rating, rated=rated %}
+              {% include 'common/rating.html' %}
+              {% endwith %}
             </div>
+
+          </div>
+          <div class="col-md-6">
+            <!--<h2>{{ band.description.description }}</h2>-->
+            {% with entity=band %}
+            {% include 'common/descriptioncontainer.html' %}
+            {% endwith %}
           </div>
 
         </div>

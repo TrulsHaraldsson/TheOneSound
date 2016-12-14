@@ -38,21 +38,10 @@
           </div>
         </div>
       </div>
-      <div class="col-md-6 well tos-well">
-        <h2>{{ track.name }}</h2>
-        <div class="description-container">
-          <div id="description-display">
-            {{ track.description.description }}
-          </div>
-          <a href="#description-edit" class="btn btn-sm btn-default" data-toggle="collapse">Edit</a>
-          <div id="description-edit" class="collapse">
-            <textarea id="description-textarea" class="big-textarea" name="description" form="update-description-form" rows="12" cols="40">{{ track.description.description }}</textarea>
-            <form id="update-description-form" action="#" data-id="{{ track.id }}">
-              <input type="submit" name="submit" value="submit">
-            </form>
-          </div>
-          <!--<button class="pull-right btn btn-default btn-sm" type="button" name="button" id="toggle-description">Edit</button>-->
-        </div>
+      <div class="col-md-6">
+        {% with entity=track %}
+        {% include 'common/descriptioncontainer.html' %}
+        {% endwith %}
       </div>
     </div>
   </div>

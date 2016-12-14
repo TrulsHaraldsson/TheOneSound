@@ -11,12 +11,12 @@ $(document).ready(function(){
       formData.append("id", id);
       formData.append("type", type);
 
-      onPictureUpload(formData, id, type);
+      onPictureUpload(formData, id, type, file);
       return false;
     })
 
 
-  function onPictureUpload(formData, id, type){
+  function onPictureUpload(formData, id, type, file){
     $.ajax({
       method: "POST",
       data: formData,
@@ -30,10 +30,16 @@ $(document).ready(function(){
       },
       success: function(){
         console.log("post ok!");
-        var d = new Date();
-        var src = $("#img-element").attr("src");
-        $("#img-element").attr("src", src + "?" + d.getTime());
-        console.log("picture updated!");
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#img-default')
+                .attr('src', e.target.result);
+        };
+        reader.readAsDataURL(file);
+        //var d = new Date();
+        //var src = $("#img-element").attr("src");
+        //$("#img-element").attr("src", src + "?" + d.getTime());
+        //console.log("picture updated!");
         //var formData = new FormData();
         //formData.append("picture_url", "https://storage.googleapis.com/theonesound-148310.appspot.com/" + type + "/" + id);
         //onEntityUpdate(formData, id, type, showNewPicture);

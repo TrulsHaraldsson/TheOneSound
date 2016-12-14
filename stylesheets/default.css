@@ -43,6 +43,7 @@ body {
 
 .rating-div {
   max-width: 15%;
+  color: lightgrey;
 }
 
 .pointable {
@@ -63,4 +64,16 @@ span.glyphicon {
   -moz-transform: scale(1.2);
   transition: all 100ms ease-in;
   transform: scale(1.2);
+}
+
+.outer-shadow {
+  -webkit-box-shadow: 8px 20px 74px -3px rgba(0,0,0,0.57);
+  -moz-box-shadow: 8px 20px 74px -3px rgba(0,0,0,0.57);
+  box-shadow: 8px 20px 74px -3px rgba(0,0,0,0.57);
+}
+
+.down-shadow {
+  -webkit-box-shadow: 4px 34px 75px -4px rgba(0,0,0,0.28);
+  -moz-box-shadow: 4px 34px 75px -4px rgba(0,0,0,0.28);
+  box-shadow: 4px 34px 75px -4px rgba(0,0,0,0.28);
 }

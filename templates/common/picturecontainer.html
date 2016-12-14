@@ -1,8 +1,8 @@
 
 <div class="picture-container">
   <div id="picture-display" class="">
-    <object id="img-element" data="{{ picture_url }}" type="image/png" class="img-thumbnail picture-frame" alt="Placeholder image">
-      <img id="img-default" src="https://storage.googleapis.com/theonesound-148310.appspot.com/default.png" class="img-thumbnail picture-frame" alt="Image">
+    <object id="img-element" data="{{ picture_url }}" type="image/png" class="img-thumbnail picture-frame outer-shadow" alt="Placeholder image">
+      <img id="img-default" src="https://storage.googleapis.com/theonesound-148310.appspot.com/default.png" class="img-thumbnail picture-frame outer-shadow" alt="Image">
     </object>
   </div>
   <div id="picture-edit" class="collapse">
@@ -11,7 +11,7 @@
         <input id="picture-input" type="url" name="picture_url" placeholder="URL to new picture">
       </div> -->
       <div class="form-group">
-        <input id="file-input" type="file" name="image">
+        <input id="file-input" type="file" name="image" accept="image/*">
       </div>
       <div class="form-group">
         <input type="submit" name="submit" value="submit">

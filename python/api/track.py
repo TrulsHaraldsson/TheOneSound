@@ -62,7 +62,7 @@ def create_track(album_id, track_name):
     track = common.has_child_with_name(Track, track_name, Album, album_id)
     if not track:
         parent_key = ndb.Key(Album, int(album_id))
-        descr = TrackDescription(description="No description added yet.", youtube_url="")
+        descr = TrackDescription(description="", youtube_url="")
         track = Track(owner=parent_key, name=track_name, description=descr)
         track.comment = []
         rating = Rating(likes=0, dislikes=0)

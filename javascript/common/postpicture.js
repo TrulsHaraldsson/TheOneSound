@@ -30,6 +30,10 @@ $(document).ready(function(){
       },
       success: function(){
         console.log("post ok!");
+        var d = new Date();
+        var src = $("#img-element").attr("src");
+        $("#img-element").attr("src", src + "?" + d.getTime());
+        console.log("picture updated!");
         //var formData = new FormData();
         //formData.append("picture_url", "https://storage.googleapis.com/theonesound-148310.appspot.com/" + type + "/" + id);
         //onEntityUpdate(formData, id, type, showNewPicture);

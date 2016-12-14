@@ -5,6 +5,12 @@ class UserRating(ndb.Model):
     rated_key = ndb.KeyProperty()
     value = ndb.BooleanProperty()  # true = like, false = dislike
 
+    def to_dict(self):
+        dicti = {}
+        dicti['rated_key'] = self.rated_key.id()
+        dicti['value'] = self.value
+        return dicti
+
 
 class Rating(ndb.Model):
     likes = ndb.IntegerProperty()
@@ -56,7 +62,6 @@ class Band(ndb.Model):
 
     def to_dict(self):
         dicti = {}
-        dicti['id'] = self.key.id()
         dicti['name'] = self.name
         dicti['description'] = self.description.to_dict()
         dicti['rating'] = self.rating.to_dict()
@@ -76,7 +81,6 @@ class Album(ndb.Model):
 
     def to_dict(self):
         dicti = {}
-        dicti['id'] = self.key.id()
         dicti['owner'] = self.owner.id()
         dicti['name'] = self.name
         dicti['description'] = self.description.to_dict()
@@ -97,7 +101,6 @@ class Track(ndb.Model):
 
     def to_dict(self):
         dicti = {}
-        dicti['id'] = self.key.id()
         dicti['owner'] = self.owner.id()
         dicti['name'] = self.name
         dicti['description'] = self.description.to_dict()
@@ -114,6 +117,16 @@ class Account(ndb.Model):
     date = ndb.DateTimeProperty(auto_now_add=True)
     ratings = ndb.StructuredProperty(UserRating, repeated=True)
 
+    def to_dict(self):
+        dicti = {}
+        dicti['name'] = self.name
+        dicti['email'] = self.email
+        dicti['date'] = str(self.date)
+        dicti['ratings'] = []
+        for rating in self.ratings:
+            dicti['ratings'].append(rating.to_dict())
+        return dicti
+
 
 # Has user as owner
 class TopList(ndb.Model):
@@ -126,7 +139,6 @@ class TopList(ndb.Model):
 
     def to_dict(self):
         dicti = {}
-        dicti['id'] = self.key.id()
         dicti['owner'] = self.owner.id()
         dicti['name'] = self.name
         dicti['kind'] = self.kind
@@ -134,5 +146,5 @@ class TopList(ndb.Model):
         dicti['rating'] = self.rating.to_dict()
         dicti['content'] = []
         for con in self.content:
-            dicti['comment'].append(con.id())
+            dicti['content'].append(con.id())
         return dicti

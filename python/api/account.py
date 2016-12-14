@@ -9,8 +9,7 @@ from python.util import entityparser, loginhelper
 
 class AccountHandler(webapp2.RequestHandler):
     def get(self):
-        limit = self.request.get("limit")
-        accounts = common.get_entities(Account, limit)
+        accounts = common.get_entities(Account)
         account_list = entityparser.entities_to_dic_list(accounts)
 
         json_list = json.dumps(account_list)

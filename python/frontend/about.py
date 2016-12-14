@@ -10,7 +10,7 @@ class About(webapp2.RequestHandler):
     def get(self):
         template_values = {}
         loginhelper.add_login_values(template_values, self)
-        template = JINJA_ENVIRONMENT.get_template('about.html')
+        template = JINJA_ENVIRONMENT.get_template('pages/about.html')
         self.response.write(template.render(template_values))
 
 # [START app]

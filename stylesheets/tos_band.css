@@ -2,4 +2,16 @@
     padding: 1%;
 }
 
+#create-band-container {
+  margin-top: 30%;
+}
+
+#create-band-container h1{
+  text-align: center;
+}
+
+#create-band-container p{
+  text-align: center;
+}
+
 

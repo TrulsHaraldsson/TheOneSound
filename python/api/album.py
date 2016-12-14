@@ -10,7 +10,17 @@ from python.util import entityparser, loginhelper
 
 
 class AlbumHandler(webapp2.RequestHandler):
+    """
+    The AlbumHandler listen for HTTP POST and GET requests on the URL /api/albums.
+    """
     def post(self):
+        """
+        Creates a new album if the POST request delivered sufficient information. The POST request must
+        contain the following two keys, parent_id and name else a HTTP 400 error is returned.
+        parent_id: A unique id for the band that owns this album
+        name: Name of the album
+        :return: The newly created album as a JSON string
+        """
         try:
             band_id = self.request.get("parent_id")
             entity_id = create_album(band_id, self.request.POST)
@@ -20,6 +30,14 @@ class AlbumHandler(webapp2.RequestHandler):
             self.response.set_status(400)
 
     def get(self):
+        """
+        The GET request can have the following url parameters to specify a query. This method can return HTTP 400
+        error code.
+        :param name: Return only albums with the given name, if name is absent all Albums will be queried
+        :param limit: Upper bound of Albums that will be returned. Default it 10.
+        :param offset_: The number of Albums in the query that are initially skipped. Default is 0
+        :return: A list of Albums as a JSON string
+        """
         try:
             albums = common.get_kinds(Album, self.request.query_string)
             albums_as_dict = entityparser.entities_to_dic_list(albums)
@@ -30,7 +48,16 @@ class AlbumHandler(webapp2.RequestHandler):
 
 
 class AlbumByIdHandler(webapp2.RequestHandler):
+    """
+    The AlbumByIdHandler listen for HTTP POST and GET requests on the URL /api/albums/id, where the id part is
+    a unique id for an album.
+    """
     def get(self, album_id):
+        """
+        Returns an album given a unique id. If the id is not associated with any album an HTTP 404 error is returned.
+        :param album_id: A unique album id
+        :return: An Album as a JSON string
+        """
         try:
             album = common.get_entity_by_id(Album, int(album_id))
             album_as_dict = entityparser.entity_to_dic(album)
@@ -40,6 +67,12 @@ class AlbumByIdHandler(webapp2.RequestHandler):
             self.response.set_status(404)
 
     def put(self, album_id):
+        """
+        The PUT method is used to update an existing Album with the given id. If the album does not exist an HTTP
+        404 error is returned.
+        :param album_id: Unique id of an Album
+        :return:
+        """
         try:
             update_album(album_id, self.request.POST)
         except BadRequest:

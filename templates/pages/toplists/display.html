@@ -1,11 +1,41 @@
 {% extends "layout.html" %}
 {% block content %}
 <script src="/javascript/pages/toplistpage/addcontent.js"></script>
-<h1>{{ toplist.name }}</h1>
+
+<div class="col-md-1">
+
+</div>
+<div class="col-md-5">
+  <div class="well tos-well outer-shadow">
+    <h1>{{ toplist.name }}</h1>
 
 
-<div class="col-md-6 pull-right">
-  <div class="panel panel-default">
+    Add content
+    <form id="update-content-form" action="#" data-toplist-id="{{ toplist.id }}">
+      <p>
+        <label for="content_id">content id:</label>
+        <input type="text" name="content_id" value="">
+      </p>
+      <p>
+        <label for="submit" class="sr-only">submit:</label>
+        <input type="submit" name="submit" value="submit" id="submit-toplist-content">
+      </p>
+    </form>
+  </div>
+  {% with id=toplist.id, type="toplists", rating=toplist.rating, rated=rated %}
+  {% include 'common/rating.html' %}
+  {% endwith %}
+</div>
+
+
+
+
+<div class="col-md-1">
+
+</div>
+
+<div class="col-md-5">
+  <div class="panel panel-default outer-shadow">
     <div class="panel-heading">Top List</div>
     <div class="panel-body">
       {% for content in content_list %}
@@ -20,19 +50,5 @@
 
 
 
-{% with id=toplist.id, type="toplists", rating=toplist.rating, rated=rated %}
-{% include 'common/rating.html' %}
-{% endwith %}
 
-Add content
-<form id="update-content-form" action="#" data-toplist-id="{{ toplist.id }}">
-  <p>
-    <label for="content_id">content id:</label>
-    <input type="text" name="content_id" value="">
-  </p>
-  <p>
-    <label for="submit" class="sr-only">submit:</label>
-    <input type="submit" name="submit" value="submit" id="submit-toplist-content">
-  </p>
-</form>
 {% endblock %}

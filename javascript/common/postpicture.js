@@ -34,6 +34,8 @@ $(document).ready(function(){
         reader.onload = function (e) {
             $('#img-default')
                 .attr('src', e.target.result);
+            $('#img-element')
+                .attr('src', e.target.result);
         };
         reader.readAsDataURL(file);
         //var d = new Date();

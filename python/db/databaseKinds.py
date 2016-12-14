@@ -43,7 +43,8 @@ class Comment(ndb.Model):
         dicti['date'] = str(self.date)
         if self.rating:
             dicti['rating'] = {'likes': self.rating.likes, 'dislikes': self.rating.dislikes}
-        dicti['owner'] = self.owner.id()
+        if self.owner:
+            dicti['owner'] = self.owner.id()
         return dicti
 
 

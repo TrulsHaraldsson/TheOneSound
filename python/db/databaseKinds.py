@@ -37,12 +37,32 @@ class Comment(ndb.Model):
     rating = ndb.StructuredProperty(Rating)
     owner = ndb.KeyProperty()
 
+    def to_dict(self):
+        dicti = {}
+        dicti['content'] = self.content
+        dicti['date'] = str(self.date)
+        if self.rating:
+            dicti['rating'] = {'likes': self.rating.likes, 'dislikes': self.rating.dislikes}
+        dicti['owner'] = self.owner.id()
+        return dicti
+
 
 class Band(ndb.Model):
     name = ndb.StringProperty()
     comment = ndb.StructuredProperty(Comment, repeated=True)
     rating = ndb.StructuredProperty(Rating)
     description = ndb.StructuredProperty(BandDescription)
+
+    def to_dict(self):
+        dicti = {}
+        dicti['id'] = self.key.id()
+        dicti['name'] = self.name
+        dicti['description'] = self.description.to_dict()
+        dicti['rating'] = self.rating.to_dict()
+        dicti['comment'] = []
+        for comment in self.comment:
+            dicti['comment'].append(comment.to_dict())
+        return dicti
 
 
 # Has Band as owner
@@ -53,6 +73,18 @@ class Album(ndb.Model):
     description = ndb.StructuredProperty(AlbumDescription)
     owner = ndb.KeyProperty()
 
+    def to_dict(self):
+        dicti = {}
+        dicti['id'] = self.key.id()
+        dicti['owner'] = self.owner.id()
+        dicti['name'] = self.name
+        dicti['description'] = self.description.to_dict()
+        dicti['rating'] = self.rating.to_dict()
+        dicti['comment'] = []
+        for comment in self.comment:
+            dicti['comment'].append(comment.to_dict())
+        return dicti
+
 
 # Has Album as owner
 class Track(ndb.Model):
@@ -61,6 +93,18 @@ class Track(ndb.Model):
     rating = ndb.StructuredProperty(Rating)
     owner = ndb.KeyProperty()
     description = ndb.StructuredProperty(TrackDescription)
+
+    def to_dict(self):
+        dicti = {}
+        dicti['id'] = self.key.id()
+        dicti['owner'] = self.owner.id()
+        dicti['name'] = self.name
+        dicti['description'] = self.description.to_dict()
+        dicti['rating'] = self.rating.to_dict()
+        dicti['comment'] = []
+        for comment in self.comment:
+            dicti['comment'].append(comment.to_dict())
+        return dicti
 
 
 class Account(ndb.Model):
@@ -78,3 +122,16 @@ class TopList(ndb.Model):
     date = ndb.DateTimeProperty(auto_now_add=True)
     rating = ndb.StructuredProperty(Rating)
     owner = ndb.KeyProperty()
+
+    def to_dict(self):
+        dicti = {}
+        dicti['id'] = self.key.id()
+        dicti['owner'] = self.owner.id()
+        dicti['name'] = self.name
+        dicti['kind'] = self.kind
+        dicti['date'] = str(self.date)
+        dicti['rating'] = self.rating.to_dict()
+        dicti['content'] = []
+        for con in self.content:
+            dicti['comment'].append(con.id())
+        return dicti

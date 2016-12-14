@@ -40,8 +40,8 @@ class AlbumHandler(webapp2.RequestHandler):
         """
         try:
             albums = common.get_kinds(Album, self.request.query_string)
-            albums_as_dict = entityparser.entities_to_dic_list(albums)
-            albums_as_json = json.dumps(albums_as_dict)
+            albums_as_dict_list = entityparser.entities_to_dic_list(albums)
+            albums_as_json = json.dumps(albums_as_dict_list)
             self.response.out.write(albums_as_json)
         except BadRequest:
             self.response.set_status(400)

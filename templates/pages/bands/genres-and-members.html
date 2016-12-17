@@ -2,6 +2,9 @@
   <div class="col-md-6">
     <!-- Members -->
     <div class="members-container well tos-well outer-shadow">
+      <a href="#members-edit" class="btn btn-sm btn-default pull-right" data-toggle="collapse">
+        <span class="glyphicon glyphicon-pencil"></span>
+      </a>
       <h3>Members</h3>
       <div id="members-display">
         {% for member in band.description.members %}
@@ -10,7 +13,7 @@
         </p>
         {% endfor %}
       </div>
-      <a href="#members-edit" class="btn btn-sm btn-default" data-toggle="collapse">Edit</a>
+
       <div id="members-edit" class="collapse">
         <form id="update-members-form" action="#" data-id="{{ band.id }}">
           <input id="member-input" type="text" name="member" placeholder="New member name">
@@ -23,7 +26,9 @@
   <div class="col-md-6">
     <!-- Genres -->
     <div class="genres-container well tos-well outer-shadow">
-
+      <a href="#genres-edit" class="btn btn-sm btn-default pull-right" data-toggle="collapse">
+        <span class="glyphicon glyphicon-pencil"></span>
+      </a>
       <h3>Genres</h3>
       <div id="genres-display">
         {% for genre in band.description.genres %}
@@ -32,7 +37,7 @@
         </p>
         {% endfor %}
       </div>
-      <a href="#genres-edit" class="btn btn-sm btn-default" data-toggle="collapse">Edit</a>
+
       <!--<button data-toggle="collapse" data-target="#genres-edit" class="pull-right btn btn-default btn-sm" type="button" name="button">Edit</button>-->
       <div id="genres-edit" class="collapse">
         <form id="update-genres-form" action="#" data-id="{{ band.id }}">

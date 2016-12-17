@@ -48,27 +48,6 @@
         {% with heading='Albums', children=albums, parent_id=band.id %}
         {% include 'common/childrenlist.html' %}
         {% endwith %}
-        <!-- <div class="panel panel-default">
-          <div class="panel-heading">
-            <button id="button-add-entity" type="submit" class="pull-right btn btn-default">
-              <span class="glyphicon glyphicon-plus"></span>
-            </button>
-            <h4>Albums</h4>
-            <div id="div-add-entity">
-              <form id="new-entity-form" action="#" data-id="{{ band.id }}">
-                <input type="text" name="name">
-                <input type="submit" name="submit" value="submit">
-              </form>
-            </div>
-          </div>
-          <div class="panel-body">
-            {% for album in albums %}
-            <p>
-              <a href="{{ album.url|safe }}">{{ album.name }}</a>
-            </p>
-            {% endfor %}
-          </div>
-        </div> -->
       </div>
     </div>
   </div>

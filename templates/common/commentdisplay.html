@@ -2,15 +2,18 @@
 
 <div class="panel panel-default outer-shadow">
   <div class="panel-heading">
-
-    <form class="form-inline" id="comment-form" action="#" data-commentable-id="{{ commentable_id }}" data-type="{{ type }}">
-      <div class="form-group">
-        <label for="comment_text" class="sr-only">Comment:</label>
-        <textarea class="big-textarea" name="comment_text" rows="4" cols="30" placeholder="Comment here!"></textarea>
-      </div>
-      <input type="submit" name="submit" value="Comment!">
-    </form>
-
+    <a href="#comment-box" class="btn btn-sm btn-default" data-toggle="collapse">
+      Share what you think...<span class="glyphicon glyphicon-pencil"></span>
+    </a>
+    <div id="comment-box" class="collapse">
+      <form class="form-inline" id="comment-form" action="#" data-commentable-id="{{ commentable_id }}" data-type="{{ type }}">
+        <div class="form-group">
+          <label for="comment_text" class="sr-only">Comment:</label>
+          <textarea class="big-textarea" name="comment_text" rows="4" cols="30" placeholder="Comment here!"></textarea>
+        </div>
+        <input type="submit" name="submit" value="Comment!">
+      </form>
+    </div>
   </div>
   <div id="comment-section" class="panel-body">
     {% for comment in comments %}

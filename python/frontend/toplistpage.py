@@ -24,7 +24,6 @@ class TopListsDisplay(webapp2.RequestHandler):
             template = JINJA_ENVIRONMENT.get_template('pages/toplists/display.html')
             self.response.write(template.render(template_values))
         except Exception as e:
-            print "toplists: ", e
             template = JINJA_ENVIRONMENT.get_template('pages/toplists/create.html')
             self.response.write(template.render(template_values))
 
@@ -35,7 +34,6 @@ def add_toplist_and_content(template_values, toplist):
     content_list = []
     for content_key in toplist.content:
         content = content_key.get()
-        print content
         content_list.append(entityparser.entity_to_dic(content))
     urlhelper.attach_links("/" + toplist_dic["kind"] + "s/", content_list)
     template_values["content_list"] = content_list

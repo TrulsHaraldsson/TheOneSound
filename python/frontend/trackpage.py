@@ -27,7 +27,6 @@ class TracksDisplay(webapp2.RequestHandler):
             template = JINJA_ENVIRONMENT.get_template('pages/tracks/display.html')
             self.response.write(template.render(template_values))
         except Exception as e:
-            print(e)
             template = JINJA_ENVIRONMENT.get_template('pages/tracks/update.html')
             self.response.write(template.render(template_values))
 

@@ -165,17 +165,9 @@ def has_child_with_name(child_cls, child_name, parent_cls, parent_id):
     query = child_cls.query(child_cls.name == child_name, child_cls.owner == parent_key)
     child = query.fetch(1)
 
-    # TODO:  child_cls.owner == parent_key does not work properly
-    # print("Parent KEY = ", parent_key)
-    # print("Child owner key: ", child[0].owner)
-    # print("IDs", parent_key.id(), " childID = ", child[0].owner.id())
-    # print("child owner key == parent key: ", child[0].owner == parent_key)
-
     if child:
-        # print("True")
         return True
     else:
-        # print("False")
         return False
 
 
@@ -187,11 +179,8 @@ def create_key(cls, id):
 
 
 def add_rating(cls, entity, account, rating):
-    print account.ratings
     already_rated = False
     for user_rating in account.ratings:
-        print "user rating here: -------"
-        print user_rating
         if user_rating.rated_key == entity.key:
             already_rated = True
             value = user_rating.value

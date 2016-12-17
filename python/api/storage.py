@@ -14,14 +14,10 @@ class StorageHandler(webapp2.RequestHandler):
                                      app_identity.get_default_gcs_bucket_name())
         filename = '/'+bucket_name+'/'+type_+'/'+id_
         self.write_data_to_file(filename, image)
-        # band = common.get_entity_by_id(Band, id_)
-        # band.description.picture_url = "https://storage.googleapis.com/theonesound-148310.appspot.com" + filename
-        # self.response.out.write(json.dumps())
 
     def get(self):
         bucket_name = os.environ.get('BUCKET_NAME',
                                      app_identity.get_default_gcs_bucket_name())
-        print("Bucket name = ", bucket_name)
         self.response.headers['Content-Type'] = 'text/plain'
         self.response.write('Demo GCS Application running from Version: '
                             + os.environ['CURRENT_VERSION_ID'] + '\n')
@@ -35,14 +31,10 @@ class StorageHandler(webapp2.RequestHandler):
         gcs_file = gcs.open(filename,
                             'w',
                             content_type='image/png',
-                            # options={'x-goog-meta-foo': 'foo',
-                            #          'x-goog-meta-bar': 'bar'},
                             retry_params=write_retry_params)
 
         gcs_file.write(image.file.read())
         gcs_file.close()
-        stat = gcs.stat(filename)
-
 
 # [START app]
 app = webapp2.WSGIApplication([

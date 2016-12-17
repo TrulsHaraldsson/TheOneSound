@@ -25,7 +25,6 @@ class TrackDescription(ndb.Model):
 class AlbumDescription(ndb.Model):
     description = ndb.StringProperty()
     picture_url = ndb.StringProperty()
-    # more to be added, pics and such.
 
 
 class BandDescription(ndb.Model):
@@ -33,7 +32,6 @@ class BandDescription(ndb.Model):
     members = ndb.StringProperty(repeated=True)
     genres = ndb.StringProperty(repeated=True)
     picture_url = ndb.StringProperty()
-    # more to be added, pics and such.
 
 
 # Has user as owner

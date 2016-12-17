@@ -27,14 +27,13 @@ class BandsDisplay(webapp2.RequestHandler):
             template = JINJA_ENVIRONMENT.get_template('pages/bands/display.html')
             self.response.write(template.render(template_values))
         except Exception as e:
-            print "Bandpage: ", e
             template = JINJA_ENVIRONMENT.get_template('pages/bands/create.html')
             self.response.write(template.render(template_values))
 
 
 def add_band_and_decendants(template_values, band):
     # 1: fetch all albums belonging to band
-    #   2: fetch all tracks belonging to album
+    # 2: fetch all tracks belonging to album
     template_values["band"] = band
     albums = common.get_children(Album, Band, int(band["id"]))
     albums_dic = entityparser.entities_to_dic_list(albums)

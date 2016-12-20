@@ -17,7 +17,16 @@
   <div class="panel-body">
     {% for child in children %}
     <p>
-      <a href="{{ child.url|safe }}">{{ child.name }}</a>
+      <a href="{{ child.url|safe }}">
+        {{ child.name }}
+      </a>
+      <span class="pull-right">
+          {{ child.rating.likes }}
+        <span class="glyphicon glyphicon-thumbs-up"></span>
+        <span class="glyphicon glyphicon-thumbs-down"></span>
+        {{ child.rating.dislikes }}
+      </span>
+
     </p>
     {% endfor %}
   </div>

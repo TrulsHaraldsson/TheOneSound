@@ -18,11 +18,10 @@ class AlbumsDisplay(webapp2.RequestHandler):
             template = JINJA_ENVIRONMENT.get_template('pages/albums/display.html')
             self.response.write(template.render(template_values))
         except EntityNotFound as e:
-            print(e)
+            self.response.set_status(404)
 
 
 def add_album_and_decendants(template_values, album):
-    # 1: fetch all tracks belonging to album
     template_values["album"] = album
     tracks = common.get_children(Track, Album, int(album["id"]))
     tracks_dic = entityparser.entities_to_dic_list(tracks)

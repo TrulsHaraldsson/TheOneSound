@@ -92,8 +92,6 @@ def create_album(band_id, post_params):
     :param post_params: A dictionary with data containing information about album name and description
     """
 
-    user_id = loginhelper.get_user_id()  # TODO: Check if user_id exists in our database in order for them to submit
-
     if 'name' not in post_params.keys() or post_params['name'] == "":
         raise BadRequest('Album must have name')
 

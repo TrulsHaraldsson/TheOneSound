@@ -9,9 +9,7 @@
 <div class="profile-container">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-8">
-        <h1>{{ account.name }}</h1>
-        <h2>{{ account.email }}</h2>
+      <div class="col-md-4">
       </div>
       <div class="col-md-4">
         <div class="panel panel-default">
@@ -19,7 +17,7 @@
             <button id="button-add-toplist" type="submit" class="pull-right btn btn-default">
               <span class="glyphicon glyphicon-plus"></span>
             </button>
-            <h4>Top lists</h4>
+            <h4>Your Top Lists</h4>
             <div id="div-add-toplist">
               <form id="create-toplist-form" action="#" data-id="{{ user.id }}">
                 <div class="form-group">
@@ -46,6 +44,9 @@
             </p>
             {% endfor %}
           </div>
+        </div>
+        <div class="col-md-4">
+
         </div>
       </div>
     </div>

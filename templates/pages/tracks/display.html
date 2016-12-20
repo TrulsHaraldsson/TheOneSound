@@ -24,7 +24,6 @@
                 </form>
               </div>
             </div>
-            <!--<button class="pull-right btn btn-default btn-sm" type="button" name="button" id="toggle-youtube">Edit</button>-->
             {% with id=track.id, type="tracks", rating=track.rating, rated=rated %}
             {% include 'common/rating.html' %}
             {% endwith %}
@@ -46,47 +45,4 @@
     </div>
   </div>
 </div>
-
-<!--<h1>{{ track.name }}</h1>
-
-<div class="youtube-container">
-  <h3>Youtube div</h3>
-  <div id="youtube-display" class="">
-    <iframe width="560" height="315" src="{{ track.description.youtube_url }}" frameborder="0" allowfullscreen></iframe>
-  </div>
-  <div id="youtube-edit">
-    <form id="update-youtube-form" action="#" data-id="{{ track.id }}">   alla update forms måste ha dessa id'n om de ska funka i javascripten
-      <input type="url" name="youtube_url" value="youtube embed-url">
-      <input type="submit" name="submit" value="submit">
-    </form>
-  </div>
-</div>
-
-<div class="description-container">
-  <h3>Description</h3>
-  <div id="description-display">
-    {{ track.description.description }}
-  </div>
-  <div id="description-edit">
-    <form id="update-description-form" action="#" data-id="{{ track.id }}">
-      <input type="text" name="description" value="{{ track.description.description }}">
-      <input type="submit" name="submit" value="submit">
-    </form>
-  </div>
-</div>
-
-{% with id=track.id, type="tracks", rating=track.rating, rated=rated %}
-{% include 'common/rating.html' %}
-{% endwith %}
-
-<p>
-{% with commentable_id=track.id, type="tracks" %}
-{% include 'common/comment.html' %}
-{% endwith %}
-</p>
-
-{% with comments=track.comment %}
-{% include 'common/commentdisplay.html' %}
-{% endwith %}
--->
 {% endblock %}

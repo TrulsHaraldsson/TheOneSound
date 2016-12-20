@@ -23,7 +23,6 @@ class AccountHandler(webapp2.RequestHandler):
             json_obj = entityparser.entity_id_to_json(entity_id)
             self.response.out.write(json_obj)
         except Exception as e:
-            print e
             self.response.set_status(400)
 
 
@@ -34,7 +33,6 @@ class AccountByIdHandler(webapp2.RequestHandler):
             account_dic = entityparser.entity_to_dic(account)
             self.response.out.write(json.dumps(account_dic))
         except Exception as e:
-            print e
             self.response.set_status(400)
 
     def put(self, account_id):
@@ -42,12 +40,10 @@ class AccountByIdHandler(webapp2.RequestHandler):
 
             update_account(account_id)
         except Exception as e:
-            print e
             raise
 
 
 def create_account(account_name, email_):
-    print "in create account"
     if account_name != "" and email_ != "":
         user_id = loginhelper.get_user_id()
         account = Account(id=str(user_id), name=account_name, email=email_, ratings=[])

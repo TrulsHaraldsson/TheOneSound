@@ -6,7 +6,6 @@ $(document).ready(function() {
         var commentable_id = form.data("commentable-id");
         var type = form.data("type");
         var comment_text = $("#comment-form").serialize();
-        //onCommentSubmit(commentable_id, comment_text, type);
         onCommentSubmit(form);
         resetCommentForm(form);
         return false;

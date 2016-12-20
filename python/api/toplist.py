@@ -11,13 +11,11 @@ class TopListHandler(webapp2.RequestHandler):
     def post(self):
         toplist_name = self.request.get("name")
         toplist_type = self.request.get("type")
-        print "toplist name: " + toplist_name
         try:
             entity_id = create_toplist(toplist_name, toplist_type)
             json_obj = entityparser.entity_id_to_json(entity_id)
             self.response.out.write(json_obj)
         except Exception as e:
-            print e
             self.response.set_status(400)
 
     def get(self):
@@ -34,7 +32,6 @@ class TopListByIdHandler(webapp2.RequestHandler):
             toplist_dic = entityparser.entity_to_dic(toplist)
             self.response.out.write(json.dumps(toplist_dic))
         except Exception as e:
-            print e
             self.response.set_status(404)
 
     # updates a toplist with the new information
@@ -43,27 +40,22 @@ class TopListByIdHandler(webapp2.RequestHandler):
             update_toplist(int(toplist_id), self.request.POST)
 
         except Exception as e:
-            print (e)
             self.response.set_status(404)
 
 
 def update_toplist(toplist_id, post_params):
     toplist = common.get_entity_by_id(TopList, int(toplist_id))
-    print "in update toplist"
     if 'content_id' in post_params:
         content_id = int(post_params['content_id'])
-        print "content_id is here"
         if toplist.kind == "track":
             content_key = common.create_key(Track, content_id)
         elif toplist.kind == "album":
             content_key = common.create_key(Album, content_id)
         else:
             content_key = common.create_key(Band, content_id)
-        if content_key.get():  # Check if content exists TODO: throw Exception
-            print "key exists!"
+        if content_key.get():
             toplist.content.append(content_key)
     if 'rating' in post_params:
-        print "rating found"
         rating = post_params['rating']
         account = common.get_entity_by_id(Account, str(loginhelper.get_user_id()))
         toplist = common.add_rating(TopList, toplist, account, rating)

@@ -17,7 +17,6 @@ class TrackHandler(webapp2.RequestHandler):
             json_obj = entityparser.entity_id_to_json(entity_id)
             self.response.out.write(json_obj)
         except Exception as e:
-            print e
             self.response.set_status(400)
 
     # request
@@ -36,7 +35,6 @@ class TrackByIdHandler(webapp2.RequestHandler):
             track_dic = entityparser.entity_to_dic(track)
             self.response.out.write(json.dumps(track_dic))
         except Exception as e:
-            print e
             self.response.set_status(400)
 
     # updates a track with the new information
@@ -45,7 +43,6 @@ class TrackByIdHandler(webapp2.RequestHandler):
             update_track(int(track_id), self.request.POST)
 
         except Exception as e:
-            print e
             self.response.set_status(400)
 
 
@@ -87,7 +84,6 @@ def update_track(track_id, post_params):
             comment = Comment(content=comment_text)
             rating = Rating(likes=0, dislikes=0)
             comment.rating = rating
-            # TODO: also add user key
             track.comment.insert(0, comment)
     if 'rating' in post_params:
         rating = post_params['rating']

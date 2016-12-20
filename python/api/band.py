@@ -53,7 +53,6 @@ def update_band(band_id, post_params):
         description = post_params['description']
         band.description.description = description
     if 'genre' in post_params.keys():
-        print("genre")
         genre = post_params['genre']
         band.description.genres.append(genre)
     if 'member' in post_params.keys():

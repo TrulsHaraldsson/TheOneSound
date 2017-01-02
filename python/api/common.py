@@ -179,6 +179,10 @@ def create_key(cls, id):
 
 
 def add_rating(cls, entity, account, rating):
+    '''
+    Adds rating to entity. Checks so the person can only rate once,
+    but can change from like to dislike.
+    '''
     already_rated = False
     for user_rating in account.ratings:
         if user_rating.rated_key == entity.key:
@@ -208,6 +212,9 @@ def add_rating(cls, entity, account, rating):
 
 
 def have_rated(account, entity):
+    '''
+    Returns true if the person has rated the entity.
+    '''
     for user_rating in account.ratings:
         if user_rating.rated_key == entity.key:
             return user_rating

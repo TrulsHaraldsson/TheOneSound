@@ -8,6 +8,9 @@ from python.util import entityparser, loginhelper
 
 
 class AccountHandler(webapp2.RequestHandler):
+    """
+    The AccountHandler listen for HTTP POST and GET requests on the URL /api/accounts.
+    """
     def get(self):
         accounts = common.get_entities(Account)
         account_list = entityparser.entities_to_dic_list(accounts)
@@ -27,6 +30,10 @@ class AccountHandler(webapp2.RequestHandler):
 
 
 class AccountByIdHandler(webapp2.RequestHandler):
+    """
+    The AccountByIdHandler listen for HTTP POST and GET requests on the URL /api/accounts/id, where the id part is
+    a unique id for an account.
+    """
     def get(self, account_id):
         try:
             account = common.get_entity_by_id(Account, account_id)
@@ -40,10 +47,14 @@ class AccountByIdHandler(webapp2.RequestHandler):
 
             update_account(account_id)
         except Exception as e:
-            raise
+            self.response.set_status(400)
 
 
 def create_account(account_name, email_):
+    '''
+    Creates an account for the signed in user.
+    Sets its user id as id.
+    '''
     if account_name != "" and email_ != "":
         user_id = loginhelper.get_user_id()
         account = Account(id=str(user_id), name=account_name, email=email_, ratings=[])
@@ -54,6 +65,9 @@ def create_account(account_name, email_):
 
 
 def update_account(account_id, account_name, email_):
+    '''
+    Updates the email and/or the username for the logged in account.
+    '''
     account = common.get_entity_by_id(Account, account_id)
     if email_ != "":
         account.email = email_

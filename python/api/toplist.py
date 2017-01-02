@@ -8,6 +8,9 @@ from python.util import entityparser, loginhelper
 
 
 class TopListHandler(webapp2.RequestHandler):
+    """
+    The TopListHandler listen for HTTP POST and GET requests on the URL /api/toplists.
+    """
     def post(self):
         toplist_name = self.request.get("name")
         toplist_type = self.request.get("type")
@@ -26,6 +29,10 @@ class TopListHandler(webapp2.RequestHandler):
 
 
 class TopListByIdHandler(webapp2.RequestHandler):
+    """
+    The TopListByIdHandler listen for HTTP PUT and GET requests on the URL /api/toplists/id, where the id part is
+    a unique id for an toplist.
+    """
     def get(self, toplist_id):
         try:
             toplist = common.get_entity_by_id(TopList, int(toplist_id))
@@ -44,6 +51,9 @@ class TopListByIdHandler(webapp2.RequestHandler):
 
 
 def update_toplist(toplist_id, post_params):
+    '''
+    adds content or rating to toplist with specified id.
+    '''
     toplist = common.get_entity_by_id(TopList, int(toplist_id))
     if 'content_id' in post_params:
         content_id = int(post_params['content_id'])
@@ -63,6 +73,9 @@ def update_toplist(toplist_id, post_params):
 
 
 def create_toplist(toplist_name, toplist_type):
+    '''
+    creates new toplist with specified name and type. also sets default values.
+    '''
     if toplist_name == "":
         raise BadRequest("toplist must have a name.")
     if toplist_type != "track" and toplist_type != "album" and toplist_type != "band":

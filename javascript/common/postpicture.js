@@ -24,6 +24,9 @@ $(document).ready(function(){
       contentType: false,  // tell jQuery not to set contentType
       url: "/api/storage", //http://theonesound-148310.appspot.com
       statusCode: {
+        401: function(){
+          alert("You need to be logged in to do that.");
+        },
         404: function(){
           alert("something wrong!");
         }

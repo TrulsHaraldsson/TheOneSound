@@ -15,12 +15,15 @@ function onEntityCreate(form_data, parent_id, type){
     dataType: 'json',
     url: "/api/"+type, //http://theonesound-148310.appspot.com
     statusCode: {
+      401: function(){
+        alert("You need to be logged in to do that.");
+      },
       404: function(){
-        alert("something wrong!");
+        alert("Nothing found!");
       }
     },
     success: function(data){
-      window.location.replace("/" + type + "/" + data.id); 
+      window.location.replace("/" + type + "/" + data.id);
     }
   })
 }

@@ -7,7 +7,6 @@ $(document).ready(function() {
         var type = form.data("type");
         var comment_text = $("#comment-form").serialize();
         onCommentSubmit(form);
-        resetCommentForm(form);
         return false;
     });
 
@@ -30,10 +29,12 @@ $(document).ready(function() {
                 data: data_string,
                 url: "/api/"+type+"/"+commentable_id, //http://theonesound-148310.appspot.com
                 statusCode: {
-                    404: function(){
+                    401: function(){
+                      alert("You need to be logged in to do that.");
                     }
                 },
                 success: function(){
+                    resetCommentForm(form);
                     var commentSection = $("#comment-section") // This is a class panel-body from BS
                     var li = $('<p></p>')
                         .text(text)

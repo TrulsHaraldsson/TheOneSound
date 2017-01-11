@@ -3,7 +3,7 @@ import webapp2
 
 from python.db.databaseKinds import Rating, TopList, Account, Track, Album, Band
 from python.api import common
-from python.api.exceptions import BadRequest
+from python.api.exceptions import BadRequest, NotAuthorized
 from python.util import entityparser, loginhelper
 
 
@@ -15,10 +15,13 @@ class TopListHandler(webapp2.RequestHandler):
         toplist_name = self.request.get("name")
         toplist_type = self.request.get("type")
         try:
+            loginhelper.check_logged_in()
             entity_id = create_toplist(toplist_name, toplist_type)
             json_obj = entityparser.entity_id_to_json(entity_id)
             self.response.out.write(json_obj)
-        except Exception as e:
+        except NotAuthorized:
+            self.response.set_status(401)
+        except Exception:
             self.response.set_status(400)
 
     def get(self):
@@ -38,15 +41,17 @@ class TopListByIdHandler(webapp2.RequestHandler):
             toplist = common.get_entity_by_id(TopList, int(toplist_id))
             toplist_dic = entityparser.entity_to_dic(toplist)
             self.response.out.write(json.dumps(toplist_dic))
-        except Exception as e:
+        except Exception:
             self.response.set_status(404)
 
     # updates a toplist with the new information
     def put(self, toplist_id):
         try:
+            loginhelper.check_logged_in()
             update_toplist(int(toplist_id), self.request.POST)
-
-        except Exception as e:
+        except NotAuthorized:
+            self.response.set_status(401)
+        except Exception:
             self.response.set_status(404)
 
 

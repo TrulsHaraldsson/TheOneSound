@@ -48,8 +48,11 @@ $(document).ready(function() {
             data: data_string,
             url: "/api/"+type+"/"+id, //http://theonesound-148310.appspot.com
             statusCode: {
-                  404: function(){
-                  }
+              401: function(){
+                alert("You need to be logged in to do that.");
+              },
+              404: function(){
+              }
             },
               success: function(){
             }

@@ -13,3 +13,12 @@ class EntityNotFound(Exception):
     """
     def __init__(self, message):
         super(EntityNotFound, self).__init__(message)
+
+
+class NotAuthorized(Exception):
+    """
+    This is issued when a user tries to access data that
+    needs more authentication.
+    """
+    def __init__(self,  message):
+        super(NotAuthorized, self).__init__(message)

@@ -8,10 +8,10 @@ TODO List!
 
 
 2. google cloud storage
-  - save pictures and sounds - Needs free trial sign up
+  - save pictures - done
 
 3. profilepage
-  - display data for user - Done typ
+  - display data for user - Done
   - display owned top lists - Done
 
 4. Top-list
@@ -29,12 +29,10 @@ TODO List!
 
 6. Login/Register
   - only login with google account - Done
-  - Make a good register "page" - detta behövs ej atm
-  - add login/register to mainpage - detta behövs ej atm
+  - register first time login - done
 
 7. create new band
   - link in footer - Done
-  - link from profile -qucik fix
   - link when searching - Done
 
 8. api
@@ -45,7 +43,7 @@ TODO List!
 9. Description model
   - should have picture link, more text inputs etc. - Done
 
-10. design...
+10. design... - Done (could always be better)
 
 11. Make page not reload when submitting comment or such - Done
 

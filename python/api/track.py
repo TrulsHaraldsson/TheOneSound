@@ -2,6 +2,7 @@ import json
 import webapp2
 from python.db.databaseKinds import Rating, Comment, Album, Track, Account, TrackDescription
 from python.api import common
+from python.api.exceptions import NotAuthorized
 from python.util import entityparser, loginhelper
 from google.appengine.ext import ndb
 
@@ -21,10 +22,13 @@ class TrackHandler(webapp2.RequestHandler):
         track_name = self.request.get("name")
         parent_id = self.request.get("parent_id")
         try:
+            loginhelper.check_logged_in()
             entity_id = create_track(parent_id, track_name)
             json_obj = entityparser.entity_id_to_json(entity_id)
             self.response.out.write(json_obj)
-        except Exception as e:
+        except NotAuthorized:
+            self.response.set_status(401)
+        except Exception:
             self.response.set_status(400)
 
     def get(self):
@@ -69,9 +73,11 @@ class TrackByIdHandler(webapp2.RequestHandler):
         :return:
         """
         try:
+            loginhelper.check_logged_in()
             update_track(int(track_id), self.request.POST)
-
-        except Exception as e:
+        except NotAuthorized:
+            self.response.set_status(401)
+        except Exception:
             self.response.set_status(400)
 
 

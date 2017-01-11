@@ -4,6 +4,7 @@ import webapp2
 
 from python.db.databaseKinds import Account
 from python.api import common
+from python.api.exceptions import NotAuthorized
 from python.util import entityparser, loginhelper
 
 
@@ -39,14 +40,16 @@ class AccountByIdHandler(webapp2.RequestHandler):
             account = common.get_entity_by_id(Account, account_id)
             account_dic = entityparser.entity_to_dic(account)
             self.response.out.write(json.dumps(account_dic))
-        except Exception as e:
+        except Exception:
             self.response.set_status(400)
 
     def put(self, account_id):
         try:
-
+            loginhelper.check_logged_in()
             update_account(account_id)
-        except Exception as e:
+        except NotAuthorized:
+            self.response.set_status(401)
+        except Exception:
             self.response.set_status(400)
 
 

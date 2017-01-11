@@ -3,7 +3,7 @@ import webapp2
 
 from python.db.databaseKinds import Rating, BandDescription, Comment, Band, Account
 from python.api import common
-from python.api.exceptions import BadRequest, EntityNotFound
+from python.api.exceptions import BadRequest, EntityNotFound, NotAuthorized
 from python.util import entityparser, loginhelper
 
 
@@ -20,11 +20,14 @@ class BandHandler(webapp2.RequestHandler):
         """
         band_name = self.request.get("name")
         try:
+            loginhelper.check_logged_in()
             entity_id = create_band(band_name)
             json_obj = entityparser.entity_id_to_json(entity_id)
             self.response.out.write(json_obj)
         except BadRequest:
             self.response.set_status(400)
+        except NotAuthorized:
+            self.response.set_status(401)
 
     def get(self):
         """
@@ -70,11 +73,14 @@ class BandByIdHandler(webapp2.RequestHandler):
         :return:
         """
         try:
+            loginhelper.check_logged_in()
             update_band(int(band_id), self.request.POST)
         except BadRequest:
             self.response.set_status(400)
         except EntityNotFound:
             self.response.set_status(404)
+        except NotAuthorized:
+            self.response.set_status(401)
 
 
 def update_band(band_id, post_params):

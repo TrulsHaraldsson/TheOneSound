@@ -1,5 +1,6 @@
 import webapp2
 import os
+
 from python.lib import cloudstorage as gcs
 from google.appengine.api import app_identity
 from python.api.exceptions import NotAuthorized, BadRequest
@@ -11,7 +12,7 @@ class StorageHandler(webapp2.RequestHandler):
         """
         Adds a picture to the google cloud bucket and link it to an entity with the given id.
         :param image: The image.
-        :param type: The image format.
+        :param type: Type of entity, band, album or track.
         :param id: Id of the entity this picture belongs to. Can be an band-, album- or track-id.
         """
         try:
@@ -20,7 +21,7 @@ class StorageHandler(webapp2.RequestHandler):
             image = post_params['image']
             type_ = post_params['type']
             id_ = post_params['id']
-            if image == "" or type_ == "" or image == "":
+            if image == "" or type_ == "" or id_ == "":
                 raise BadRequest("all parameters are needed.")
             bucket_name = os.environ.get('BUCKET_NAME',
                                          app_identity.get_default_gcs_bucket_name())

@@ -1,0 +1,63 @@
+indexes:
+  - kind: Band
+    properties:
+    - name: name
+      direction: desc
+    - name: comment
+      direction: desc
+    - name: rating
+      direction: desc
+    - name: description
+      direction: desc
+
+  - kind: Album
+    properties:
+    - name: name
+      direction: desc
+    - name: comment
+      direction: desc
+    - name: rating
+      direction: desc
+    - name: description
+      direction: desc
+    - name: owner
+      direction: desc
+
+  - kind: Track
+    properties:
+    - name: name
+      direction: desc
+    - name: comment
+      direction: desc
+    - name: rating
+      direction: desc
+    - name: description
+      direction: desc
+    - name: owner
+      direction: desc
+
+  - kind: Account
+    properties:
+    - name: name
+      direction: desc
+    - name: email
+      direction: desc
+    - name: date
+      direction: desc
+    - name: ratings
+      direction: desc
+
+  - kind: TopList
+    properties:
+    - name: name
+      direction: desc
+    - name: kind
+      direction: desc
+    - name: content
+      direction: desc
+    - name: date
+      direction: desc
+    - name: rating
+      direction: desc
+    - name: owner
+      direction: desc

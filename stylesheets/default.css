@@ -5,7 +5,7 @@
 body {
   padding-top: 0px;
   padding-bottom: 40px;
-  background-color: #114D6B;
+  background-color: #D8D8D8;
 }
 
 .big-textarea {
@@ -24,12 +24,11 @@ body {
 }
 
 .tos-well {
-  background-color: #FFFFFF;
+  background-color: #F0F0F0;
 }
 
 .rating-div {
   max-width: 15%;
-  color: lightgrey;
 }
 
 .pointable {
@@ -62,4 +61,10 @@ span.glyphicon {
   -webkit-box-shadow: 4px 34px 75px -4px rgba(0,0,0,0.28);
   -moz-box-shadow: 4px 34px 75px -4px rgba(0,0,0,0.28);
   box-shadow: 4px 34px 75px -4px rgba(0,0,0,0.28);
+}
+
+.about-div {
+  height: 100%;
+  margin: 30px;
+  background-color: #D8D8D8;
 }

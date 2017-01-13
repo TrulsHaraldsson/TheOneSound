@@ -3,7 +3,7 @@
 */
 
 .navbar {
-  background-color: #26A0D4;
+  background-color: #F0F0F0;
   border-bottom-color: #FFFFFF;
   border-right-width: 0px;
   border-left-width: 0px;
@@ -22,4 +22,13 @@
 
 span.glyphicon-log-in {
     font-size: 1em;
+}
+
+.logo {
+  height: 100%;
+
+}
+
+.brand-a {
+  margin: 0px;
 }

@@ -2,26 +2,44 @@ import json
 import webapp2
 from python.db.databaseKinds import Rating, Comment, Album, Track, Account, TrackDescription
 from python.api import common
+from python.api.exceptions import NotAuthorized
 from python.util import entityparser, loginhelper
 from google.appengine.ext import ndb
 
 
 class TrackHandler(webapp2.RequestHandler):
-    # creates one new track
-    # maybe make so multiple can be made ?
+    """
+    The TrackHandler listen for HTTP POST and GET requests on the URL /api/tracks.
+    """
     def post(self):
+        """
+        Creates a new track if the POST request delivered sufficient information. The POST request must
+        contain the key "name" and "parent_id" else a HTTP 400 error is returned.
+        name: Name of the band
+        parent_id: id of parent album
+        :return: The newly created track as a JSON string
+        """
         track_name = self.request.get("name")
         parent_id = self.request.get("parent_id")
         try:
+            loginhelper.check_logged_in()
             entity_id = create_track(parent_id, track_name)
             json_obj = entityparser.entity_id_to_json(entity_id)
             self.response.out.write(json_obj)
-        except Exception as e:
+        except NotAuthorized:
+            self.response.set_status(401)
+        except Exception:
             self.response.set_status(400)
 
-    # request
-    # gives list of matching tracks
     def get(self):
+        """
+        The GET request can have the following url parameters to specify a query. This method can return HTTP 400
+        error code.
+        :param name: Return only tracks with the given name, if name is absent all tracks will be queried
+        :param limit: Upper bound of tracks that will be returned. Default is 10.
+        :param offset_: The number of tracks in the query that are initially skipped. Default is 0
+        :return: A list of tracks as a JSON string
+        """
         tracks = common.get_kinds(Track, self.request.query_string)
         track_list = entityparser.entities_to_dic_list(tracks)
         json_list = json.dumps(track_list)
@@ -29,7 +47,16 @@ class TrackHandler(webapp2.RequestHandler):
 
 
 class TrackByIdHandler(webapp2.RequestHandler):
+    """
+    The TrackByIdHandler listen for HTTP PUT and GET requests on the URL /api/tracks/id, where the id part is
+    a unique id for an track.
+    """
     def get(self, track_id):
+        """
+        Returns a track given a unique id. If the id is not associated with any track an HTTP 404 error is returned.
+        :param track_id: A unique track id
+        :return: An track as a JSON string
+        """
         try:
             track = common.get_entity_by_id(int(track_id))
             track_dic = entityparser.entity_to_dic(track)
@@ -39,10 +66,18 @@ class TrackByIdHandler(webapp2.RequestHandler):
 
     # updates a track with the new information
     def put(self, track_id):
+        """
+        The PUT method is used to update an existing track with the given id. If the track does not exist an HTTP
+        404 error is returned.
+        :param track_id: Unique id of an track
+        :return:
+        """
         try:
+            loginhelper.check_logged_in()
             update_track(int(track_id), self.request.POST)
-
-        except Exception as e:
+        except NotAuthorized:
+            self.response.set_status(401)
+        except Exception:
             self.response.set_status(400)
 
 
@@ -69,6 +104,10 @@ def create_track(album_id, track_name):
 
 
 def update_track(track_id, post_params):
+    '''
+    Updates the description, youtube_url, comment, and rating of the track depending on what params are sent.
+    '''
+    account = common.get_entity_by_id(Account, str(loginhelper.get_user_id()))
     track = common.get_entity_by_id(Track, int(track_id))
     if 'description' in post_params.keys():
         description = post_params['description']
@@ -88,7 +127,6 @@ def update_track(track_id, post_params):
     if 'rating' in post_params:
         rating = post_params['rating']
         if rating != "":
-            account = common.get_entity_by_id(Account, str(loginhelper.get_user_id()))
             track = common.add_rating(Track, track, account, rating)
     track.put()
 

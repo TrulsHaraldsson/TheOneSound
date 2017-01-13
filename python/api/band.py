@@ -3,21 +3,41 @@ import webapp2
 
 from python.db.databaseKinds import Rating, BandDescription, Comment, Band, Account
 from python.api import common
-from python.api.exceptions import BadRequest, EntityNotFound
+from python.api.exceptions import BadRequest, EntityNotFound, NotAuthorized
 from python.util import entityparser, loginhelper
 
 
 class BandHandler(webapp2.RequestHandler):
+    """
+    The BandHandler listen for HTTP POST and GET requests on the URL /api/bands.
+    """
     def post(self):
+        """
+        Creates a new band if the POST request delivered sufficient information. The POST request must
+        contain the key "name" else a HTTP 400 error is returned.
+        name: Name of the band
+        :return: The newly created band as a JSON string
+        """
         band_name = self.request.get("name")
         try:
+            loginhelper.check_logged_in()
             entity_id = create_band(band_name)
             json_obj = entityparser.entity_id_to_json(entity_id)
             self.response.out.write(json_obj)
         except BadRequest:
             self.response.set_status(400)
+        except NotAuthorized:
+            self.response.set_status(401)
 
     def get(self):
+        """
+        The GET request can have the following url parameters to specify a query. This method can return HTTP 400
+        error code.
+        :param name: Return only bands with the given name, if name is absent all Bands will be queried
+        :param limit: Upper bound of bands that will be returned. Default is 10.
+        :param offset_: The number of bands in the query that are initially skipped. Default is 0
+        :return: A list of bands as a JSON string
+        """
         bands = common.get_kinds(Band, self.request.query_string)
         band_list = entityparser.entities_to_dic_list(bands)
         json_list = json.dumps(band_list)
@@ -25,7 +45,16 @@ class BandHandler(webapp2.RequestHandler):
 
 
 class BandByIdHandler(webapp2.RequestHandler):
+    """
+    The BandByIdHandler listen for HTTP PUT and GET requests on the URL /api/bands/id, where the id part is
+    a unique id for an band.
+    """
     def get(self, band_id):
+        """
+        Returns an band given a unique id. If the id is not associated with any band an HTTP 404 error is returned.
+        :param band_id: A unique band id
+        :return: An band as a JSON string
+        """
         try:
             band = common.get_entity_by_id(Band, int(band_id))
             band_dic = entityparser.entity_to_dic(band)
@@ -37,16 +66,27 @@ class BandByIdHandler(webapp2.RequestHandler):
 
     # updates a band with the new information
     def put(self, band_id):
+        """
+        The PUT method is used to update an existing Band with the given id. If the band does not exist an HTTP
+        404 error is returned.
+        :param band_id: Unique id of an band
+        :return:
+        """
         try:
+            loginhelper.check_logged_in()
             update_band(int(band_id), self.request.POST)
         except BadRequest:
             self.response.set_status(400)
         except EntityNotFound:
             self.response.set_status(404)
+        except NotAuthorized:
+            self.response.set_status(401)
 
 
-# Not tested yet.
 def update_band(band_id, post_params):
+    '''
+    Updates the description, genres, members, picture_url, comment_text and rating for the chosen band.
+    '''
     user_id = loginhelper.get_user_id()
     band = common.get_entity_by_id(Band, int(band_id))
     if 'description' in post_params.keys():
@@ -76,13 +116,17 @@ def update_band(band_id, post_params):
 
 
 def create_band(band_name):
+    '''
+    Creates a new band with the specified name. Sets all the default values.
+    If no name is set, it raise an error.
+    returns the id for the band.
+    '''
     if band_name == "":
         raise ValueError("Band must have a name.")
 
     band = Band(name=band_name, comment=[])
     desc = BandDescription(description="", members=[], genres=[])
     band.description = desc
-    # rating not tested
     rating = Rating(likes=0, dislikes=0)
     band.rating = rating
     band_key = band.put()

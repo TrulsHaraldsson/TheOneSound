@@ -3,19 +3,25 @@ import webapp2
 
 from python.db.databaseKinds import Rating, TopList, Account, Track, Album, Band
 from python.api import common
-from python.api.exceptions import BadRequest
+from python.api.exceptions import BadRequest, NotAuthorized
 from python.util import entityparser, loginhelper
 
 
 class TopListHandler(webapp2.RequestHandler):
+    """
+    The TopListHandler listen for HTTP POST and GET requests on the URL /api/toplists.
+    """
     def post(self):
         toplist_name = self.request.get("name")
         toplist_type = self.request.get("type")
         try:
+            loginhelper.check_logged_in()
             entity_id = create_toplist(toplist_name, toplist_type)
             json_obj = entityparser.entity_id_to_json(entity_id)
             self.response.out.write(json_obj)
-        except Exception as e:
+        except NotAuthorized:
+            self.response.set_status(401)
+        except Exception:
             self.response.set_status(400)
 
     def get(self):
@@ -26,24 +32,33 @@ class TopListHandler(webapp2.RequestHandler):
 
 
 class TopListByIdHandler(webapp2.RequestHandler):
+    """
+    The TopListByIdHandler listen for HTTP PUT and GET requests on the URL /api/toplists/id, where the id part is
+    a unique id for an toplist.
+    """
     def get(self, toplist_id):
         try:
             toplist = common.get_entity_by_id(TopList, int(toplist_id))
             toplist_dic = entityparser.entity_to_dic(toplist)
             self.response.out.write(json.dumps(toplist_dic))
-        except Exception as e:
+        except Exception:
             self.response.set_status(404)
 
     # updates a toplist with the new information
     def put(self, toplist_id):
         try:
+            loginhelper.check_logged_in()
             update_toplist(int(toplist_id), self.request.POST)
-
-        except Exception as e:
+        except NotAuthorized:
+            self.response.set_status(401)
+        except Exception:
             self.response.set_status(404)
 
 
 def update_toplist(toplist_id, post_params):
+    '''
+    adds content or rating to toplist with specified id.
+    '''
     toplist = common.get_entity_by_id(TopList, int(toplist_id))
     if 'content_id' in post_params:
         content_id = int(post_params['content_id'])
@@ -63,6 +78,9 @@ def update_toplist(toplist_id, post_params):
 
 
 def create_toplist(toplist_name, toplist_type):
+    '''
+    creates new toplist with specified name and type. also sets default values.
+    '''
     if toplist_name == "":
         raise BadRequest("toplist must have a name.")
     if toplist_type != "track" and toplist_type != "album" and toplist_type != "band":

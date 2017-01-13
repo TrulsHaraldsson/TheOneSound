@@ -13,6 +13,9 @@ $(document).ready(function() {
       data: form_data,
       url: "/api/toplists/"+toplist_id, //http://theonesound-148310.appspot.com
       statusCode: {
+        401: function(){
+          alert("You need to be logged in to do that.");
+        },
         404: function(){
         }
       },

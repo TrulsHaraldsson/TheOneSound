@@ -5,7 +5,7 @@ from google.appengine.ext import ndb
 
 from python.db.databaseKinds import Album, Band, AlbumDescription, Account, Comment, Rating
 from python.api import common
-from python.api.exceptions import BadRequest, EntityNotFound
+from python.api.exceptions import BadRequest, EntityNotFound, NotAuthorized
 from python.util import entityparser, loginhelper
 
 
@@ -22,12 +22,15 @@ class AlbumHandler(webapp2.RequestHandler):
         :return: The newly created album as a JSON string
         """
         try:
+            loginhelper.check_logged_in()
             band_id = self.request.get("parent_id")
             entity_id = create_album(band_id, self.request.POST)
             json_obj = entityparser.entity_id_to_json(entity_id)
             self.response.out.write(json_obj)
         except BadRequest:
             self.response.set_status(400)
+        except NotAuthorized:
+            self.response.set_status(401)
 
     def get(self):
         """
@@ -74,9 +77,12 @@ class AlbumByIdHandler(webapp2.RequestHandler):
         :return:
         """
         try:
+            loginhelper.check_logged_in()
             update_album(album_id, self.request.POST)
         except BadRequest:
             self.response.set_status(400)
+        except NotAuthorized:
+            self.response.set_status(401)
         except EntityNotFound:
             self.response.set_status(404)
 

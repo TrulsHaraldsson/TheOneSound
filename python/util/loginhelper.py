@@ -1,4 +1,5 @@
 from google.appengine.api import users
+from python.api import exceptions
 
 
 def add_login_values(dic, rqhandler):
@@ -21,3 +22,11 @@ def get_google_user():
 
 def get_user_id():
     return get_google_user().user_id()
+
+
+def check_logged_in():
+    user = users.get_current_user()
+    if user:
+        pass
+    else:
+        raise exceptions.NotAuthorized("User is not logged in")

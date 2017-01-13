@@ -2,35 +2,33 @@ import webapp2
 import os
 from python.lib import cloudstorage as gcs
 from google.appengine.api import app_identity
-from python.api.exceptions import NotAuthorized
+from python.api.exceptions import NotAuthorized, BadRequest
 from python.util import loginhelper
 
 
 class StorageHandler(webapp2.RequestHandler):
     def post(self):
+        """
+        Adds a picture to the google cloud bucket.
+        """
         try:
             loginhelper.check_logged_in()
             post_params = self.request.POST
             image = post_params['image']
             type_ = post_params['type']
             id_ = post_params['id']
+            if image == "" or type_ == "" or image == "":
+                raise BadRequest("all parameters are needed.")
             bucket_name = os.environ.get('BUCKET_NAME',
                                          app_identity.get_default_gcs_bucket_name())
             filename = '/'+bucket_name+'/'+type_+'/'+id_
             self.write_data_to_file(filename, image)
         except NotAuthorized:
             self.response.set_status(401)
-
-    def get(self):
-        bucket_name = os.environ.get('BUCKET_NAME',
-                                     app_identity.get_default_gcs_bucket_name())
-        self.response.headers['Content-Type'] = 'text/plain'
-        self.response.write('Demo GCS Application running from Version: '
-                            + os.environ['CURRENT_VERSION_ID'] + '\n')
-        self.response.write('Using bucket name: ' + bucket_name + '\n\n')
-        bucket = '/'+bucket_name
-        self.write(bucket + '/foo')
-        self.list_bucket(bucket)
+        except BadRequest:
+            self.response.set_status(400)
+        except Exception:
+            self.response.set_status(400)
 
     def write_data_to_file(self, filename, image):
         write_retry_params = gcs.RetryParams(backoff_factor=1.1)

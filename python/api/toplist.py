@@ -28,7 +28,7 @@ class TopListHandler(webapp2.RequestHandler):
             self.response.out.write(json_obj)
         except NotAuthorized:
             self.response.set_status(401)
-        except Exception:
+        except BadRequest:
             self.response.set_status(400)
 
     def get(self):
@@ -40,10 +40,13 @@ class TopListHandler(webapp2.RequestHandler):
         :param offset_: The number of toplists in the query that are initially skipped. Default is 0
         :return: A list of toplists as a JSON string
         """
-        toplists = common.get_kinds(TopList, self.request.query_string)
-        toplist_list = entityparser.entities_to_dic_list(toplists)
-        json_list = json.dumps(toplist_list)
-        self.response.out.write(json_list)
+        try:
+            toplists = common.get_kinds(TopList, self.request.query_string)
+            toplist_list = entityparser.entities_to_dic_list(toplists)
+            json_list = json.dumps(toplist_list)
+            self.response.out.write(json_list)
+        except BadRequest:
+            self.response.set_status(400)
 
 
 class TopListByIdHandler(webapp2.RequestHandler):
@@ -61,7 +64,7 @@ class TopListByIdHandler(webapp2.RequestHandler):
             toplist = common.get_entity_by_id(TopList, int(toplist_id))
             toplist_dic = entityparser.entity_to_dic(toplist)
             self.response.out.write(json.dumps(toplist_dic))
-        except Exception:
+        except EntityNotFound:
             self.response.set_status(404)
 
     # updates a toplist with the new information
@@ -75,9 +78,11 @@ class TopListByIdHandler(webapp2.RequestHandler):
         try:
             loginhelper.check_logged_in()
             update_toplist(int(toplist_id), self.request.POST)
+        except BadRequest:
+            self.response.set_status(400)
         except NotAuthorized:
             self.response.set_status(401)
-        except Exception:
+        except EntityNotFound:
             self.response.set_status(404)
 
 
@@ -96,6 +101,8 @@ def update_toplist(toplist_id, post_params):
             content_key = common.create_key(Band, content_id)
         if content_key.get():
             toplist.content.append(content_key)
+        else:
+            raise BadRequest("No such content!")
     if 'rating' in post_params:
         rating = post_params['rating']
         account = common.get_entity_by_id(Account, str(loginhelper.get_user_id()))

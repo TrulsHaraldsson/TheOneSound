@@ -21,11 +21,13 @@ class AccountHandler(webapp2.RequestHandler):
         :param offset_: The number of Accounts in the query that are initially skipped. Default is 0
         :return: A list of Accounts as a JSON string
         """
-        accounts = common.get_entities(Account)
-        account_list = entityparser.entities_to_dic_list(accounts)
-
-        json_list = json.dumps(account_list)
-        self.response.out.write(json_list)
+        try:
+            accounts = common.get_entities(Account)
+            account_list = entityparser.entities_to_dic_list(accounts)
+            json_list = json.dumps(account_list)
+            self.response.out.write(json_list)
+        except BadRequest as e:
+            self.response.set_status(400)
 
     def post(self):
         """
@@ -41,8 +43,10 @@ class AccountHandler(webapp2.RequestHandler):
             entity_id = create_account(account_name, email)
             json_obj = entityparser.entity_id_to_json(entity_id)
             self.response.out.write(json_obj)
-        except Exception as e:
+        except BadRequest:
             self.response.set_status(400)
+        except NotAuthorized:
+            self.response.set_status(401)
 
 
 class AccountByIdHandler(webapp2.RequestHandler):
@@ -60,8 +64,8 @@ class AccountByIdHandler(webapp2.RequestHandler):
             account = common.get_entity_by_id(Account, account_id)
             account_dic = entityparser.entity_to_dic(account)
             self.response.out.write(json.dumps(account_dic))
-        except Exception:
-            self.response.set_status(400)
+        except EntityNotFound:
+            self.response.set_status(404)
 
     def put(self, account_id):
         """
@@ -75,8 +79,10 @@ class AccountByIdHandler(webapp2.RequestHandler):
             update_account(account_id, self.request.POST)
         except NotAuthorized:
             self.response.set_status(401)
-        except Exception:
+        except BadRequest:
             self.response.set_status(400)
+        except EntityNotFound:
+            self.response.set_status(404)
 
 
 def create_account(account_name, email_):
@@ -90,7 +96,7 @@ def create_account(account_name, email_):
         account.put()
         return account.key.id()
     else:
-        raise ValueError("check so all requirements are met.")
+        raise BadRequest("check so all requirements are met.")
 
 
 def update_account(account_id, post_params):

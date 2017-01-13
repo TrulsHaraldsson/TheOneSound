@@ -25,7 +25,7 @@ def get_entities_by_name(cls, entity_name, limit=10, offset_=0, order_=None):
     if entities:
         return entities
     else:
-        raise ValueError("No entity with name " + entity_name + " exists")
+        raise BadRequest("No entity with name " + entity_name + " exists")
 
 
 def get_entities(cls, limit=10, offset_=0, order_=None, filters=None):
@@ -208,6 +208,8 @@ def add_rating(cls, entity, account, rating):
             entity.rating.likes += 1
         elif rating == "0":
             entity.rating.dislikes += 1
+        else:
+            raise BadRequest("rating must be 0 or 1")
     return entity
 
 

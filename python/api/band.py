@@ -38,10 +38,13 @@ class BandHandler(webapp2.RequestHandler):
         :param offset_: The number of bands in the query that are initially skipped. Default is 0
         :return: A list of bands as a JSON string
         """
-        bands = common.get_kinds(Band, self.request.query_string)
-        band_list = entityparser.entities_to_dic_list(bands)
-        json_list = json.dumps(band_list)
-        self.response.out.write(json_list)
+        try:
+            bands = common.get_kinds(Band, self.request.query_string)
+            band_list = entityparser.entities_to_dic_list(bands)
+            json_list = json.dumps(band_list)
+            self.response.out.write(json_list)
+        except BadRequest as e:
+            self.response.set_status(400)
 
 
 class BandByIdHandler(webapp2.RequestHandler):
@@ -59,8 +62,6 @@ class BandByIdHandler(webapp2.RequestHandler):
             band = common.get_entity_by_id(Band, int(band_id))
             band_dic = entityparser.entity_to_dic(band)
             self.response.out.write(json.dumps(band_dic))
-        except BadRequest:
-            self.response.set_status(400)
         except EntityNotFound:
             self.response.set_status(404)
 
@@ -122,7 +123,7 @@ def create_band(band_name):
     returns the id for the band.
     '''
     if band_name == "":
-        raise ValueError("Band must have a name.")
+        raise BadRequest("Band must have a name.")
 
     band = Band(name=band_name, comment=[])
     desc = BandDescription(description="", members=[], genres=[])

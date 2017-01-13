@@ -10,6 +10,9 @@ class StorageHandler(webapp2.RequestHandler):
     def post(self):
         """
         Adds a picture to the google cloud bucket.
+        :param image: The image.
+        :param type: The image format.
+        :param id: Id of the entity this picture belongs to. Can be an band-, album- or track-id.
         """
         try:
             loginhelper.check_logged_in()

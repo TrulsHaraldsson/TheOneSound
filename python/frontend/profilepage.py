@@ -18,7 +18,7 @@ class AccountsUpdate(webapp2.RequestHandler):
 class AccountsDisplay(webapp2.RequestHandler):
     def get(self):
         template_values = {}
-        loginhelper.add_login_values(template_values, self)
+        loginhelper.add_login_values(template_values, self, "/")
         try:
             user = loginhelper.get_google_user()
             user_id = user.user_id()

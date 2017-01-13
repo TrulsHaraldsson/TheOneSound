@@ -17,8 +17,8 @@ class AlbumHandler(webapp2.RequestHandler):
         """
         Creates a new album if the POST request delivered sufficient information. The POST request must
         contain the following two keys, parent_id and name else a HTTP 400 error is returned.
-        parent_id: A unique id for the band that owns this album
-        name: Name of the album
+        :param parent_id: A unique id for the band that owns this album
+        :param name: Name of the album
         :return: The newly created album as a JSON string
         """
         try:

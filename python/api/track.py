@@ -40,10 +40,13 @@ class TrackHandler(webapp2.RequestHandler):
         :param offset_: The number of tracks in the query that are initially skipped. Default is 0
         :return: A list of tracks as a JSON string
         """
-        tracks = common.get_kinds(Track, self.request.query_string)
-        track_list = entityparser.entities_to_dic_list(tracks)
-        json_list = json.dumps(track_list)
-        self.response.out.write(json_list)
+        try:
+            tracks = common.get_kinds(Track, self.request.query_string)
+            track_list = entityparser.entities_to_dic_list(tracks)
+            json_list = json.dumps(track_list)
+            self.response.out.write(json_list)
+        except BadRequest as e:
+            self.response.set_status(400)
 
 
 class TrackByIdHandler(webapp2.RequestHandler):
@@ -61,8 +64,8 @@ class TrackByIdHandler(webapp2.RequestHandler):
             track = common.get_entity_by_id(int(track_id))
             track_dic = entityparser.entity_to_dic(track)
             self.response.out.write(json.dumps(track_dic))
-        except Exception as e:
-            self.response.set_status(400)
+        except EntityNotFound:
+            self.response.set_status(404)
 
     # updates a track with the new information
     def put(self, track_id):
@@ -77,8 +80,10 @@ class TrackByIdHandler(webapp2.RequestHandler):
             update_track(int(track_id), self.request.POST)
         except NotAuthorized:
             self.response.set_status(401)
-        except Exception:
+        except BadRequest:
             self.response.set_status(400)
+        except EntityNotFound:
+            self.response.set_status(404)
 
 
 def create_track(album_id, track_name):
@@ -90,7 +95,7 @@ def create_track(album_id, track_name):
     :param track_name: Name of the Track
     """
     if track_name == "":
-        raise ValueError("Track must have a name.")
+        raise BadRequest("Track must have a name.")
     track = common.has_child_with_name(Track, track_name, Album, album_id)
     if not track:
         parent_key = ndb.Key(Album, int(album_id))

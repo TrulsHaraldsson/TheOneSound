@@ -12,6 +12,13 @@ class TopListHandler(webapp2.RequestHandler):
     The TopListHandler listen for HTTP POST and GET requests on the URL /api/toplists.
     """
     def post(self):
+        """
+        Creates a new toplist if the POST request delivered sufficient information. The POST request must
+        contain the key "name" and type, else a HTTP 400 error is returned.
+        :param name: Name of the toplist
+        :param type: wich type of content is to be in the toplist
+        :return: The newly created toplist as a JSON string
+        """
         toplist_name = self.request.get("name")
         toplist_type = self.request.get("type")
         try:
@@ -21,14 +28,25 @@ class TopListHandler(webapp2.RequestHandler):
             self.response.out.write(json_obj)
         except NotAuthorized:
             self.response.set_status(401)
-        except Exception:
+        except BadRequest:
             self.response.set_status(400)
 
     def get(self):
-        toplists = common.get_kinds(TopList, self.request.query_string)
-        toplist_list = entityparser.entities_to_dic_list(toplists)
-        json_list = json.dumps(toplist_list)
-        self.response.out.write(json_list)
+        """
+        The GET request can have the following url parameters to specify a query. This method can return HTTP 400
+        error code.
+        :param name: Return only toplists with the given name, if name is absent all toplists will be queried
+        :param limit: Upper bound of toplists that will be returned. Default is 10.
+        :param offset_: The number of toplists in the query that are initially skipped. Default is 0
+        :return: A list of toplists as a JSON string
+        """
+        try:
+            toplists = common.get_kinds(TopList, self.request.query_string)
+            toplist_list = entityparser.entities_to_dic_list(toplists)
+            json_list = json.dumps(toplist_list)
+            self.response.out.write(json_list)
+        except BadRequest:
+            self.response.set_status(400)
 
 
 class TopListByIdHandler(webapp2.RequestHandler):
@@ -37,21 +55,34 @@ class TopListByIdHandler(webapp2.RequestHandler):
     a unique id for an toplist.
     """
     def get(self, toplist_id):
+        """
+        Returns an toplist given a unique id. If the id is not associated with any toplist an HTTP 404 error is returned.
+        :param toplist_id: A unique toplist id
+        :return: An toplist as a JSON string
+        """
         try:
             toplist = common.get_entity_by_id(TopList, int(toplist_id))
             toplist_dic = entityparser.entity_to_dic(toplist)
             self.response.out.write(json.dumps(toplist_dic))
-        except Exception:
+        except EntityNotFound:
             self.response.set_status(404)
 
     # updates a toplist with the new information
     def put(self, toplist_id):
+        """
+        The PUT method is used to update an existing toplist with the given id. If the toplist does not exist an HTTP
+        404 error is returned.
+        :param toplist_id: Unique id of an toplist
+        :return: a toplist as a json string
+        """
         try:
             loginhelper.check_logged_in()
             update_toplist(int(toplist_id), self.request.POST)
+        except BadRequest:
+            self.response.set_status(400)
         except NotAuthorized:
             self.response.set_status(401)
-        except Exception:
+        except EntityNotFound:
             self.response.set_status(404)
 
 
@@ -70,6 +101,8 @@ def update_toplist(toplist_id, post_params):
             content_key = common.create_key(Band, content_id)
         if content_key.get():
             toplist.content.append(content_key)
+        else:
+            raise BadRequest("No such content!")
     if 'rating' in post_params:
         rating = post_params['rating']
         account = common.get_entity_by_id(Account, str(loginhelper.get_user_id()))

@@ -51,6 +51,11 @@ class AccountByIdHandler(webapp2.RequestHandler):
     a unique id for an account.
     """
     def get(self, account_id):
+        """
+        Returns an account given a unique id. If the id is not associated with any account an HTTP 404 error is returned.
+        :param account_id: A unique account id
+        :return: An Account as a JSON string
+        """
         try:
             account = common.get_entity_by_id(Account, account_id)
             account_dic = entityparser.entity_to_dic(account)
@@ -59,9 +64,15 @@ class AccountByIdHandler(webapp2.RequestHandler):
             self.response.set_status(400)
 
     def put(self, account_id):
+        """
+        The PUT method is used to update an existing Account with the given id. If the account does not exist an HTTP
+        404 error is returned.
+        :param account_id: Unique id of an account
+        :return:
+        """
         try:
             loginhelper.check_logged_in()
-            update_account(account_id)
+            update_account(account_id, self.request.POST)
         except NotAuthorized:
             self.response.set_status(401)
         except Exception:
@@ -82,14 +93,16 @@ def create_account(account_name, email_):
         raise ValueError("check so all requirements are met.")
 
 
-def update_account(account_id, account_name, email_):
+def update_account(account_id, post_params):
     '''
     Updates the email and/or the username for the logged in account.
     '''
     account = common.get_entity_by_id(Account, account_id)
-    if email_ != "":
-        account.email = email_
-    if account_name != "":
+    if 'email' in post_params.keys():
+        email = post_params['email']
+        account.email = email
+    if 'account_name' in post_params.keys():
+        account_name = post_params['account_name']
         account.name = account_name
     return None
 

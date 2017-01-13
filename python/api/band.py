@@ -15,7 +15,7 @@ class BandHandler(webapp2.RequestHandler):
         """
         Creates a new band if the POST request delivered sufficient information. The POST request must
         contain the key "name" else a HTTP 400 error is returned.
-        name: Name of the band
+        :param name: Name of the band
         :return: The newly created band as a JSON string
         """
         band_name = self.request.get("name")
@@ -70,7 +70,7 @@ class BandByIdHandler(webapp2.RequestHandler):
         The PUT method is used to update an existing Band with the given id. If the band does not exist an HTTP
         404 error is returned.
         :param band_id: Unique id of an band
-        :return:
+        :return: a band as a json string
         """
         try:
             loginhelper.check_logged_in()

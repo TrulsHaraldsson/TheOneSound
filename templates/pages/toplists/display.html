@@ -8,23 +8,10 @@
 <div class="col-md-5">
   <div class="well tos-well outer-shadow">
     <h1>{{ toplist.name }}</h1>
-
-
-    Add content
-    <form id="update-content-form" action="#" data-toplist-id="{{ toplist.id }}">
-      <p>
-        <label for="content_id">content id:</label>
-        <input type="text" name="content_id" value="">
-      </p>
-      <p>
-        <label for="submit" class="sr-only">submit:</label>
-        <input type="submit" name="submit" value="submit" id="submit-toplist-content">
-      </p>
-    </form>
+    {% with id=toplist.id, type="toplists", rating=toplist.rating, rated=rated %}
+    {% include 'common/rating.html' %}
+    {% endwith %}
   </div>
-  {% with id=toplist.id, type="toplists", rating=toplist.rating, rated=rated %}
-  {% include 'common/rating.html' %}
-  {% endwith %}
 </div>
 
 <div class="col-md-1">

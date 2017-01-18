@@ -1,0 +1,28 @@
+<script src="/javascript/common/addtotoplist.js"></script>
+<div class="well tos-well outer-shadow description-bar">
+  <div class="col-xs-4">
+    <h2 class="name-header pull-left">{{ name }}</h2>
+  </div>
+  <div class="col-xs-4">
+    {% include 'common/rating.html' %}
+  </div>
+  <div class="col-xs-4">
+    {% if user.logged_in %}
+
+      <div class="dropdown pull-right">
+        <button class="dropdown-toggle btn-default btn btn-small" data-toggle="dropdown" role="button">Add to toplist <span class="caret"></span></button>
+        <ul id="toplist-list" class="dropdown-menu">
+          {% if toplists is defined %}
+            {% for toplist in toplists %}
+              <li data-toplist-id="{{ toplist.id }}" data-content-id="{{ id }}"><a href="#">{{ toplist.name }}</a></li>
+            {% endfor %}
+          {% else %}
+            <li data-toplist-id="None">No toplists of this type</li>
+          {% endif %}
+        </ul>
+      </div>
+
+
+    {% endif %}
+  </div>
+</div>

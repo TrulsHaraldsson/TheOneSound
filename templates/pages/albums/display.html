@@ -9,6 +9,9 @@
 
 <div class="album-container">
   <div class="container-fluid">
+    {% with name=album.name, id=album.id, type="albums", rating=album.rating, rated=rated %}
+    {% include 'common/descriptionbar.html' %}
+    {% endwith %}
     <div class="row">
       <div class="col-md-8">
         <div class="row">
@@ -17,11 +20,6 @@
               {% include 'common/picturecontainer.html' %}
               {% endwith %}
 
-            <div class="row">
-              {% with id=album.id, type="albums", rating=album.rating, rated=rated %}
-              {% include 'common/rating.html' %}
-              {% endwith %}
-            </div>
           </div>
           <div class="col-md-6">
             {% with entity=album %}

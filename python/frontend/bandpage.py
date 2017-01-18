@@ -24,9 +24,11 @@ class BandsDisplay(webapp2.RequestHandler):
             band_dic = entityparser.entity_to_dic(band)
             add_band_and_decendants(template_values, band_dic)
             templatehelper.add_rated(template_values, band)
+            templatehelper.add_toplists(template_values, "band")
             template = JINJA_ENVIRONMENT.get_template('pages/bands/display.html')
             self.response.write(template.render(template_values))
         except Exception as e:
+            print e
             template = JINJA_ENVIRONMENT.get_template('pages/bands/create.html')
             self.response.write(template.render(template_values))
 

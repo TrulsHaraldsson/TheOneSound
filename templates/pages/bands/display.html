@@ -10,6 +10,9 @@
 
 <div class="band-container">
   <div class="container-fluid">
+    {% with name=band.name, id=band.id, type="bands", rating=band.rating, rated=rated %}
+    {% include 'common/descriptionbar.html' %}
+    {% endwith %}
     <div class="row">
       <div class="col-md-8">
         <div class="row">
@@ -19,11 +22,6 @@
             {% endwith %}
 
             {% include 'pages/bands/genres-and-members.html' %}
-            <div class="row">
-              {% with id=band.id, type="bands", rating=band.rating, rated=rated %}
-              {% include 'common/rating.html' %}
-              {% endwith %}
-            </div>
 
           </div>
           <div class="col-md-6">

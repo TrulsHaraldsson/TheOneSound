@@ -28,7 +28,8 @@ body {
 }
 
 .rating-div {
-  max-width: 15%;
+  margin: auto;
+  margin-top: 5px;
 }
 
 .pointable {
@@ -36,7 +37,7 @@ body {
 }
 
 span.glyphicon {
-  font-size: 1.5em;
+  font-size: 1.7em;
 }
 
 .enlargeable:hover {
@@ -67,4 +68,15 @@ span.glyphicon {
   height: 100%;
   margin: 30px;
   background-color: #D8D8D8;
+}
+
+.description-bar {
+  height: 36px;
+  width: 100%;
+  text-align: center;
+  padding: 0px;
+}
+
+.name-header {
+  margin: 0px;
 }

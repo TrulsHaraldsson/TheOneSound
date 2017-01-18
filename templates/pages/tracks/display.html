@@ -7,6 +7,9 @@
 
 <div class="track-container">
   <div class="container-fluid">
+    {% with name=track.name, id=track.id, type="tracks", rating=track.rating, rated=rated %}
+    {% include 'common/descriptionbar.html' %}
+    {% endwith %}
     <div class="row">
       <div class="col-md-6">
         <div class="row">
@@ -24,9 +27,6 @@
                 </form>
               </div>
             </div>
-            {% with id=track.id, type="tracks", rating=track.rating, rated=rated %}
-            {% include 'common/rating.html' %}
-            {% endwith %}
           </div>
         </div>
         <div class="row">

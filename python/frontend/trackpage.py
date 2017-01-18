@@ -24,6 +24,7 @@ class TracksDisplay(webapp2.RequestHandler):
             track_dic = entityparser.entity_to_dic(track)
             template_values["track"] = track_dic
             templatehelper.add_rated(template_values, track)
+            templatehelper.add_toplists(template_values, "track")
             template = JINJA_ENVIRONMENT.get_template('pages/tracks/display.html')
             self.response.write(template.render(template_values))
         except Exception as e:

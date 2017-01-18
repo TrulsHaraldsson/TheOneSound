@@ -15,6 +15,7 @@ class AlbumsDisplay(webapp2.RequestHandler):
             album_dic = entityparser.entity_to_dic(album)
             add_album_and_decendants(template_values, album_dic)
             templatehelper.add_rated(template_values, album)
+            templatehelper.add_toplists(template_values, "album")
             template = JINJA_ENVIRONMENT.get_template('pages/albums/display.html')
             self.response.write(template.render(template_values))
         except EntityNotFound as e:

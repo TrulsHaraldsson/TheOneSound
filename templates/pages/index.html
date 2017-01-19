@@ -5,50 +5,33 @@
     <div class="row">
       <div class="col-md-2"></div>
       <div class="col-md-8">
-        <div class="jumbotron text-center">
+        <div class="jumbotron text-center outer-shadow">
           <h1> The One Sound </h1>
         </div>
       </div>
       <div class="col-md-2"></div>
     </div>
     <div class="row">
-      <div class="col-md-2"></div>
-      <div class="col-md-8">
-        <div class="row">
-          <div class="col-md-4">
-            <div class="panel panel-default outer-shadow">
-              <div class="panel-heading down-shadow">Recent udpates</div>
-              <div class="panel-body tos-well">
-                <p>
-                  TODO: FIX DYNAMICALLY UPDATED TEXT
-                </p>
-              </div>
-            </div>
+      <div class="col-xs-2"></div>
+      <div class="col-xs-8 tos-well well outer-shadow text-center welcome-div">
+        <b>Welcome to The One Sound!</b><br>
+        Here you can browse around for all types of music.<br>
+        If you would like to be a part of this community, just login with your google account!<br>
+        As a logged in user you can do so much more! You can comment, rate, create toplists and contribute to our database!<br>
+        If you just want to look up some things, try our search bar below!<br>
+        <br>
+        <form action="/search" method="get" class="" id="search-bar">
+          <div class="form-group form-inline">
+            <label for="global-search-bar" class="">Search for bands, albums or tracks here</label>
+            <input name="name" type="text" class="form-control" placeholder="Search" id="global-search-bar">
+            <button type="submit" class="btn btn-default">
+              <i class="glyphicon glyphicon-search"></i>
+            </button>
           </div>
-          <div class="col-md-4">
-            <div class="panel panel-default outer-shadow">
-              <div class="panel-heading">Today's Pick</div>
-              <div class="panel-body tos-well">
-                <p>
-                  TODO: FIX DYNAMICALLY UPDATED TEXT
-                </p>
-                <a href="">fix link to dynamically change</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="panel panel-default outer-shadow">
-              <div class="panel-heading">Trending</div>
-              <div class="panel-body tos-well">
-                <p>
-                  TODO: FIX DYNAMICALLY UPDATED LINKS
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+
+        </form>
       </div>
-      <div class="col-md-2"></div>
+      <div class="col-xs-2"></div>
     </div>
   </div>
 </div>

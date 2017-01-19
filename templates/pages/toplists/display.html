@@ -8,6 +8,7 @@
 <div class="col-md-5">
   <div class="well tos-well outer-shadow">
     <h1>{{ toplist.name }}</h1>
+    This is a toplist for {{ toplist.kind }}s.
     {% with id=toplist.id, type="toplists", rating=toplist.rating, rated=rated %}
     {% include 'common/rating.html' %}
     {% endwith %}

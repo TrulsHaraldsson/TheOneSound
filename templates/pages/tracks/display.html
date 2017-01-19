@@ -19,12 +19,13 @@
               <div id="youtube-display" class="">
                 <iframe id="youtube-vid" class="youtube-frame" src="{{ track.description.youtube_url }}" frameborder="0" allowfullscreen></iframe>
               </div>
-              <a href="#youtube-edit" class="btn btn-sm btn-default" data-toggle="collapse">Edit</a>
+              <a href="#youtube-edit" class="btn btn-sm btn-default" data-toggle="collapse">Change youtube video</a>
               <div id="youtube-edit" class="collapse">
                 <form id="update-youtube-form" action="#" data-id="{{ track.id }}">
                   <input id="youtube-input" type="url" name="youtube_url" placeholder="youtube embed-url">
                   <input type="submit" name="submit" value="submit">
                 </form>
+                Copy the address to the youtube video from the embedded version.
               </div>
             </div>
           </div>
